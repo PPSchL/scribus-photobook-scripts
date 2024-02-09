@@ -1,134 +1,148 @@
 import sys
-try:
-    import scribus
-except ImportError:
-    print("Unable to import the 'scribus' module. This script will only run within the Python interpreter embedded in Scribus. Try Script->Execute Script.")
-    sys.exit(1)
-if not scribus.haveDoc():
-    scribus.messageBox('Scribus -Script Error', "No document open", scribus.ICON_WARNING, scribus.BUTTON_OK)
-    sys.exit(1)
+import scribus
+from collections import namedtuple
+object_info=namedtuple("object_info",["name","x","y","xs","ys","mleft","mright","mtop","mbottom","page_type"])
+
+
+def check_doc_present():   
+    if not scribus.haveDoc():
+        scribus.messageBox(
+            "Scribus -Script Error",
+            "No document open",
+            scribus.ICON_WARNING,
+            scribus.BUTTON_OK,
+        )
+        sys.exit(1)
 
 
 def acta_img_size1D_central(n_picts, margin1, margin2, gutter, page, txt_size=0):
-    return (page-margin1-margin2-n_picts*txt_size-(n_picts-1)*gutter)/n_picts
-    
-def acta_pos1D(n_picts,margin,pict_size,gutter):
-    return margin+(n_picts-1)*(pict_size+gutter)
-    
+    return (
+        page - margin1 - margin2 - n_picts * txt_size - (n_picts - 1) * gutter
+    ) / n_picts
+
+
+def acta_pos1D(n_picts, margin, pict_size, gutter):
+    return margin + (n_picts - 1) * (pict_size + gutter)
+
+
 def pict_size1D(n_picts, margin1, margin2, gutter, page):
-    return (page-margin1-margin2-(n_picts-1)*gutter)/n_picts
+    return (page - margin1 - margin2 - (n_picts - 1) * gutter) / n_picts
 
-def pict_pos1D(n_picts,margin,pict_size,gutter):
-    return margin+(n_picts-1)*(pict_size+gutter)
-    
-def split_image(initial_img, xs_page, ys_page, x_n_picts=3, y_n_picts=1,gutter=0.5):
-	imgs_size=scribus.getSize(initial_img)
-	if scribus.isLocked(initial_img):
-		scribus.lockObject(initial_img)
-	xs_whole_size=imgs_size[0]
-	ys_whole_size=imgs_size[1]
-	imgs_pos=scribus.getPosition(initial_img)
-	x_margins=(imgs_pos[0],xs_page-(imgs_pos[0]+xs_whole_size))
-	y_margins=(imgs_pos[1],ys_page-(imgs_pos[1]+ys_whole_size))
-	xsize=pict_size1D(x_n_picts,x_margins[0], x_margins[1], gutter, xs_page)
-	ysize=pict_size1D(y_n_picts,y_margins[0], y_margins[1], gutter, ys_page)
-	for nx in range(1,x_n_picts+1):
-		for ny in range(1,y_n_picts+1):
-			xpict=pict_pos1D(nx,x_margins[0],xsize,gutter)
-			ypict=pict_pos1D(ny,y_margins[0],ysize,gutter)
-			image_name=scribus.createImage(xpict, ypict, xsize, ysize)
-			scribus.setFillColor("Black",image_name)
-			if not scribus.isLocked(image_name):
-				scribus.lockObject(image_name)
-	scribus.deleteObject(initial_img)
+def pict_pos1D(n_picts, margin, pict_size, gutter):
+    return margin + (n_picts - 1) * (pict_size + gutter)
 
-
-#get initial units and set units to mm
-initial_units=scribus.getUnit()
-scribus.setUnit(scribus.UNIT_MILLIMETERS)
-
+def get_page_info():
 # get page margins, size and type (left or right)
-margins=scribus.getPageNMargins(scribus.currentPage())
-left_margin=margins[1]
-right_margin=margins[2]
-top_margin=margins[0]
-bottom_margin=margins[3]
-size=scribus.getPageNSize(scribus.currentPage())
-xs_page=size[0]
-ys_page=size[1]
-type_page=scribus.getPageType(scribus.currentPage())
+    pagenum=scribus.currentPage()
+    margins = scribus.getPageNMargins(pagenum)
+    size = scribus.getPageNSize(pagenum)
+    type_page = scribus.getPageType(pagenum)
+    current_page=object_info(name=str(pagenum),x=0,y=0,xs=size[0],ys=size[1],mleft=margins[1],mright= margins[2],mtop=margins[0],mbottom= margins[3],page_type=type_page)
+    return current_page
+
+def page_available(page):
+    return object_info(name=page.name,x=page.mleft,y=page.mtop,
+    xs=page.xs-page.mleft-page.mright,
+    ys=page.ys-page.mtop-page.mbottom,
+    mleft=0,mright=0,mtop=0,mbottom=0,page_type=page.page_type)
+
+def get_object_info(object_name):
+    obj_size=scribus.getSize(object_name)
+    xs = obj_size[0]
+    ys = obj_size[1]
+    obj_pos = scribus.getPosition(object_name)
+    x=obj_pos[0]
+    y=obj_pos[1]
+    return object_info(name=object_name,x=x,y=y,xs=xs,ys=ys,mleft=0.0,mright=0.0,mtop=0.0,mbottom=0.0,page_type=0)
+
+def set_object_info(object_name,x,y,xs,ys,mleft,mright,mtop,mbottom,page_type):
+    return object_info(name=object_name,x=x,y=y,xs=xs,ys=ys,mleft=0.0,mright=0.0,mtop=0.0,mbottom=0.0,page_type=0)
+
+def get_n_images_gutter(xnp=2,ynp=3,g=3.0):
+    x_n_picts=int(scribus.valueDialog("Images en largeur", "Entrez le nombre de photos en largeur:",str(xnp)))
+    y_n_picts=int(scribus.valueDialog("Images en hauteur", "Entrez le nombre de photos en hauteur:" ,str(ynp)))
+    gutter=float(scribus.valueDialog("Gouttière", "Entrez la taille de la gouttière en mm" ,str(g)))
+    return (x_n_picts,y_n_picts,gutter)
+
+def movesize(obj):
+    if scribus.isLocked(obj.name):
+        scribus.lockObject(obj.name)
+    scribus.moveObjectAbs(obj.x,obj.y , obj.name)
+    scribus.sizeObject(obj.xs, obj.ys, obj.name)
+    scribus.lockObject(obj.name)
+
+def split_image(action,obj, x_n_picts=2, y_n_picts=3, gutter=1):
+    # action can be "resize" or "create"
+    new_xs = pict_size1D(x_n_picts, 0, 0, gutter, obj.xs)
+    new_ys = pict_size1D(y_n_picts, 0,0, gutter, obj.ys)
+    for nx in range(1, x_n_picts + 1):
+        for ny in range(1, y_n_picts + 1):
+            xpict = pict_pos1D(nx, obj.x, new_xs, gutter)
+            ypict = pict_pos1D(ny, obj.y, new_ys, gutter)
+            if (ny==1 and nx==1) and action=="resize":
+                if scribus.isLocked(obj.name):
+                    scribus.lockObject(obj.name)
+                scribus.sizeObject(new_xs, new_ys, obj.name)
+                scribus.lockObject(obj.name)
+            else:
+                image_name=scribus.createImage(xpict, ypict, new_xs, new_ys)
+                scribus.setFillColor("Black",image_name)
+                scribus.lockObject(image_name)
 
 
-# *** define page layout decisions here ***
-# text frame x size (width) and ys are considered constant, image size will be adapted
-# this will replace either top, middle or bottom group (panel)
-path_to_base="/home/paul/Documents/dessins-présentations/Scribus/Models2edit/Annales_base.sla"
-n_groups=3 # number of "days" on each page, 3 (top, middle, bottom) not likely to change
-gutter=3.0
-top_group=["Acta_jour","Acta_mois","Acta_txt","Acta_img"]
-below_groups=["Acta_jour","Acta_txt","Acta_img"]
-g_pos={} #dictionary of group element sizes and positions
-g_pos["Acta_txt"]={"xs":acta_img_size1D_central(1, left_margin, right_margin, 0, xs_page)}
-g_pos["Acta_txt"]["ys"]=20.0
+def create_1_image(obj, x_n_picts=2, y_n_picts=3, gutter=1,nx=1,ny=1):
+    new_xs = pict_size1D(x_n_picts, 0, 0, gutter, obj.xs)
+    new_ys = pict_size1D(y_n_picts, 0,0, gutter, obj.ys)
+    xpict = pict_pos1D(nx, obj.x, new_xs, gutter)
+    ypict = pict_pos1D(ny, obj.y, new_ys, gutter)   
+    image_name=scribus.createImage(xpict, ypict, new_xs, new_ys)
+    scribus.setFillColor("Black",image_name)
+    scribus.lockObject(image_name)
 
-g_pos["Acta_jour"]={"xs":12.5,"ys":8.0}
-g_pos["Acta_mois"]={"xs":35.0,"ys":8.0}
-g_pos["Acta_img"]={}
+def combine_images():
+    all_imgs=[]
+    for i in range(0, scribus.selectionCount()):
+        all_imgs.append(scribus.getSelectedObject(i))
+    # get the name of the first selected image which will be kept
+    keep_img=all_imgs[0]
+    # group the images to get the size and position of the total area
+    initial_imgs=scribus.groupObjects(all_imgs)
 
-#calculate image size
-g_pos["Acta_img"]["xs"]=g_pos["Acta_txt"]["xs"]
-g_pos["Acta_img"]["ys"]=acta_img_size1D_central(n_groups, top_margin, bottom_margin, gutter, ys_page, g_pos["Acta_txt"]["ys"] )
+    imgs_size=scribus.getSize(initial_imgs)
+    xs=imgs_size[0]
+    ys=imgs_size[1]
 
+    imgs_pos=scribus.getPosition(initial_imgs)
+    xpict=imgs_pos[0]
+    ypict=imgs_pos[1]
 
+    # ungroup to delete all the images but the first
+    scribus.unGroupObjects(initial_imgs)
+    del all_imgs[0]
+    for img_name in all_imgs:
+        if scribus.isLocked(img_name):
+            scribus.lockObject(img_name)
+        scribus.deleteObject(img_name)
 
-#determine or calculate delta vs top left coordinates (x_topleft, y_topleft)
-if type_page==0:#left page
-	g_pos["Acta_txt"].update({"dx":0.0,"dy":0.0})
-	g_pos["Acta_img"].update({"dx":0.0,"dy":g_pos["Acta_txt"]["ys"]})
-	g_pos["Acta_jour"].update({"dx":1.0,"dy":0.5})
-	g_pos["Acta_mois"].update({"dx":16.0,"dy":-4.0})
-else:#right page
-	g_pos["Acta_txt"].update({"dx":0.0,"dy":0.0})
-	g_pos["Acta_img"].update({"dx":0.0,"dy":g_pos["Acta_txt"]["ys"]})
-	g_pos["Acta_jour"].update({"dx":-13.5+g_pos["Acta_txt"]["xs"],"dy":0.5})
-	g_pos["Acta_mois"].update({"dx":-51+g_pos["Acta_img"]["xs"],"dy":-4.0})
+    # move and resize the first image which will occupy the area of all the selected images
+    if scribus.isLocked(keep_img):
+        scribus.lockObject(keep_img)
+    scribus.moveObjectAbs(xpict,ypict , keep_img)
+    scribus.sizeObject(xs, ys, keep_img)
+    scribus.lockObject(keep_img)
 
-# get frames from file into clipboard
+def get_position4pict(x_n_picts,y_n_picts):
+    position=False
+    while not position:
+        xypict=eval(scribus.valueDialog("Image unique", "Entrez les coordonnées de l'image:","1,1"))
+        if xypict[0]>x_n_picts:
+            scribus.messageBox("Error in x value","x: Value too high")
+        elif xypict[1]>y_n_picts:
+            scribus.messageBox("Error in y value","y: Value too high")
+        else:
+            position=True
+    return (xypict)
 
-scribus.openDoc(path_to_base)
-scribus.copyObjects(top_group)
-scribus.closeDoc()
-# copy the original group depending on position (with or without mois)
-
-n_group=int(scribus.valueDialog("Position à changer:", "Entrez la valeur, 1=top, etc:","2"))
-if n_group==1:
-	scribus.openDoc(path_to_base)
-	scribus.copyObjects(top_group)
-	scribus.closeDoc()
-else:
-	scribus.openDoc(path_to_base)
-	scribus.copyObjects(below_groups)
-	scribus.closeDoc()
-#calculate x_topleft and y_topleft according to number of group
-x_topleft=left_margin
-y_topleft=acta_pos1D(n_group,top_margin,g_pos["Acta_img"]["ys"]+g_pos["Acta_txt"]["ys"],gutter)
-# paste objects and then for each element according to its name (find method!) change its size and position
-current_g=scribus.pasteObjects()
-for elem in current_g:
-	for elem_g in top_group:
-		if elem.find(elem_g)!=-1:
-			if scribus.isLocked(elem):
-				scribus.lockObject(elem)
-			scribus.moveObjectAbs(x_topleft+g_pos[elem_g]["dx"], y_topleft+g_pos[elem_g]["dy"] , elem)
-			scribus.sizeObject(g_pos[elem_g]["xs"], g_pos[elem_g]["ys"] , elem)
-			#if not scribus.isLocked(elem):
-			scribus.lockObject(elem)
-for elem in current_g:
-	if elem.find("Acta_img")!=-1:
-		split_image(elem, xs_page, ys_page, x_n_picts=3, y_n_picts=1,gutter=0.5)
-
-
-scribus.setUnit(initial_units)
 
 
 

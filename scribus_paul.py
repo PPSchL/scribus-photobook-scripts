@@ -14,19 +14,12 @@ def check_doc_present():
         )
         sys.exit(1)
 
-
-def acta_img_size1D_central(n_picts, margin1, margin2, gutter, page, txt_size=0):
-    return (
-        page - margin1 - margin2 - n_picts * txt_size - (n_picts - 1) * gutter
-    ) / n_picts
-
-
 def acta_pos1D(n_picts, margin, pict_size, gutter):
     return margin + (n_picts - 1) * (pict_size + gutter)
 
 
-def pict_size1D(n_picts, margin1, margin2, gutter, page):
-    return (page - margin1 - margin2 - (n_picts - 1) * gutter) / n_picts
+def pict_size1D(n_picts, margin1, margin2, gutter, page_size):
+    return (page_size - margin1 - margin2 - (n_picts - 1) * gutter) / n_picts
 
 def pict_pos1D(n_picts, margin, pict_size, gutter):
     return margin + (n_picts - 1) * (pict_size + gutter)
@@ -142,7 +135,4 @@ def get_position4pict(x_n_picts,y_n_picts):
         else:
             position=True
     return (xypict)
-
-
-
 

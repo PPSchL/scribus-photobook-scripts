@@ -10,7 +10,7 @@ scribus.setUnit(scribus.UNIT_MILLIMETERS)
 #define group types as list, allowing access through index which will be requested from user=>less typing for user
 group_types=["normal","central","double","whole_page"]
 #request group type, default = central
-group_size = int(scribus.valueDialog("Taille:", 'Entrez la valeur, "normal=0","central"=1,"double"=2,"whole page"=3', "1"))
+group_size = int(scribus.valueDialog("Type", '             Entrez la valeur:\n- normal=0,\n- central=1,\n- double=2,\n- page entière=3', "1"))
 group_type=group_types[group_size]
 if group_type=="whole_page":
     group_n=1

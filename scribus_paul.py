@@ -1,6 +1,7 @@
 import sys
 import scribus
 from collections import namedtuple
+from my_messages import my_msg
 object_info=namedtuple("object_info",["name","x","y","xs","ys","mleft","mright","mtop","mbottom","page_type"])
 
 
@@ -10,12 +11,12 @@ def check_doc_present():
             "Scribus -Script Error",
             "No document open",
             scribus.ICON_WARNING,
-            scribus.BUTTON_OK,
-        )
+            scribus.BUTTON_OK)
         sys.exit(1)
 
-def acta_pos1D(n_picts, margin, pict_size, gutter):
-    return margin + (n_picts - 1) * (pict_size + gutter)
+
+# def acta_pos1D(n_picts, margin, pict_size, gutter):
+#     return margin + (n_picts - 1) * (pict_size + gutter)
 
 
 def pict_size1D(n_picts, margin1, margin2, gutter, page_size):
@@ -52,9 +53,9 @@ def set_object_info(object_name,x,y,xs,ys,mleft,mright,mtop,mbottom,page_type):
     return object_info(name=object_name,x=x,y=y,xs=xs,ys=ys,mleft=0.0,mright=0.0,mtop=0.0,mbottom=0.0,page_type=0)
 
 def get_n_images_gutter(xnp=2,ynp=3,g=3.0):
-    x_n_picts=int(scribus.valueDialog("Images en largeur", "Entrez le nombre de photos en largeur:",str(xnp)))
-    y_n_picts=int(scribus.valueDialog("Images en hauteur", "Entrez le nombre de photos en hauteur:" ,str(ynp)))
-    gutter=float(scribus.valueDialog("Gouttière", "Entrez la taille de la gouttière en mm" ,str(g)))
+    x_n_picts=int(scribus.valueDialog(my_msg["ti_img_x"], my_msg["msg_img_x"],str(xnp)))
+    y_n_picts=int(scribus.valueDialog(my_msg["ti_img_y"], my_msg["msg_img_y"] ,str(ynp)))
+    gutter=float(scribus.valueDialog(my_msg["ti_gutter"], my_msg["msg_gutter"] ,str(g)))
     return (x_n_picts,y_n_picts,gutter)
 
 def movesize(obj):
@@ -127,11 +128,11 @@ def combine_images():
 def get_position4pict(x_n_picts,y_n_picts):
     position=False
     while not position:
-        xypict=eval(scribus.valueDialog("Image unique", "Entrez les coordonnées de l'image:","1,1"))
+        xypict=eval(scribus.valueDialog(my_msg["ti_1_img"], my_msg["msg_1_img"],"1,1"))
         if xypict[0]>x_n_picts:
-            scribus.messageBox("Error in x value","x: Value too high")
+            scribus.messageBox(my_msg["ti_x_error"],my_msg["msg_x_error"])
         elif xypict[1]>y_n_picts:
-            scribus.messageBox("Error in y value","y: Value too high")
+            scribus.messageBox(my_msg["ti_y_error"],my_msg["msg_y_error"])
         else:
             position=True
     return (xypict)

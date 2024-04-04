@@ -2,6 +2,9 @@ import sys
 import scribus
 from collections import namedtuple
 from my_messages import my_msg
+# pictures and text frames as well as pages are described by a named tuple which will be used to draw the object
+# this tuples specifies the anme, position (x,y), size (xs,ys), margins (mleft,mright,mtop,mbottom), and page-type (left, right or "center")
+# margins are 0 for pictures and text frames
 object_info=namedtuple("object_info",["name","x","y","xs","ys","mleft","mright","mtop","mbottom","page_type"])
 
 
@@ -14,9 +17,6 @@ def check_doc_present():
             scribus.BUTTON_OK)
         sys.exit(1)
 
-
-# def acta_pos1D(n_picts, margin, pict_size, gutter):
-#     return margin + (n_picts - 1) * (pict_size + gutter)
 
 
 def pict_size1D(n_picts, margin1, margin2, gutter, page_size):

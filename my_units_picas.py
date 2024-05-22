@@ -1,2 +1,3 @@
 import scribus
-my_units=scribus.UNIT_PICAS
+
+my_units = scribus.UNIT_PICAS

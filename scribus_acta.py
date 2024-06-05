@@ -1,4 +1,5 @@
 import scribus
+import os
 import scribus_paul as sp
 
 
@@ -91,10 +92,10 @@ def set_g_pos_variable(group_type, g_pos, page, n_groups, gutter):
     return g_pos
 
 
-def set_acta_data(group_type, page):
+def set_acta_data(group_type, page, script_p):
     # *** define page layout decisions here ***
     # text frame x size (width) is considered constant, text frame height (y size) and image size will be adapted
-    path_to_base = "/home/paul/Documents/dessins-présentations/Scribus/Models2edit/Annales_base.sla"
+    path_to_base = os.path.join(script_p, ".photobook", "Annales_base.sla")
     n_groups = (
         3  # number of "days" on each page, 3 (top, middle, bottom) not likely to change
     )

@@ -23,13 +23,15 @@ def select_language(lang_val):
             "msg_x_error": "Valeur x trop élevée!",
             "ti_y_error": "Erreur de la valeur y",
             "msg_y_error": "Valeur y trop élevée!",
+            "ti_g_pos": "Position du nouveau groupe",
+            "msg_g_pos": "Entrez la valeur, 1=top, etc:",
         }
     elif lang_val == "Deutsch":
         my_msg = {
             "ti_img_x": "Bilder in der Breite",
             "msg_img_x": "Anzahl Bilder in der Breite eingeben:",
             "ti_img_y": "Bilder in der Höhe",
-            "msg_img_y": "Anzahl BIlder in der Höhe eingeben:",
+            "msg_img_y": "Anzahl Bilder in der Höhe eingeben:",
             "ti_gutter": "Spaltenzwischenraum",
             "msg_gutter": "Distanz zwischen Bildern eingeben:",
             "ti_1_img": "Einzelbild",
@@ -40,6 +42,8 @@ def select_language(lang_val):
             "msg_x_error": "X Wert zu hoch!",
             "ti_y_error": "Y Wert fehlerhaft",
             "msg_y_error": "Y Wert zu hoch!",
+            "ti_g_pos": "Position der neuen Bildergruppe",
+            "msg_g_pos": "Wert eingeben, 1=top, etc:",
         }
     else:  # English as default possibility
         my_msg = {
@@ -57,6 +61,8 @@ def select_language(lang_val):
             "msg_x_error": "X value higher than no. of images per row!",
             "ti_y_error": "Y value error",
             "msg_y_error": "Y value higher than no. of images per column!",
+            "ti_g_pos": "Position of the new group",
+            "msg_g_pos": "Entrez position, 1=top, etc:",
         }
     return my_msg
 

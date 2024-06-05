@@ -1,7 +1,9 @@
 import sys
+import os
+import pickle
 import scribus
 from collections import namedtuple
-from my_messages import my_msg
+
 
 # pictures and text frames as well as pages are described by a named tuple which will be used to draw the object
 # this tuples specifies the anme, position (x,y), size (xs,ys), margins (mleft,mright,mtop,mbottom), and page-type (left, right or "center")
@@ -10,6 +12,16 @@ object_info = namedtuple(
     "object_info",
     ["name", "x", "y", "xs", "ys", "mleft", "mright", "mtop", "mbottom", "page_type"],
 )
+
+
+def get_config_data(script_p):
+    cfgpath = os.path.join(script_p, ".photobook", "phb.cfg")
+    my_msg = {}
+    my_units = scribus.UNIT_MILLIMETERS
+    with open(cfgpath, "rb") as file4cfg:
+        my_msg = pickle.load(file4cfg)
+        my_units = pickle.load(file4cfg)
+    return (my_msg, my_units)
 
 
 def check_doc_present():
@@ -103,7 +115,7 @@ def set_object_info(object_name, x, y, xs, ys, mleft, mright, mtop, mbottom, pag
     )
 
 
-def get_n_images_gutter(xnp=2, ynp=3, g=3.0):
+def get_n_images_gutter(my_msg, xnp=2, ynp=3, g=3.0):
     x_n_picts = int(
         scribus.valueDialog(my_msg["ti_img_x"], my_msg["msg_img_x"], str(xnp))
     )
@@ -186,7 +198,7 @@ def combine_images():
     scribus.lockObject(keep_img)
 
 
-def get_position4pict(x_n_picts, y_n_picts):
+def get_position4pict(my_msg, x_n_picts, y_n_picts):
     position = False
     while not position:
         xypict = eval(

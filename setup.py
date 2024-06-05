@@ -1,5 +1,6 @@
 #! /usr/bin/env python3
 import os
+import pickle
 from tkinter import *
 from tkinter import filedialog
 from tkinter import ttk
@@ -148,9 +149,15 @@ r3.grid(row=7, column=0)
 stop_it = Button(setup_window, text="Ok, Done", command=setup_window.destroy)
 stop_it.grid(row=8, column=0)
 
-
-my_units = select_unit(chosen_unit)
-my_msg = select_language(chosen_lang)
-
 setup_window.mainloop()
-print(chosen_unit.get(), "   ", chosen_lang.get(), "  ", script_path)
+my_units = select_unit(chosen_unit.get())
+my_msg = select_language(chosen_lang.get())
+
+dircfgpath = os.path.join(script_path, "script_path.py")
+with open(dircfgpath, "w") as dirfile:
+    dirfile.write("script_path='" + script_path + "'")
+
+cfgpath = os.path.join(script_path, ".photobook", "phb.cfg")
+with open(cfgpath, "wb") as file4cfg:
+    pickle.dump(my_msg, file4cfg)
+    pickle.dump(my_units, file4cfg)

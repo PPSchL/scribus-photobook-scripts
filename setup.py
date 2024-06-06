@@ -1,12 +1,47 @@
 #! /usr/bin/env python3
 import os
 import pickle
+from scribus_paul import get_config_data
 from tkinter import *
 from tkinter import filedialog
 from tkinter import ttk
 
 
-def select_language(lang_val):
+def init_after_check_previous_config():
+    # check whether previous config exists, if yes get data from it for initialization
+    # if not initialize with default french values :-)
+
+    # scribus stores units as int, need way to convert to name
+    # could have used list, but dictionary allows future use of non-contiguous values
+    int2Unit = {0: "points", 1: "mm", 2: "inches", 3: "picas", 4: "cm", 5: "ciceros"}
+
+    try:
+        from script_path import script_path
+
+        """ current working directory of scribus python is not the script directory!
+        but scribus python imports from the script directory, import is thus an
+        indirect (and the only?) way of getting the script_path and using it"""
+    except:
+        # script_path not yet defined => initialize by default values
+        script_path = os.getcwd()
+        chosen_lang = StringVar(value="Français")
+        chosen_unit = StringVar(value="mm")
+    else:
+        cfgpath = os.path.join(script_path, ".photobook", "phb.cfg")
+        if os.path.isfile(cfgpath):
+            # config file exist => read
+            my_lang, my_msg, my_units = get_config_data(script_path)
+            chosen_lang = StringVar(value=my_lang)
+            chosen_unit = StringVar(value=int2Unit[my_units])
+        else:
+            # script_path ok, but no config file => initialize by default values
+            script_path = os.getcwd()
+            chosen_lang = StringVar(value="Français")
+            chosen_unit = StringVar(value="mm")
+    return (script_path, chosen_lang, chosen_unit)
+
+
+def select_msgs(lang_val):
     if lang_val == "Français":
         my_msg = {
             "ti_img_x": "Images en largeur",
@@ -94,6 +129,7 @@ def changepath():
 
 setup_window = Tk()
 setup_window.title("Setup photobook scripts for scribus")
+script_path, chosen_lang, chosen_unit = init_after_check_previous_config()
 
 explication = ttk.Label(
     setup_window,
@@ -102,7 +138,6 @@ explication = ttk.Label(
 explication.grid(row=0, column=0)
 
 
-script_path = os.getcwd()
 change_path = ttk.Button(
     setup_window,
     text="Change current path to script directory: " + script_path,
@@ -120,7 +155,7 @@ unit_label = ttk.Label(
 )
 unit_label.grid(row=2, column=0)
 
-chosen_unit = StringVar(value="mm")
+
 unit_choices = ttk.Combobox(
     setup_window,
     textvariable=chosen_unit,
@@ -138,7 +173,7 @@ language_label = ttk.Label(
 )
 language_label.grid(row=4, column=0)
 
-chosen_lang = StringVar(value="Français")
+
 r1 = ttk.Radiobutton(
     setup_window, text="Français", variable=chosen_lang, value="Français"
 )
@@ -157,13 +192,16 @@ stop_it.grid(row=8, column=0)
 
 setup_window.mainloop()
 my_units = select_unit(chosen_unit.get())
-my_msg = select_language(chosen_lang.get())
+my_lang = chosen_lang.get()
+my_msg = select_msgs(my_lang)
 
+# create python source file stating script_path for later import
 dircfgpath = os.path.join(script_path, "script_path.py")
 with open(dircfgpath, "w") as dirfile:
     dirfile.write("script_path='" + script_path + "'")
 
 cfgpath = os.path.join(script_path, ".photobook", "phb.cfg")
 with open(cfgpath, "wb") as file4cfg:
-    pickle.dump(my_msg, file4cfg)
+    pickle.dump(my_lang, file4cfg)
     pickle.dump(my_units, file4cfg)
+    pickle.dump(my_msg, file4cfg)

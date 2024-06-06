@@ -1,11 +1,9 @@
 import scribus
-
-# from my_units import my_units
 from script_path import script_path
 import scribus_paul as sp
 
 sp.check_doc_present()
-my_msg, my_units = sp.get_config_data(script_path)
+my_lang, my_msg, my_units = sp.get_config_data(script_path)
 initial_units = scribus.getUnit()
 scribus.setUnit(my_units)
 

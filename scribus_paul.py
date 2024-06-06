@@ -19,9 +19,11 @@ def get_config_data(script_p):
     my_msg = {}
     my_units = scribus.UNIT_MILLIMETERS
     with open(cfgpath, "rb") as file4cfg:
-        my_msg = pickle.load(file4cfg)
+        my_lang = pickle.load(file4cfg)
         my_units = pickle.load(file4cfg)
-    return (my_msg, my_units)
+        my_msg = pickle.load(file4cfg)
+
+    return (my_lang, my_msg, my_units)
 
 
 def check_doc_present():

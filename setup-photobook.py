@@ -4,6 +4,11 @@ import os
 import pickle
 from scribus_paul import get_config_data
 
+def set_defaults():
+    script_path=os.getcwd()
+    chosen_lang = "Français"
+    chosen_unit = "mm"
+    return (script_path,chosen_lang, chosen_unit)
 
 def init_after_check_previous_config():
     # check whether previous config exists, if yes get data from it for initialization
@@ -21,9 +26,7 @@ def init_after_check_previous_config():
         indirect (and the only?) way of getting the script_path and using it"""
     except:
         # script_path not yet defined => initialize by default values
-        script_path = os.getcwd()
-        chosen_lang = "Français"
-        chosen_unit = "mm"
+        script_path, chosen_lang, chosen_unit = set_defaults()
     else:
         cfgpath = os.path.join(script_path, ".photobook", "phb.cfg")
         if os.path.isfile(cfgpath):
@@ -33,9 +36,7 @@ def init_after_check_previous_config():
             chosen_unit = int2Unit[my_units]
         else:
             # script_path ok, but no config file => initialize by default values
-            script_path = os.getcwd()
-            chosen_lang = "Français"
-            chosen_unit = "mm"
+            script_path, chosen_lang, chosen_unit = set_defaults()
     return (script_path, chosen_lang, chosen_unit)
 
 

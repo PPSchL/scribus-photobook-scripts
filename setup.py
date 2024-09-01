@@ -6,11 +6,13 @@ from tkinter import *
 from tkinter import filedialog
 from tkinter import ttk
 
+
 def set_defaults():
     script_path = os.getcwd()
     chosen_lang = StringVar(value="Français")
     chosen_unit = StringVar(value="mm")
-    return (script_path,chosen_lang, chosen_unit)
+    return (script_path, chosen_lang, chosen_unit)
+
 
 def init_after_check_previous_config():
     # check whether previous config exists, if yes get data from it for initialization
@@ -61,6 +63,18 @@ def select_msgs(lang_val):
             "msg_y_error": "Valeur y trop élevée!",
             "ti_g_pos": "Position du nouveau groupe",
             "msg_g_pos": "Entrez la valeur, 1=top, etc:",
+            "ti_ratio_error": "Erreur de rapport image",
+            "msg_ratio_error": "Image trop large!",
+            "ti_nlines": "Lignes d'images",
+            "msg_nlines": "Entrez le nombre de lignes d'images",
+            "ti_ratio": "Rapport d'image",
+            "msg_ratio": "Entrez le rapport d'image, typiquement 3/2 ou 4/3:",
+            "ti_direction": "Direction",
+            "msg_direction": "Entrez la direction, typiquement de gauche à droite, "
+            "left2right"
+            "",
+            "ti_aspect": "Aspect de la page",
+            "msg_aspect": "Entrez le type, typiquement constant, toutes grandes images du même côté:",
         }
     elif lang_val == "Deutsch":
         my_msg = {
@@ -80,6 +94,16 @@ def select_msgs(lang_val):
             "msg_y_error": "Y Wert zu hoch!",
             "ti_g_pos": "Position der neuen Bildergruppe",
             "msg_g_pos": "Wert eingeben, 1=top, etc:",
+            "ti_ratio_error": "Problem mit Seitenverhältnis",
+            "msg_ratio_error": "Bild breiter als Seite!",
+            "ti_nlines": "Anzahl der Bildzeilen",
+            "msg_nlines": "Anzahl der Zeilen angeben:",
+            "ti_ratio": "Bildverhältnis",
+            "msg_ratio": "Bildverhältnis eingeben, typisch 3/2 oder 4/3:",
+            "ti_direction": "Zeilenrichtung",
+            "msg_direction": "Richtung eingeben, typisch von links nach rechts, left2right",
+            "ti_aspect": "Richtungstyp",
+            "msg_aspect": "Richtungstyp eingeben, typisch constant, alle grossen Bilder zur selben Seite:",
         }
     else:  # English as default possibility
         my_msg = {
@@ -99,6 +123,18 @@ def select_msgs(lang_val):
             "msg_y_error": "Y value higher than no. of images per column!",
             "ti_g_pos": "Position of the new group",
             "msg_g_pos": "Entrez position, 1=top, etc:",
+            "ti_ratio_error": "Ratio error",
+            "msg_ratio_error": "Image width larger than page!",
+            "ti_nlines": "Picture rows",
+            "msg_nlines": "Enter the number of picture rows",
+            "ti_ratio": "Image ratio",
+            "msg_ratio": "Entrez the image ratio, typically 3/2 ou 4/3:",
+            "ti_direction": "Direction",
+            "msg_direction": "Entrez direction, typically left2right",
+            "ti_aspect": "Direction type",
+            "msg_aspect": "Entrez direction type, typically "
+            "constant"
+            ", all large images on the same side:",
         }
     return my_msg
 

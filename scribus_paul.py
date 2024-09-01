@@ -6,7 +6,7 @@ from collections import namedtuple
 
 
 # pictures and text frames as well as pages are described by a named tuple which will be used to draw the object
-# this tuples specifies the anme, position (x,y), size (xs,ys), margins (mleft,mright,mtop,mbottom), and page-type (left, right or "center")
+# this tuples specifies the name, position (x,y), size (xs,ys), margins (mleft,mright,mtop,mbottom), and page-type (left, right or "center")
 # margins are 0 for pictures and text frames
 object_info = namedtuple(
     "object_info",
@@ -73,6 +73,21 @@ def page_available(page):
         y=page.mtop,
         xs=page.xs - page.mleft - page.mright,
         ys=page.ys - page.mtop - page.mbottom,
+        mleft=0,
+        mright=0,
+        mtop=0,
+        mbottom=0,
+        page_type=page.page_type,
+    )
+
+
+def page_with_bleed(page, bleed):
+    return object_info(
+        name=page.name,
+        x=-bleed,
+        y=-bleed,
+        xs=page.xs + 2 * bleed,
+        ys=page.ys + 2 * bleed,
         mleft=0,
         mright=0,
         mtop=0,
@@ -165,6 +180,81 @@ def create_1_image(obj, x_n_picts=2, y_n_picts=3, gutter=1, nx=1, ny=1):
     image_name = scribus.createImage(xpict, ypict, new_xs, new_ys)
     scribus.setFillColor("Black", image_name)
     scribus.lockObject(image_name)
+
+
+def create_image(xpict, ypict, xs, ys):
+    image_name = scribus.createImage(xpict, ypict, xs, ys)
+    scribus.setFillColor("Black", image_name)
+    scribus.lockObject(image_name)
+
+
+def draw_list_of_images(images):
+    for iter_image in images:
+        create_image(*iter_image)  # expand image tuple iter_image to get 4 parameters
+
+
+def get_nlines_ratio(
+    my_msg,
+    n_lines=4,
+    ratio=1.5,
+    gutter=3.0,
+    direction="left2right",
+    aspect_type="constant",
+):
+    n_lines = int(
+        scribus.valueDialog(my_msg["ti_nlines"], my_msg["msg_nlines"], str(n_lines))
+    )
+    ratio = eval(
+        scribus.valueDialog(my_msg["ti_ratio"], my_msg["msg_ratio"], str(ratio))
+    )
+    gutter = float(
+        scribus.valueDialog(my_msg["ti_gutter"], my_msg["msg_gutter"], str(gutter))
+    )
+    direction = scribus.valueDialog(
+        my_msg["ti_direction"], my_msg["msg_direction"], str(direction)
+    )
+    aspect_type = scribus.valueDialog(
+        my_msg["ti_aspect"], my_msg["msg_aspect"], str(aspect_type)
+    )
+    return (n_lines, ratio, gutter, direction, aspect_type)
+
+
+def make_list_of_asymmetric_images(
+    my_msg, obj, n_rows, ratio, gutter, direction="left2right", aspect_type="constant"
+):
+    def not_worthwile():
+        scribus.messageBox(my_msg["ti_ratio_error"], my_msg["msg_ratio_error"])
+        return "ratio error"
+
+    ys = pict_size1D(n_rows, 0, 0, gutter, obj.ys)
+    xs1 = ys * ratio
+    if xs1 > obj.xs:
+        image_list = not_worthwile()
+        return image_list
+    else:
+        xs2 = obj.xs - xs1 - gutter
+        if xs2 / ys < 0.5:
+            image_list = not_worthwile()
+            return image_list
+        else:
+            image_list = []
+            for image_row in range(1, (n_rows + 1)):
+                y = pict_pos1D(image_row, obj.y, ys, gutter)
+                x1 = obj.x
+                x2 = x1 + xs1 + gutter
+                if direction != "left2right":
+                    x2 = x1
+                    x1 = x1 + xs2 + gutter
+                # add image defined as a tuple to list
+                image_list.append((x1, y, xs1, ys))
+                image_list.append((x2, y, xs2, ys))
+                # if inversion at each new line: invert images at the end of each line
+                if aspect_type != "constant":
+                    if direction == "left2right":
+                        direction = "right2left"
+                    else:
+                        direction = "left2right"
+            return image_list
 
 
 def combine_images():

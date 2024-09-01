@@ -74,7 +74,7 @@ def select_msgs(lang_val):
             "left2right"
             "",
             "ti_aspect": "Aspect de la page",
-            "msg_aspect": "Entrez le type, typiquement constant, toutes grandes images du même côté:",
+            "msg_aspect": "Entrez le type, typiquement constant, toutes les grandes images du même côté:",
         }
     elif lang_val == "Deutsch":
         my_msg = {

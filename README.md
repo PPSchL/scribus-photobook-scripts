@@ -45,6 +45,20 @@
 - execute the script
 - the content of the frames will be swapped
 
+#### photobook-page-with-bleed
+- creates a page without margins. Images/photo edges are aligned with the outer border of the bleed, ie the bleed are will be cut during printing to obtain apage without a margin at all. Make sure no important part of your photos is within the bleed.
+- pas default, gutter is set to 0, but this can be changed
+- run the script, then enter the number of photos in width and height as well as the distance between photos
+- example of a page : ![page using bleed](docs/img/with-bleed.png)
+
+#### photobook-page-asymmetric
+- this script creates a page where the photos are not all of the same size, it is a handy way to quickly create a page with a mixture of landscape and portrait photos. Here is an example:![standard assymetric page](docs/img/asymmetric.png)
+- run the script, then enter the number of picture lines (with one photo for which you specify the image ratio, and another photo filling up the remaining space on the line)
+- enter the image ratio for the first photo, eg standard 35 mm ratio=3/2 or 1.5, micro-four thirds: 4/3 or 1.33. You can enter the value as a ratio (eg 3/2), or a real number (eg 1.5). You can enter any ratio as long as the picture width does not increase beyond the page size or the complementary portrait photo does not become to oblong (ratio>2); You can also specify an image ratio<1 to obtain a portrait as the first picture, but this effect can be obtained differently (see below)
+- enter the gutter (distance between images)
+- enter the direction, ie left2right (default) or right2left: right2left will put the complementary picture first eg see this example! ![right2left](docs/img/right2left.png) and compare with the standard above
+- enter the page type, ie either all image lines are identical (constant) or the landscape/portait and portrait/landscape page alternate (alternate). See an example for alternate here: ![alternate](docs/img/alternate.png)
+
 ### use for photodiary creation
 
 - in this context, a photodiary is a photobook containg one or several photos per day, with an accompanying text

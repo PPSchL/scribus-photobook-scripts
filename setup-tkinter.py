@@ -1,14 +1,16 @@
 #! /usr/bin/env python3
-import scribus
 import os
 import pickle
 from scribus_paul import get_config_data
+from tkinter import *
+from tkinter import filedialog
+from tkinter import ttk
 
 
 def set_defaults():
     script_path = os.getcwd()
-    chosen_lang = "Français"
-    chosen_unit = "mm"
+    chosen_lang = StringVar(value="Français")
+    chosen_unit = StringVar(value="mm")
     return (script_path, chosen_lang, chosen_unit)
 
 
@@ -52,6 +54,35 @@ def set_my_defaults(my_units):
     return my_defaults
 
 
+# def init_after_check_previous_config():
+#     # check whether previous config exists, if yes get data from it for initialization
+#     # if not initialize with default french values :-)
+
+#     # scribus stores units as int, need way to convert to name
+#     # could have used list, but dictionary allows future use of non-contiguous values
+#     int2Unit = {0: "points", 1: "mm", 2: "inches", 3: "picas", 4: "cm", 5: "ciceros"}
+
+#     try:
+#         from script_path import script_path
+
+
+#         """ current working directory of scribus python is not the script directory!
+#         but scribus python imports from the script directory, import is thus an
+#         indirect (and the only?) way of getting the script_path and using it"""
+#     except:
+#         # script_path not yet defined => initialize by default values
+#         script_path, chosen_lang, chosen_unit = set_defaults()
+#     else:
+#         cfgpath = os.path.join(script_path, ".photobook", "phb.cfg")
+#         if os.path.isfile(cfgpath):
+#             # config file exist => read
+#             my_lang, my_msg, my_units, my_defaults = get_config_data(script_path)
+#             chosen_lang = StringVar(value=chosen_lang)
+#             chosen_unit = StringVar(value=chosen_unit)
+#         else:
+#             # script_path ok, but no config file => initialize by default values
+#             script_path, chosen_lang, chosen_unit = set_defaults()
+#     return (script_path, chosen_lang, chosen_unit)
 def init_after_check_previous_config():
     # check whether previous config exists, if yes get data from it for initialization
     # if not initialize with default french values :-)
@@ -193,6 +224,15 @@ def select_unit(chosen_unit):
     return my_units
 
 
+def changepath():
+    global script_path
+    script_path = filedialog.askdirectory()
+    global change_path
+    change_path["text"] = "Change current path to script directory: " + script_path
+    os.chdir(script_path)
+    return
+
+
 def write_setup_files(script_path):
     # create python source file stating script_path for later import
     dircfgpath = os.path.join(script_path, "script_path.py")
@@ -207,31 +247,75 @@ def write_setup_files(script_path):
         pickle.dump(my_defaults, file4cfg)
 
 
-# *****************
-print("Setup photobook scripts for scribus")
-script_path_i, chosen_lang_i, chosen_unit_i = init_after_check_previous_config()
+setup_window = Tk()
+setup_window.title("Setup photobook scripts for scribus")
+script_path, chosen_lang, chosen_unit = init_after_check_previous_config()
+chosen_lang = StringVar(value=chosen_lang)
+chosen_unit = StringVar(value=chosen_unit)
+# chosen_lang = StringVar(value=my_lang)
+# chosen_unit = StringVar(value=int2Unit[my_units])
 
-script_path = scribus.valueDialog(
-    "Select scripts directory",
-    "Change current path to script directory: ",
-    script_path_i,
+explication = ttk.Label(
+    setup_window,
+    text="Please check path to the scripts directory (Click to change):",
 )
+explication.grid(row=0, column=0)
 
 
-chosen_unit = scribus.valueDialog(
-    "Select measurement units",
-    "Please enter one of these:\nmm\ncm\npoints\ninches\npicas\nciceros\nCurrent units: ",
-    chosen_unit_i,
+change_path = ttk.Button(
+    setup_window,
+    text="Change current path to script directory: " + script_path,
+    command=changepath,
 )
+change_path.grid(row=1, column=0)
 
-my_lang = scribus.valueDialog(
-    "Select Menu language",
-    "Please enter one of these:\nFrançais\nDeutsch\nEnglish\nCurrent language: ",
-    chosen_lang_i,
+# show_path = ttk.Label(setup_window, text="current path:" + script_path)
+# show_path.grid(row=1, column=0)
+
+unit_label = ttk.Label(
+    setup_window,
+    text="Please choose your measurement unit:",
+    justify="left",
 )
+unit_label.grid(row=2, column=0)
 
-my_units = select_unit(chosen_unit)
+
+unit_choices = ttk.Combobox(
+    setup_window,
+    textvariable=chosen_unit,
+    justify="left",
+)
+unit_choices["values"] = ("mm", "cm", "points", "inches", "picas", "ciceros")
+unit_choices.grid(row=3, column=0)
+
+language_label = ttk.Label(
+    setup_window,
+    text="Please choose your preferred menu language: ",
+)
+language_label.grid(row=4, column=0)
+
+
+r1 = ttk.Radiobutton(
+    setup_window, text="Français", variable=chosen_lang, value="Français"
+)
+r2 = ttk.Radiobutton(
+    setup_window, text="Deutsch", variable=chosen_lang, value="Deutsch"
+)
+r3 = ttk.Radiobutton(
+    setup_window, text="English", variable=chosen_lang, value="English"
+)
+r1.grid(row=5, column=0)
+r2.grid(row=6, column=0)
+r3.grid(row=7, column=0)
+
+stop_it = Button(setup_window, text="Ok, Done", command=setup_window.destroy)
+stop_it.grid(row=8, column=0)
+
+setup_window.mainloop()
+my_units = select_unit(chosen_unit.get())
+my_lang = chosen_lang.get()
 my_msg = select_msgs(my_lang)
+
 
 my_defaults = set_my_defaults(my_units)
 write_setup_files(script_path)

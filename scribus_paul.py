@@ -17,13 +17,15 @@ object_info = namedtuple(
 def get_config_data(script_p):
     cfgpath = os.path.join(script_p, ".photobook", "phb.cfg")
     my_msg = {}
+    my_defaults = {}
     my_units = scribus.UNIT_MILLIMETERS
     with open(cfgpath, "rb") as file4cfg:
         my_lang = pickle.load(file4cfg)
         my_units = pickle.load(file4cfg)
         my_msg = pickle.load(file4cfg)
+        my_defaults = pickle.load(file4cfg)
 
-    return (my_lang, my_msg, my_units)
+    return (my_lang, my_msg, my_units, my_defaults)
 
 
 def check_doc_present():
@@ -132,7 +134,7 @@ def set_object_info(object_name, x, y, xs, ys, mleft, mright, mtop, mbottom, pag
     )
 
 
-def get_n_images_gutter(my_msg, xnp=2, ynp=3, g=3.0):
+def get_n_images_gutter(my_msg, xnp, ynp, gutter):
     x_n_picts = int(
         scribus.valueDialog(my_msg["ti_img_x"], my_msg["msg_img_x"], str(xnp))
     )
@@ -140,7 +142,7 @@ def get_n_images_gutter(my_msg, xnp=2, ynp=3, g=3.0):
         scribus.valueDialog(my_msg["ti_img_y"], my_msg["msg_img_y"], str(ynp))
     )
     gutter = float(
-        scribus.valueDialog(my_msg["ti_gutter"], my_msg["msg_gutter"], str(g))
+        scribus.valueDialog(my_msg["ti_gutter"], my_msg["msg_gutter"], str(gutter))
     )
     return (x_n_picts, y_n_picts, gutter)
 
@@ -153,8 +155,7 @@ def movesize(obj):
     scribus.lockObject(obj.name)
 
 
-def split_image(action, obj, x_n_picts=2, y_n_picts=3, gutter=1):
-    # action can be "resize" or "create"
+def split_image(action, obj, x_n_picts, y_n_picts, gutter):
     new_xs = pict_size1D(x_n_picts, 0, 0, gutter, obj.xs)
     new_ys = pict_size1D(y_n_picts, 0, 0, gutter, obj.ys)
     for nx in range(1, x_n_picts + 1):
@@ -172,7 +173,7 @@ def split_image(action, obj, x_n_picts=2, y_n_picts=3, gutter=1):
                 scribus.lockObject(image_name)
 
 
-def create_1_image(obj, x_n_picts=2, y_n_picts=3, gutter=1, nx=1, ny=1):
+def create_1_image(obj, x_n_picts, y_n_picts, gutter, nx, ny):
     new_xs = pict_size1D(x_n_picts, 0, 0, gutter, obj.xs)
     new_ys = pict_size1D(y_n_picts, 0, 0, gutter, obj.ys)
     xpict = pict_pos1D(nx, obj.x, new_xs, gutter)
@@ -193,14 +194,7 @@ def draw_list_of_images(images):
         create_image(*iter_image)  # expand image tuple iter_image to get 4 parameters
 
 
-def get_nlines_ratio(
-    my_msg,
-    n_lines=4,
-    ratio=1.5,
-    gutter=3.0,
-    direction="left2right",
-    aspect_type="constant",
-):
+def get_nlines_ratio(my_msg, n_lines, ratio, gutter, direction, aspect_type):
     n_lines = int(
         scribus.valueDialog(my_msg["ti_nlines"], my_msg["msg_nlines"], str(n_lines))
     )
@@ -220,7 +214,7 @@ def get_nlines_ratio(
 
 
 def make_list_of_asymmetric_images(
-    my_msg, obj, n_rows, ratio, gutter, direction="left2right", aspect_type="constant"
+    my_msg, obj, n_rows, ratio, gutter, direction, aspect_type
 ):
     def not_worthwile():
         scribus.messageBox(my_msg["ti_ratio_error"], my_msg["msg_ratio_error"])

@@ -3,7 +3,7 @@ from script_path import script_path
 import scribus_paul as sp
 
 sp.check_doc_present()
-my_lang, my_msg, my_units = sp.get_config_data(script_path)
+my_lang, my_msg, my_units, my_defaults = sp.get_config_data(script_path)
 initial_units = scribus.getUnit()
 scribus.setUnit(my_units)
 
@@ -12,11 +12,11 @@ page_available = sp.page_available(page)
 
 n_lines, ratio, gutter, direction, aspect_type = sp.get_nlines_ratio(
     my_msg,
-    n_lines=3,
-    ratio="4/3",
-    gutter=3.0,
-    direction="left2right",
-    aspect_type="constant",
+    my_defaults["asym_n-lines"],
+    my_defaults["asym_ratio"],
+    my_defaults["asym_gutter"],
+    my_defaults["asym_direction"],
+    my_defaults["asym_aspect"],
 )
 image_list = sp.make_list_of_asymmetric_images(
     my_msg, page_available, n_lines, ratio, gutter, direction, aspect_type

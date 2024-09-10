@@ -14,6 +14,46 @@ def set_defaults():
     return (script_path, chosen_lang, chosen_unit)
 
 
+def set_my_defaults(my_units):
+    my_defaults = {
+        "bleed": 5.0,
+        "xn": 2,
+        "yn": 3,
+        "gutter": 3,
+        "xn_split": 2,
+        "yn_split": 2,
+        "gutter_split": 1.0,
+        "asym_n-lines": 3,
+        "asym_ratio": "4/3",
+        "asym_gutter": 3.0,
+        "asym_direction": "left2right",
+        "asym_aspect": "constant",
+        "acta_gutter": 3.0,
+    }
+    conversion_factor = {
+        scribus.UNIT_CENTIMETRES: 0.1,
+        scribus.UNIT_INCHES: 1 / 25.4,
+        scribus.UNIT_POINTS: 1 / 25.4 * 72,
+        scribus.UNIT_PICAS: 1 / 25.4 * 6,
+        scribus.UNIT_CICERO: 1 / 4.51165812456,
+    }
+    n_digits4unit = {
+        # target a precision of 1/100 of a pt (300 dpi=>~ 4 dots/point)
+        scribus.UNIT_CENTIMETRES: 4,
+        scribus.UNIT_INCHES: 4,
+        scribus.UNIT_POINTS: 2,
+        scribus.UNIT_PICAS: 3,
+        scribus.UNIT_CICERO: 3,
+    }
+    if my_units != scribus.UNIT_MILLIMETERS:
+        for dkey in ("bleed", "gutter", "gutter_split", "asym_gutter", "acta_gutter"):
+            my_defaults[dkey] = round(
+                conversion_factor[my_units] * my_defaults[dkey], n_digits4unit[my_units]
+            )
+
+    return my_defaults
+
+
 def init_after_check_previous_config():
     # check whether previous config exists, if yes get data from it for initialization
     # if not initialize with default french values :-)
@@ -35,7 +75,7 @@ def init_after_check_previous_config():
         cfgpath = os.path.join(script_path, ".photobook", "phb.cfg")
         if os.path.isfile(cfgpath):
             # config file exist => read
-            my_lang, my_msg, my_units = get_config_data(script_path)
+            my_lang, my_msg, my_units, my_defaults = get_config_data(script_path)
             chosen_lang = StringVar(value=my_lang)
             chosen_unit = StringVar(value=int2Unit[my_units])
         else:
@@ -164,6 +204,20 @@ def changepath():
     return
 
 
+def write_setup_files(script_path):
+    # create python source file stating script_path for later import
+    dircfgpath = os.path.join(script_path, "script_path.py")
+    with open(dircfgpath, "w") as dirfile:
+        dirfile.write("script_path='" + script_path + "'")
+
+    cfgpath = os.path.join(script_path, ".photobook", "phb.cfg")
+    with open(cfgpath, "wb") as file4cfg:
+        pickle.dump(my_lang, file4cfg)
+        pickle.dump(my_units, file4cfg)
+        pickle.dump(my_msg, file4cfg)
+        pickle.dump(my_defaults, file4cfg)
+
+
 setup_window = Tk()
 setup_window.title("Setup photobook scripts for scribus")
 script_path, chosen_lang, chosen_unit = init_after_check_previous_config()
@@ -200,10 +254,7 @@ unit_choices = ttk.Combobox(
 )
 unit_choices["values"] = ("mm", "cm", "points", "inches", "picas", "ciceros")
 unit_choices.grid(row=3, column=0)
-# chosen_lang = StringVar(value="Français")
-# lang_choices = ttk.Combobox(setup_window, textvariable=chosen_lang)
-# lang_choices["values"] = ("Français", "English", "Deutsch")
-# lang_choices.grid(row=1, column=0)
+
 language_label = ttk.Label(
     setup_window,
     text="Please choose your preferred menu language: ",
@@ -232,13 +283,6 @@ my_units = select_unit(chosen_unit.get())
 my_lang = chosen_lang.get()
 my_msg = select_msgs(my_lang)
 
-# create python source file stating script_path for later import
-dircfgpath = os.path.join(script_path, "script_path.py")
-with open(dircfgpath, "w") as dirfile:
-    dirfile.write("script_path='" + script_path + "'")
 
-cfgpath = os.path.join(script_path, ".photobook", "phb.cfg")
-with open(cfgpath, "wb") as file4cfg:
-    pickle.dump(my_lang, file4cfg)
-    pickle.dump(my_units, file4cfg)
-    pickle.dump(my_msg, file4cfg)
+my_defaults = set_my_defaults(my_units)
+write_setup_files(script_path)

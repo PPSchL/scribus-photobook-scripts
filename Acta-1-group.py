@@ -3,10 +3,11 @@ from script_path import script_path
 import scribus_paul as sp
 import scribus_acta as sa
 
-
+my_lang, my_msg, my_units, my_defaults = sp.get_config_data(script_path)
 # get initial units and set units to mm
 initial_units = scribus.getUnit()
-my_lang, my_msg, my_units, my_defaults = sp.get_config_data(script_path)
+scribus.setUnit(my_units)
+
 gutter = my_defaults["acta_gutter"]
 # define group types as list, allowing access through index which will be requested from user=>less typing for user
 group_types = ["normal", "central", "double", "whole_page"]

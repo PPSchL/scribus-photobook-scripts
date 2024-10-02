@@ -9,7 +9,9 @@ scribus.setUnit(my_units)
 
 page = sp.get_page_info()
 page_available = sp.page_available(page)
-x_n_picts, y_n_picts, gutter = sp.get_n_images_gutter(my_msg, my_defaults)
+x_n_picts, y_n_picts, gutter = sp.get_n_images_gutter(
+    my_msg, my_defaults["xn"], my_defaults["yn"], my_defaults["gutter"]
+)
 nx, ny = sp.get_position4pict(my_msg, x_n_picts, y_n_picts)
 sp.create_1_image(page_available, x_n_picts, y_n_picts, gutter, nx, ny)
 

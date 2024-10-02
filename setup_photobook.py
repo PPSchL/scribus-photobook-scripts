@@ -13,20 +13,20 @@ def set_defaults():
 
 
 def set_my_defaults(my_units):
-    my_defaults = {
-        "bleed": 5.0,
-        "xn": 2,
-        "yn": 3,
+    my_defaults = {  # all distances in mm, convert to mm from your preferred unit
+        "bleed": 5.0,  # bleed, should be identical to the one defined in your scribus file
+        "xn": 2,  # number of images in x direction
+        "yn": 3,  # number of images in the y direction
         "gutter": 3,
-        "xn_split": 2,
-        "yn_split": 2,
-        "gutter_split": 1.0,
-        "asym_n-lines": 3,
+        "xn_split": 2,  # number of images in x direction for split-image
+        "yn_split": 2,  # number of images in y direction for split-image
+        "gutter_split": 1.0,  # gutter for split-image
+        "asym_n-lines": 3,  # number of lines for the asymmetric script
         "asym_ratio": "4/3",
         "asym_gutter": 3.0,
         "asym_direction": "left2right",
         "asym_aspect": "constant",
-        "acta_gutter": 3.0,
+        "acta_gutter": 3.0,  # gutter for the diary scripts
     }
     conversion_factor = {
         scribus.UNIT_CENTIMETRES: 0.1,

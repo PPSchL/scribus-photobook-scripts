@@ -7,7 +7,10 @@ As I live in France, I had some problems finding a photobook print service that 
 
 These photobook scripts are very simple and tailored to my specific way of working, therefore I do not accept collaboration on improving the scripts. You are obviously wellcome to fork or clone the repository, although if you are fluent in python programming you definitely do not need my scripts!
 ### installation
-- download all files from github resulting in a zip file (clock on code and select Download Zip): ![down-load menu](docs/img/download-zip.png)
+- download all files from github resulting in a zip file (click on the **<>Code** menu and select **Download Zip**):
+  
+  ![down-load menu](docs/img/download-zip.png)
+  
 - create a directory for scribus scripts at a convenient location
 - define this directory as scripts directory in scribus preferences
 - extract all files (including hidden directories and files) into this scripts directory
@@ -32,7 +35,9 @@ These photobook scripts are very simple and tailored to my specific way of worki
 - creates a page of same size photo frames within the margins defined in the scribus file
 - you have to enter the number of photos in width and height as well as the distance between photos
 - once the page is created, you can use the other scripts like split-image or combine-images to alter the page to your taste.
-- example:![standard page](docs/img/photobook-standard.png)
+- example:
+  
+  ![standard page](docs/img/photobook-standard.png)
 
 #### photobook-1-image
 - complement to photobook-page, but only creates 1 image at the coordinates you specify
@@ -61,10 +66,14 @@ These photobook scripts are very simple and tailored to my specific way of worki
 - by default, gutter is set to 0, but this can be changed
 - run the script, then enter the number of photos in width and height as well as the distance between photos
 - example of a page :
-- ![page using bleed](docs/img/with-bleed.png)
+- 
+  ![page using bleed](docs/img/with-bleed.png)
 
 #### photobook-page-asymmetric
-- this script creates a page where the photos are not all of the same size, it is a handy way to quickly create a page with a mixture of landscape and portrait photos. Here is an example:![standard assymetric page](docs/img/asymmetric.png)
+- this script creates a page where the photos are not all of the same size, it is a handy way to quickly create a page with a mixture of landscape and portrait photos. Here is an example:
+  
+  ![standard assymetric page](docs/img/asymmetric.png)
+
 - run the script, then enter the number of picture lines (with one photo for which you specify the image ratio, and another photo filling up the remaining space on the line)
 - enter the image ratio for the first photo, eg standard 35 mm ratio=3/2 or 1.5, micro-four thirds: 4/3 or 1.33. You can enter the value as a ratio (eg 3/2), or a real number (eg 1.5). You can enter any ratio as long as the picture width does not increase beyond the page size or the complementary portrait photo does not become to oblong (ratio>2); You can also specify an image ratio<1 to obtain a portrait as the first picture, but this effect can be obtained differently (see below)
 - enter the gutter (distance between images)
@@ -74,6 +83,7 @@ These photobook scripts are very simple and tailored to my specific way of worki
 
   and compare with the standard above
 - enter the page type, ie either all image lines are identical (constant) or the landscape/portait and portrait/landscape page alternate (alternate). See an example for alternate here: 
+  
   ![alternate](docs/img/alternate.png)
 
 ### use for photodiary creation
@@ -86,12 +96,14 @@ These photobook scripts are very simple and tailored to my specific way of worki
 
 #### Acta-new-page
 - creates a page of three photos and text frames, eg three days of diary:
+  
   ![diary page](docs/img/diary-standard.png)
 
 #### acta-1-group
 - creates a group for a single day, you will have to specify where on the page it is to be created (top (1), middle (2), or bottom (3))
 - you can create a standard day group, 
   - a day with central text (instead of left or right text)
+- 
   ![central text](docs/img/diary-central.png)
   
   or 

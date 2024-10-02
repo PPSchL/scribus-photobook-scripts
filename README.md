@@ -5,9 +5,9 @@ I started this collection of scripts because I became frustrated with the photob
 
 As I live in France, I had some problems finding a photobook print service that accepts pdf files. I finally found [flexilivres](https://www.flexilivre.com/fichier/), which gives me good results (I am not linked to them in any way, and do not endorse them, I just provide this information for your convenience). I found that they apparently convert PDF pages to image files, so you may be able to manually use a similar approach to use other print services with pdf files.
 
-These photobook scripts are very simple and tailored to my specific way of working, therefore I do not encourage collaboration on improving the scripts. You are obviously wellcome to fork the repository, although if you are fluent in python programming you definitely do not need my scripts!
+These photobook scripts are very simple and tailored to my specific way of working, therefore I do not accept collaboration on improving the scripts. You are obviously wellcome to fork or clone the repository, although if you are fluent in python programming you definitely do not need my scripts!
 ### installation
-- download all files from github resulting in a zip file
+- download all files from github resulting in a zip file (clock on code and select Download Zip): ![down-load menu](docs/img/download-zip.png)
 - create a directory for scribus scripts at a convenient location
 - define this directory as scripts directory in scribus preferences
 - extract all files (including hidden directories and files) into this scripts directory
@@ -60,15 +60,21 @@ These photobook scripts are very simple and tailored to my specific way of worki
 - creates a page without margins. Images/photo edges are aligned with the outer border of the bleed, ie the bleed area will be cut during printing to obtain a page without a margin at all. Make sure no important part of your photos is within the bleed.
 - by default, gutter is set to 0, but this can be changed
 - run the script, then enter the number of photos in width and height as well as the distance between photos
-- example of a page : ![page using bleed](docs/img/with-bleed.png)
+- example of a page :
+- ![page using bleed](docs/img/with-bleed.png)
 
 #### photobook-page-asymmetric
 - this script creates a page where the photos are not all of the same size, it is a handy way to quickly create a page with a mixture of landscape and portrait photos. Here is an example:![standard assymetric page](docs/img/asymmetric.png)
 - run the script, then enter the number of picture lines (with one photo for which you specify the image ratio, and another photo filling up the remaining space on the line)
 - enter the image ratio for the first photo, eg standard 35 mm ratio=3/2 or 1.5, micro-four thirds: 4/3 or 1.33. You can enter the value as a ratio (eg 3/2), or a real number (eg 1.5). You can enter any ratio as long as the picture width does not increase beyond the page size or the complementary portrait photo does not become to oblong (ratio>2); You can also specify an image ratio<1 to obtain a portrait as the first picture, but this effect can be obtained differently (see below)
 - enter the gutter (distance between images)
-- enter the direction, ie left2right (default) or right2left: right2left will put the complementary picture first eg see this example! ![right2left](docs/img/right2left.png) and compare with the standard above
-- enter the page type, ie either all image lines are identical (constant) or the landscape/portait and portrait/landscape page alternate (alternate). See an example for alternate here: ![alternate](docs/img/alternate.png)
+- enter the direction, ie left2right (default) or right2left: right2left will put the complementary picture first eg see this example:
+
+  ![right2left](docs/img/right2left.png)
+
+  and compare with the standard above
+- enter the page type, ie either all image lines are identical (constant) or the landscape/portait and portrait/landscape page alternate (alternate). See an example for alternate here: 
+  ![alternate](docs/img/alternate.png)
 
 ### use for photodiary creation
 
@@ -79,19 +85,31 @@ These photobook scripts are very simple and tailored to my specific way of worki
 - these scripts use a "base" definition of what a generic "day" group should look like. If you change anything (eg color,font) in this "base" file it will change in the resulting photobook from that change point onwards. This is a convenient way to change the look of the resulting photodiary. This file is located in the .photobook hidden directory within the script directory and is called "Annales_base.sla". It is a standard scribus file. You may have to change your operating system preferences to see the hidden directory (under gnome file manger: ctrl-h)
 
 #### Acta-new-page
-- creates a page of three photos and text frames, eg three days of diary: ![diary page](docs/img/diary-standard.png)
+- creates a page of three photos and text frames, eg three days of diary:
+  ![diary page](docs/img/diary-standard.png)
 
 #### acta-1-group
 - creates a group for a single day, you will have to specify where on the page it is to be created (top (1), middle (2), or bottom (3))
 - you can create a standard day group, 
   - a day with central text (instead of left or right text)
-  ![central text](docs/img/diary-central.png) , or 
-  - a bigger group for more photos/day taking up the space for 2 days (double) 
-  ![eg double](docs/img/diary-double.png) or 
-  - three days (whole page) 
-  ![eg whole page](docs/img/diary-whole-page.png)
+  ![central text](docs/img/diary-central.png)
+  
+  or 
+
+  - a bigger group for more photos/day taking up the space for 2 days (double)
+  
+    ![eg double](docs/img/diary-double.png)
+    
+    or
+
+  - three days (whole page)
+   
+    ![eg whole page](docs/img/diary-whole-page.png)
+
 - play with it and the use of each option will quickly become obvious
-- you can then create different types pages: eg a page with double space at the top (position 1), and simple central text at the bottom (position 3) ![diary example page](docs/img/diary-example.png)
+- you can then create different types pages: eg a page with double space at the top (position 1), and simple central text at the bottom (position 3)
+  
+  ![diary example page](docs/img/diary-example.png)
 
 ### More advanced personalization
 I have not yet added the possibility to define the default distance between images (gutter) through the setup scripts. The present values are my preferred defaults and can be changed when running the scripts. In order to change the default values, right now you will have to change the code in the setup_photobook.py file.
@@ -103,6 +121,6 @@ How-to:
 
 ### For those looking at the source code
 - Sorry, not everything is correctly commented yet. Well, actually most functions are not commented at all (yes, I know!)
-- scribus_acta, coming later, is better commented, but ok, I will comment the main module scribus_paul shortly ;-)
+- scribus_acta, coming later, is better commented, but ok, I absolutely will comment the main module scribus_paul shortly ;-)
 
 

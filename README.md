@@ -133,6 +133,6 @@ How-to:
 
 ### For those looking at the source code
 - Sorry, not everything is correctly commented yet. Well, actually most functions are not commented at all (yes, I know!)
-- scribus_acta, coming later, is better commented, but ok, I absolutely will comment the main module scribus_paul shortly ;-)
+- scribus_acta,  being more recent, is better commented, but ok, I absolutely will comment the main module scribus_paul shortly ;-)
 
 

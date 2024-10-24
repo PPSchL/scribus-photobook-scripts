@@ -13,6 +13,16 @@ object_info = namedtuple(
     ["name", "x", "y", "xs", "ys", "mleft", "mright", "mtop", "mbottom", "page_type"],
 )
 
+""" frame_rc specifies the parameters that completely define the form and position of any frame in a coordinate system
+defined by the number of columns (c) and rows (r). Each frame will have a size defined by the number of columns and rows
+it occupies and a position defined by the column and row it starts at (starting from 1, top left will be c=1, r=1).
+The advantage of this system is that it is independent of page size
+"""
+frame_rc = namedtuple(
+    "frame_rc",
+    ["c", "r", "x_rc", "y_rc", "xs_rc", "ys_rc"],
+)
+
 
 def get_config_data(script_p):
     cfgpath = os.path.join(script_p, ".photobook", "phb.cfg")
@@ -98,6 +108,16 @@ def page_with_bleed(page, bleed):
     )
 
 
+def get_orientation(area):  # area must be an object like a page or drawing area
+    if area.xs / area.ys > 1.1:
+        orientation = "Landscape"
+    elif area.xs / area.ys < (1 / 1.1):
+        orientation = "Portrait"
+    else:
+        orientation = "Square"
+    return orientation
+
+
 def get_object_info(object_name):
     obj_size = scribus.getSize(object_name)
     xs = obj_size[0]
@@ -132,6 +152,19 @@ def set_object_info(object_name, x, y, xs, ys, mleft, mright, mtop, mbottom, pag
         mbottom=0.0,
         page_type=0,
     )
+
+
+def rc2xy(rc, area, gutter):
+    def rc2size(size_rc, unit_rc, gutter):
+        return size_rc * unit_rc + (size_rc - 1) * gutter
+
+    unit_xs = pict_size1D(rc.c, 0, 0, gutter, area.xs)
+    unit_ys = pict_size1D(rc.r, 0, 0, gutter, area.ys)
+    xs = rc2size(rc.xs_rc, unit_xs, gutter)
+    ys = rc2size(rc.ys_rc, unit_ys, gutter)
+    x = pict_pos1D(rc.x_rc, area.x, unit_xs, gutter)
+    y = pict_pos1D(rc.y_rc, area.y, unit_ys, gutter)
+    return (x, y, xs, ys)
 
 
 def get_n_images_gutter(my_msg, xnp, ynp, gutter):

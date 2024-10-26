@@ -1,9 +1,10 @@
+# import scribus
 import os
-import scribus
+import script_path
 from collections import namedtuple
 from script_path import script_path
-import scribus_paul as sp
-from scribus_paul import frame_rc, rc2xy
+# import scribus_paul as sp
+# from scribus_paul import frame_rc, rc2xy
 
 from tkinter import *
 from tkinter.ttk import *
@@ -15,6 +16,10 @@ from tkinter.ttk import *
 # the named tuple layout_rc  will then be used as key in the dictionary of all possible layouts as a list of frame_rc frame specifications
 # the chosen layout can then be drawn by recalculating the positions and sizes as a function of page and gutter (plus maybe bleed) sizes
 layout_rc = namedtuple("layout_rc", ["name", "L", "P", "S", "n"])
+frame_rc = namedtuple(
+    "frame_rc",
+    ["c", "r", "x_rc", "y_rc", "xs_rc", "ys_rc"],
+)
 
 
 def draw_layout(layout, area, gutter):
@@ -69,16 +74,40 @@ layouts = {
     ],
 }
 
+
+def rc2xy(rc, area, gutter):
+    def rc2size(size_rc, unit_rc, gutter):
+        return size_rc * unit_rc + (size_rc - 1) * gutter
+
+    unit_xs = pict_size1D(rc.c, 0, 0, gutter, area.xs)
+    unit_ys = pict_size1D(rc.r, 0, 0, gutter, area.ys)
+    xs = rc2size(rc.xs_rc, unit_xs, gutter)
+    ys = rc2size(rc.ys_rc, unit_ys, gutter)
+    x = pict_pos1D(rc.x_rc, area.x, unit_xs, gutter)
+    y = pict_pos1D(rc.y_rc, area.y, unit_ys, gutter)
+    return (x, y, xs, ys)
+
+
+def get_orientation(area):  # area must be an object like a page or drawing area
+    if area.xs / area.ys > 1.1:
+        orientation = "Landscape"
+    elif area.xs / area.ys < (1 / 1.1):
+        orientation = "Portrait"
+    else:
+        orientation = "Square"
+    return orientation
+
+
 # take care of Units and initialize default values
-sp.check_doc_present()
-my_lang, my_msg, my_units, my_defaults = sp.get_config_data(script_path)
-initial_units = scribus.getUnit()
-scribus.setUnit(my_units)
+# sp.check_doc_present()
+# my_lang, my_msg, my_units, my_defaults = sp.get_config_data(script_path)
+# initial_units = scribus.getUnit()
+# scribus.setUnit(my_units)
 # get page information from scribus
-gutter = my_defaults["gutter"]
-page = sp.get_page_info()
-area = sp.page_available(page)
-orientation = sp.get_orientation(area)
+gutter = 3
+# page = sp.get_page_info()
+# area = sp.page_available(page)
+orientation = "Landscape"
 
 
 # construct generator for the layouts corresponding to the request
@@ -95,39 +124,6 @@ def filter_layouts(L, P, S, layouts):
     return selected_layouts
 
 
-# def filter_similar(L, P, S, layouts, LPSpriority):
-#     # select layputs with the same number of either L, P or S photos (depending on LPSpriority)
-#     # but allow the o
-#     # but any that change one L or P to S, or keep P+L constant in case of priority to S
-#     if LPSpriority == "L":
-#         LPScompare_p = "l_key.L"
-#         LPScomparep = L
-#         LPScompare_np = "l_key.P+l_key.)"
-#         LPScomparenp = P + S
-#         # LPScompare_np = "(l_key.P,l_key.S)"
-#         # LPScomparenp = (P - 1, S + 1)
-#     elif LPSpriority == "P":
-#         LPScompare_p = "l_key.P"
-#         LPScomparep = P
-#         LPScompare_np = "l_key.L+l_key.S"
-#         LPScomparenp = L + S
-#         # LPScompare_np = "(l_key.L,l_key.S)"
-#         # LPScomparenp = (L - 1, S + 1)
-#     else:  # LPSpriority="S"
-#         LPScompare_p = "l_key.S"
-#         LPScomparep = S
-#         LPScompare_np = "l_key.P+l_key.L"
-#         LPScomparenp = L + P
-#     selected_layouts = (
-#         l_key
-#         for l_key in layouts.keys()
-#         if (
-#             (l_key.L, l_key.P, l_key.S) != (L, P, S)
-#             and (eval(LPScompare_p) == LPScomparep)
-#             and (eval(LPScompare_np) == LPScomparenp)
-#         )
-#     )
-#     return selected_layouts
 def filter_similar(L, P, S, layouts, LPSpriority):
     if LPSpriority == "L":
         LPScompare_p = "l_key.L"
@@ -183,8 +179,8 @@ def select_draw(L, P, S, layouts, orientation):
                     layouts[lkey], area, gutter
                 ),  # lambda lkey=lkey makes sure lkey is assigned the value of the key, not the last generated value
             )
-            button_dict[lkey].grid(row=button_r, column=button_c)
-            button_c += 1
+        button_dict[lkey].grid(row=button_r, column=button_c)
+        button_c += 1
 
     choose_layout = Toplevel(
         main_window,
@@ -250,6 +246,7 @@ def select_draw(L, P, S, layouts, orientation):
     same_total_label = Label(choose_layout, text="All with same number of pictures")
     same_total_label.grid(row=button_r, column=0)
     button_r += 1
+    button_c = 0
     same_total = filter_same_total(L, P, S, layouts)
     draw_buttons(same_total, button_r, choose_layout)
     # draw_buttons_same_total = {}
@@ -290,20 +287,6 @@ L_number = StringVar(value="0")
 P_number = StringVar(value="6")
 S_number = StringVar(value="0")
 
-
-if orientation == "Portrait":
-    prefix = "P-"
-elif orientation == "Landscape":
-    prefix = "L-"
-else:  # orientation=square
-    prefix = "S-"
-button_imgs = {}
-for lkey in layouts.keys():
-    button_imgs[lkey] = PhotoImage(
-        file=os.path.join(
-            script_path, "docs", "img", "".join([prefix, lkey.name, ".gif"])
-        )
-    )
 
 explication = Label(
     main_frame,
@@ -361,4 +344,4 @@ main_window.mainloop()
 
 
 # end of Tkinter loop
-scribus.setUnit(initial_units)
+# scribus.setUnit(initial_units)

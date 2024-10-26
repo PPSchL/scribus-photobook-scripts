@@ -17,13 +17,6 @@ from tkinter.ttk import *
 layout_rc = namedtuple("layout_rc", ["name", "L", "P", "S", "n"])
 
 
-def draw_layout(layout, area, gutter):
-    for frame_i in layout:
-        sp.create_image(*rc2xy(frame_i, area, gutter))
-    main_window.destroy()
-    return
-
-
 layouts = {
     layout_rc(name="L0P4S0-1", L=0, P=4, S=0, n=1): [
         frame_rc(c=2, r=2, x_rc=1, y_rc=1, xs_rc=1, ys_rc=1),
@@ -76,6 +69,13 @@ layouts = {
         frame_rc(c=3, r=3, x_rc=3, y_rc=3, xs_rc=1, ys_rc=1),
     ],
 }
+
+
+def draw_layout(main_window, layout, area, gutter):
+    for frame_i in layout:
+        sp.create_image(*rc2xy(frame_i, area, gutter))
+    main_window.destroy()
+    return
 
 
 def filter_layouts(L, P, S, layouts):
@@ -160,7 +160,7 @@ def filter_same_total(L, P, S, layouts):
     return selected_layouts
 
 
-def select_draw(L, P, S, layouts, orientation):
+def select_draw(main_window, button_imgs, L, P, S, layouts, orientation):
     def draw_buttons(filtered_layouts, button_r, selection_window):
         button_dict = {}
         button_c = 0
@@ -171,7 +171,7 @@ def select_draw(L, P, S, layouts, orientation):
                 image=button_imgs[lkey],
                 compound="image",
                 command=lambda lkey=lkey: draw_layout(
-                    layouts[lkey], area, gutter
+                    main_window, layouts[lkey], area, gutter
                 ),  # lambda lkey=lkey makes sure lkey is assigned the value of the key, not the last generated value
             )
             button_dict[lkey].grid(row=button_r, column=button_c)
@@ -236,6 +236,110 @@ def select_draw(L, P, S, layouts, orientation):
     stop_top.grid(row=button_r, columnspan=10, sticky="nsew")
 
 
+def build_frames(area, layouts, gutter):
+    orientation = sp.get_orientation(area)
+
+    # *** tkinter loop
+    main_window = Tk()
+    style = Style()
+    style.theme_use("classic")
+    # style.configure("choosel.TFrame", background="DeepSkyBlue")
+    main_window.title("Build complex photo page")
+    main_frame = Frame(main_window, padding="2 2 4 4")
+    main_frame.grid(column=0, row=0, sticky=(N, W, E, S))
+    main_window.columnconfigure(0, weight=1)
+    main_window.rowconfigure(0, weight=1)
+
+    L_number = StringVar(value="0")
+    P_number = StringVar(value="6")
+    S_number = StringVar(value="0")
+
+    # determine screen size to adapt button size to screen size, right now only for hd-type or 4K displays
+    screen_width = main_window.winfo_screenwidth()
+    if screen_width < 2000:
+        screen_type = "hd"
+    else:
+        screen_type = "4K"
+    # determine page orientation to adapt layouts
+    if orientation == "Portrait":
+        prefix = "P-"
+    elif orientation == "Landscape":
+        prefix = "L-"
+    else:  # orientation=square
+        prefix = "S-"
+    # have to create dictionary of button images before calling the button drawing function because only way to keep the images after
+    # the drawing functions ends (garbage collection of local variables)
+    # used prefix for orientation and screen_type from determinations above
+    button_imgs = {}
+    for lkey in layouts.keys():
+        button_imgs[lkey] = PhotoImage(
+            file=os.path.join(
+                script_path,
+                "docs",
+                "img",
+                screen_type,
+                "".join([prefix, lkey.name, ".gif"]),
+            )
+        )
+
+    explication = Label(
+        main_frame,
+        text="Please enter the number of Landscape, Portrait and Square photographs",
+    )
+    explication.grid(row=0, column=0)
+
+    L_number_label = Label(main_frame, text="Landscape")
+    L_number_label.grid(row=1, column=0)
+    L_number_e = Entry(main_frame, textvariable=L_number)
+    L_number_e.grid(row=2, column=0)
+
+    P_number_label = Label(main_frame, text="Portrait")
+    P_number_label.grid(row=1, column=1)
+    P_number_e = Entry(main_frame, textvariable=P_number)
+    P_number_e.grid(row=2, column=1)
+    P_number.trace_add(
+        "write",
+        lambda: select_draw(
+            main_window,
+            button_imgs,
+            eval(L_number_e.get()),
+            eval(P_number_e.get()),
+            eval(S_number_e.get()),
+            layouts,
+            orientation,
+        ),
+    )
+
+    S_number_label = Label(main_frame, text="Square")
+    S_number_label.grid(row=1, column=2)
+    S_number_e = Entry(main_frame, textvariable=S_number)
+    S_number_e.grid(row=2, column=2)
+
+    do_it = Button(
+        main_frame,
+        text="Ok, show potenial layouts",
+        command=lambda: select_draw(
+            main_window,
+            button_imgs,
+            eval(L_number_e.get()),
+            eval(P_number_e.get()),
+            eval(S_number_e.get()),
+            layouts,
+            orientation,
+        ),
+    )
+    do_it.grid(row=8, column=0)
+
+    stop_it = Button(
+        main_frame, text="Finished, close all", command=main_window.destroy
+    )
+    stop_it.grid(row=8, column=1)
+
+    main_window.mainloop()
+    # end of Tkinter loop
+
+
+# def main():
 # take care of Units and initialize default values
 sp.check_doc_present()
 my_lang, my_msg, my_units, my_defaults = sp.get_config_data(script_path)
@@ -245,109 +349,9 @@ scribus.setUnit(my_units)
 gutter = my_defaults["gutter"]
 page = sp.get_page_info()
 area = sp.page_available(page)
-orientation = sp.get_orientation(area)
 
+build_frames(area, layouts, gutter)
 
-# *** tkinter loop
-main_window = Tk()
-style = Style()
-style.theme_use("classic")
-# style.configure("choosel.TFrame", background="DeepSkyBlue")
-main_window.title("Build complex photo page")
-main_frame = Frame(main_window, padding="2 2 4 4")
-main_frame.grid(column=0, row=0, sticky=(N, W, E, S))
-main_window.columnconfigure(0, weight=1)
-main_window.rowconfigure(0, weight=1)
-
-
-L_number = StringVar(value="0")
-P_number = StringVar(value="6")
-S_number = StringVar(value="0")
-
-# determine screen size to adapt button size to screen size, right now only for hd-type or 4K displays
-screen_width = main_window.winfo_screenwidth()
-if screen_width < 2000:
-    screen_type = "hd"
-else:
-    screen_type = "4K"
-# determine page orientation to adapt layouts
-if orientation == "Portrait":
-    prefix = "P-"
-elif orientation == "Landscape":
-    prefix = "L-"
-else:  # orientation=square
-    prefix = "S-"
-# have to create dictionary of button images before calling the button drawing function because only way to keep the images after
-# the drawing functions ends (garbage collection of local variables)
-# used prefix for orientation and screen_type from determinations above
-button_imgs = {}
-for lkey in layouts.keys():
-    button_imgs[lkey] = PhotoImage(
-        file=os.path.join(
-            script_path,
-            "docs",
-            "img",
-            screen_type,
-            "".join([prefix, lkey.name, ".gif"]),
-        )
-    )
-
-explication = Label(
-    main_frame,
-    text="Please enter the number of Landscape, Portrait and Square photographs",
-)
-explication.grid(row=0, column=0)
-
-L_number_label = Label(main_frame, text="Landscape")
-L_number_label.grid(row=1, column=0)
-L_number_e = Entry(main_frame, textvariable=L_number)
-L_number_e.grid(row=2, column=0)
-
-P_number_label = Label(main_frame, text="Portrait")
-P_number_label.grid(row=1, column=1)
-P_number_e = Entry(main_frame, textvariable=P_number)
-P_number_e.grid(row=2, column=1)
-P_number.trace_add(
-    "write",
-    lambda: select_draw(
-        eval(L_number_e.get()),
-        eval(P_number_e.get()),
-        eval(S_number_e.get()),
-        layouts,
-        orientation,
-    ),
-)
-
-S_number_label = Label(main_frame, text="Square")
-S_number_label.grid(row=1, column=2)
-S_number_e = Entry(main_frame, textvariable=S_number)
-S_number_e.grid(row=2, column=2)
-
-
-do_it = Button(
-    main_frame,
-    text="Ok, show potenial layouts",
-    command=lambda: select_draw(
-        eval(L_number_e.get()),
-        eval(P_number_e.get()),
-        eval(S_number_e.get()),
-        layouts,
-        orientation,
-    ),
-)
-do_it.grid(row=8, column=0)
-# select_draw(
-#     eval(L_number_e.get()), eval(P_number_e.get()), eval(S_number_e.get()), layouts
-# )
-
-stop_it = Button(main_frame, text="Finished, close all", command=main_window.destroy)
-stop_it.grid(row=8, column=1)
-
-
-main_window.mainloop()
-
-
-# end of Tkinter loop
 scribus.setUnit(initial_units)
 
 

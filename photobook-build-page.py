@@ -67,24 +67,15 @@ layouts = {
         frame_rc(c=2, r=4, x_rc=1, y_rc=4, xs_rc=1, ys_rc=1),
         frame_rc(c=2, r=4, x_rc=2, y_rc=3, xs_rc=1, ys_rc=2),
     ],
+    layout_rc(name="L3P3S0-1", L=3, P=3, S=0, n=1): [
+        frame_rc(c=3, r=3, x_rc=1, y_rc=1, xs_rc=2, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=2, xs_rc=2, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=3, xs_rc=2, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=3, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=3, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=3, y_rc=3, xs_rc=1, ys_rc=1),
+    ],
 }
-
-# take care of Units and initialize default values
-sp.check_doc_present()
-my_lang, my_msg, my_units, my_defaults = sp.get_config_data(script_path)
-initial_units = scribus.getUnit()
-scribus.setUnit(my_units)
-# get page information from scribus
-gutter = my_defaults["gutter"]
-page = sp.get_page_info()
-area = sp.page_available(page)
-orientation = sp.get_orientation(area)
-
-
-# construct generator for the layouts corresponding to the request
-# selected_layouts = (l_key for l_key in layouts.keys() if (l_key.L, l_key.P) == (L, P))
-# for lkey in selected_layouts:
-#     draw_layout(layouts[lkey], area, gutter)
 
 
 def filter_layouts(L, P, S, layouts):
@@ -185,6 +176,10 @@ def select_draw(L, P, S, layouts, orientation):
             )
             button_dict[lkey].grid(row=button_r, column=button_c)
             button_c += 1
+        if button_c > 0:
+            return "success"
+        else:
+            return "no layouts"
 
     choose_layout = Toplevel(
         main_window,
@@ -193,7 +188,7 @@ def select_draw(L, P, S, layouts, orientation):
     x0 = main_window.winfo_x()
     y0 = main_window.winfo_y()
     choose_layout.geometry("+%d+%d" % (x0 + 20, y0 + 100))
-    # choose_frame = Frame(choose_layout)
+    # TODO choose_frame = Frame(choose_layout)
     # choose_frame.grid(column=0, row=0, sticky=(N, W, E, S))
     # choose_layout.columnconfigure(0, weight=1)
     # choose_layout.rowconfigure(0, weight=1)
@@ -209,63 +204,29 @@ def select_draw(L, P, S, layouts, orientation):
     else:  # orientation=square TODO
         pass
     button_r = 2
-    draw_buttons(ok_layouts, button_r, choose_layout)
-    # button_c = 0
-    # for lkey in ok_layouts:
-    #     draw_buttons[lkey] = Button(
-    #         choose_layout,
-    #         text=lkey.name,
-    #         command=lambda lkey=lkey: draw_layout(
-    #             layouts[lkey], area, gutter
-    #         ),  # lambda lkey=lkey makes sure lkey is assigned the value of the key, not the last generated value
-    #     )
-    #     draw_buttons[lkey].grid(row=button_r, column=button_c)
-    #     button_c += 1
-    # similar layouts
-    button_r += 1
-    similar_label = Label(choose_layout, text="Approximate correspondance")
-    similar_label.grid(row=button_r, column=0)
-    for or_i in ("L", "P", "S"):
-        if orientation == "Portrait":
-            similar_layouts = filter_similar(L, P, S, layouts, or_i)
-        elif orientation == "Landscape":
-            similar_layouts = filter_similar(P, L, S, layouts, or_i)
-        else:  # orientation=square TODO
-            pass
-        # draw_buttons_similar = {}
-        button_r += 2
-        draw_buttons(similar_layouts, button_r, choose_layout)
-        # button_c = 0
-        # for lkey in similar_layouts:
-        #     draw_buttons_similar[lkey] = Button(
-        #         choose_layout,
-        #         text=lkey.name,
-        #         command=lambda lkey=lkey: draw_layout(
-        #             layouts[lkey], area, gutter
-        #         ),  # lambda lkey=lkey makes sure lkey is assigned the value of the key, not the last generated value
-        #     )
-        #     draw_buttons_similar[lkey].grid(row=button_r, column=button_c)
-        #     button_c += 1
-    button_r += 1
-    same_total_label = Label(choose_layout, text="All with same number of pictures")
-    same_total_label.grid(row=button_r, column=0)
-    button_r += 1
-    same_total = filter_same_total(L, P, S, layouts)
-    draw_buttons(same_total, button_r, choose_layout)
-    # draw_buttons_same_total = {}
-    # for lkey in same_total:
-    #     draw_buttons_same_total[lkey] = Button(
-    #         choose_layout,
-    #         text=lkey.name,
-    #         image=button_imgs[lkey],
-    #         # image=draw_buttons_same_total_image[lkey],
-    #         compound="image",
-    #         command=lambda lkey=lkey: draw_layout(
-    #             layouts[lkey], area, gutter
-    #         ),  # lambda lkey=lkey makes sure lkey is assigned the value of the key, not the last generated value
-    #     )
-    #     draw_buttons_same_total[lkey].grid(row=button_r, column=button_c)
-    #     button_c += 1
+    # draw the buttons and simultaneously test for success
+    if draw_buttons(ok_layouts, button_r, choose_layout) != "success":
+        # only propose similar layouts if perfect fit does not exist
+        button_r += 1
+        similar_label = Label(choose_layout, text="Approximate correspondance")
+        similar_label.grid(row=button_r, column=0)
+        for or_i in ("L", "P", "S"):
+            if orientation == "Portrait":
+                similar_layouts = filter_similar(L, P, S, layouts, or_i)
+            elif orientation == "Landscape":
+                similar_layouts = filter_similar(P, L, S, layouts, or_i)
+            else:  # orientation=square TODO
+                pass
+            button_r += 2
+            draw_buttons(similar_layouts, button_r, choose_layout)
+
+        button_r += 1
+        same_total_label = Label(choose_layout, text="All with same number of pictures")
+        same_total_label.grid(row=button_r, column=0)
+        button_r += 1
+        same_total = filter_same_total(L, P, S, layouts)
+        draw_buttons(same_total, button_r, choose_layout)
+
     button_r += 1
     stop_top = Button(
         choose_layout,
@@ -273,6 +234,18 @@ def select_draw(L, P, S, layouts, orientation):
         command=choose_layout.destroy,
     )
     stop_top.grid(row=button_r, columnspan=10, sticky="nsew")
+
+
+# take care of Units and initialize default values
+sp.check_doc_present()
+my_lang, my_msg, my_units, my_defaults = sp.get_config_data(script_path)
+initial_units = scribus.getUnit()
+scribus.setUnit(my_units)
+# get page information from scribus
+gutter = my_defaults["gutter"]
+page = sp.get_page_info()
+area = sp.page_available(page)
+orientation = sp.get_orientation(area)
 
 
 # *** tkinter loop
@@ -286,22 +259,36 @@ main_frame.grid(column=0, row=0, sticky=(N, W, E, S))
 main_window.columnconfigure(0, weight=1)
 main_window.rowconfigure(0, weight=1)
 
+
 L_number = StringVar(value="0")
 P_number = StringVar(value="6")
 S_number = StringVar(value="0")
 
-
+# determine screen size to adapt button size to screen size, right now only for hd-type or 4K displays
+screen_width = main_window.winfo_screenwidth()
+if screen_width < 2000:
+    screen_type = "hd"
+else:
+    screen_type = "4K"
+# determine page orientation to adapt layouts
 if orientation == "Portrait":
     prefix = "P-"
 elif orientation == "Landscape":
     prefix = "L-"
 else:  # orientation=square
     prefix = "S-"
+# have to create dictionary of button images before calling the button drawing function because only way to keep the images after
+# the drawing functions ends (garbage collection of local variables)
+# used prefix for orientation and screen_type from determinations above
 button_imgs = {}
 for lkey in layouts.keys():
     button_imgs[lkey] = PhotoImage(
         file=os.path.join(
-            script_path, "docs", "img", "".join([prefix, lkey.name, ".gif"])
+            script_path,
+            "docs",
+            "img",
+            screen_type,
+            "".join([prefix, lkey.name, ".gif"]),
         )
     )
 
@@ -362,3 +349,7 @@ main_window.mainloop()
 
 # end of Tkinter loop
 scribus.setUnit(initial_units)
+
+
+# if __name__ == "__main__":
+#     main()

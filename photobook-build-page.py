@@ -3,7 +3,7 @@ import scribus
 from collections import namedtuple
 from script_path import script_path
 import scribus_paul as sp
-from scribus_paul import frame_rc, rc2xy
+from scribus_paul import frame_rc, rc2xy, get_unit_string
 
 from tkinter import *
 from tkinter.ttk import *
@@ -15,7 +15,6 @@ from tkinter.ttk import *
 # the named tuple layout_rc  will then be used as key in the dictionary of all possible layouts as a list of frame_rc frame specifications
 # the chosen layout can then be drawn by recalculating the positions and sizes as a function of page and gutter (plus maybe bleed) sizes
 layout_rc = namedtuple("layout_rc", ["name", "L", "P", "S", "n"])
-
 
 layouts = {
     layout_rc(name="L0P4S0-1", L=0, P=4, S=0, n=1): [
@@ -71,10 +70,10 @@ layouts = {
 }
 
 
-def draw_layout(main_window, layout, area, gutter):
+def draw_layout(root, layout, area, gutter):
     for frame_i in layout:
         sp.create_image(*rc2xy(frame_i, area, gutter))
-    main_window.destroy()
+    root.destroy()
     return
 
 
@@ -86,39 +85,6 @@ def filter_layouts(L, P, S, layouts):
     return selected_layouts
 
 
-# def filter_similar(L, P, S, layouts, LPSpriority):
-#     # select layputs with the same number of either L, P or S photos (depending on LPSpriority)
-#     # but allow the o
-#     # but any that change one L or P to S, or keep P+L constant in case of priority to S
-#     if LPSpriority == "L":
-#         LPScompare_p = "l_key.L"
-#         LPScomparep = L
-#         LPScompare_np = "l_key.P+l_key.)"
-#         LPScomparenp = P + S
-#         # LPScompare_np = "(l_key.P,l_key.S)"
-#         # LPScomparenp = (P - 1, S + 1)
-#     elif LPSpriority == "P":
-#         LPScompare_p = "l_key.P"
-#         LPScomparep = P
-#         LPScompare_np = "l_key.L+l_key.S"
-#         LPScomparenp = L + S
-#         # LPScompare_np = "(l_key.L,l_key.S)"
-#         # LPScomparenp = (L - 1, S + 1)
-#     else:  # LPSpriority="S"
-#         LPScompare_p = "l_key.S"
-#         LPScomparep = S
-#         LPScompare_np = "l_key.P+l_key.L"
-#         LPScomparenp = L + P
-#     selected_layouts = (
-#         l_key
-#         for l_key in layouts.keys()
-#         if (
-#             (l_key.L, l_key.P, l_key.S) != (L, P, S)
-#             and (eval(LPScompare_p) == LPScomparep)
-#             and (eval(LPScompare_np) == LPScomparenp)
-#         )
-#     )
-#     return selected_layouts
 def filter_similar(L, P, S, layouts, LPSpriority):
     if LPSpriority == "L":
         LPScompare_p = "l_key.L"
@@ -160,7 +126,7 @@ def filter_same_total(L, P, S, layouts):
     return selected_layouts
 
 
-def select_draw(main_window, button_imgs, L, P, S, layouts, orientation):
+def select_draw(root, button_imgs, L, P, S, gutter, layouts, orientation):
     def draw_buttons(filtered_layouts, button_r, selection_window):
         button_dict = {}
         button_c = 0
@@ -171,7 +137,7 @@ def select_draw(main_window, button_imgs, L, P, S, layouts, orientation):
                 image=button_imgs[lkey],
                 compound="image",
                 command=lambda lkey=lkey: draw_layout(
-                    main_window, layouts[lkey], area, gutter
+                    root, layouts[lkey], area, gutter
                 ),  # lambda lkey=lkey makes sure lkey is assigned the value of the key, not the last generated value
             )
             button_dict[lkey].grid(row=button_r, column=button_c)
@@ -182,11 +148,11 @@ def select_draw(main_window, button_imgs, L, P, S, layouts, orientation):
             return "no layouts"
 
     choose_layout = Toplevel(
-        main_window,
+        root,
     )
     choose_layout.title("Choose layout")
-    x0 = main_window.winfo_x()
-    y0 = main_window.winfo_y()
+    x0 = root.winfo_x()
+    y0 = root.winfo_y()
     choose_layout.geometry("+%d+%d" % (x0 + 20, y0 + 100))
     # TODO choose_frame = Frame(choose_layout)
     # choose_frame.grid(column=0, row=0, sticky=(N, W, E, S))
@@ -236,26 +202,27 @@ def select_draw(main_window, button_imgs, L, P, S, layouts, orientation):
     stop_top.grid(row=button_r, columnspan=10, sticky="nsew")
 
 
-def build_frames(area, layouts, gutter):
+def build_main(area, layouts, gutter, my_units):
     orientation = sp.get_orientation(area)
 
     # *** tkinter loop
-    main_window = Tk()
+    root = Tk()
     style = Style()
     style.theme_use("classic")
     # style.configure("choosel.TFrame", background="DeepSkyBlue")
-    main_window.title("Build complex photo page")
-    main_frame = Frame(main_window, padding="2 2 4 4")
+    root.title("Build complex photo page")
+    main_frame = Frame(root, padding="2 2 4 4")
     main_frame.grid(column=0, row=0, sticky=(N, W, E, S))
-    main_window.columnconfigure(0, weight=1)
-    main_window.rowconfigure(0, weight=1)
+    root.columnconfigure(0, weight=1)
+    root.rowconfigure(0, weight=1)
 
     L_number = StringVar(value="0")
     P_number = StringVar(value="6")
     S_number = StringVar(value="0")
+    gutter_number = StringVar(value=gutter)
 
     # determine screen size to adapt button size to screen size, right now only for hd-type or 4K displays
-    screen_width = main_window.winfo_screenwidth()
+    screen_width = root.winfo_screenwidth()
     if screen_width < 2000:
         screen_type = "hd"
     else:
@@ -297,45 +264,39 @@ def build_frames(area, layouts, gutter):
     P_number_label.grid(row=1, column=1)
     P_number_e = Entry(main_frame, textvariable=P_number)
     P_number_e.grid(row=2, column=1)
-    P_number.trace_add(
-        "write",
-        lambda: select_draw(
-            main_window,
-            button_imgs,
-            eval(L_number_e.get()),
-            eval(P_number_e.get()),
-            eval(S_number_e.get()),
-            layouts,
-            orientation,
-        ),
-    )
 
     S_number_label = Label(main_frame, text="Square")
     S_number_label.grid(row=1, column=2)
     S_number_e = Entry(main_frame, textvariable=S_number)
     S_number_e.grid(row=2, column=2)
 
+    gutter_label = Label(
+        main_frame, text="".join(["Gutter (", get_unit_string(my_units), ")"])
+    )
+    gutter_label.grid(row=1, column=5)
+    gutter_number_e = Entry(main_frame, textvariable=gutter_number)
+    gutter_number_e.grid(row=2, column=5)
+
     do_it = Button(
         main_frame,
-        text="Ok, show potenial layouts",
+        text="Ok, show possible layouts",
         command=lambda: select_draw(
-            main_window,
+            root,
             button_imgs,
             eval(L_number_e.get()),
             eval(P_number_e.get()),
             eval(S_number_e.get()),
+            eval(gutter_number_e.get()),
             layouts,
             orientation,
         ),
     )
     do_it.grid(row=8, column=0)
 
-    stop_it = Button(
-        main_frame, text="Finished, close all", command=main_window.destroy
-    )
-    stop_it.grid(row=8, column=1)
+    stop_it = Button(main_frame, text="Finished, close all", command=root.destroy)
+    stop_it.grid(row=8, column=2)
 
-    main_window.mainloop()
+    root.mainloop()
     # end of Tkinter loop
 
 
@@ -350,7 +311,7 @@ gutter = my_defaults["gutter"]
 page = sp.get_page_info()
 area = sp.page_available(page)
 
-build_frames(area, layouts, gutter)
+build_main(area, layouts, gutter, my_units)
 
 scribus.setUnit(initial_units)
 

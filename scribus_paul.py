@@ -57,6 +57,22 @@ def pict_pos1D(n_picts, margin, pict_size, gutter):
     return margin + (n_picts - 1) * (pict_size + gutter)
 
 
+def get_unit_string(chosen_unit):
+    if chosen_unit == scribus.UNIT_CENTIMETRES:
+        str_unit = "cm"
+    elif chosen_unit == scribus.UNIT_INCHES:
+        str_unit = "inches"
+    elif chosen_unit == scribus.UNIT_POINTS:
+        str_unit = "points"
+    elif chosen_unit == scribus.UNIT_PICAS:
+        str_unit = "picas"
+    elif chosen_unit == scribus.UNIT_CICERO:
+        str_unit = "ciceros"
+    else:  # mm by default
+        str_unit = "mm"
+    return str_unit
+
+
 def get_page_info():
     # get page margins, size and type (left or right)
     pagenum = scribus.currentPage()

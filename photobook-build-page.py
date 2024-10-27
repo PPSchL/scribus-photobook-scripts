@@ -17,6 +17,10 @@ from tkinter.ttk import *
 layout_rc = namedtuple("layout_rc", ["name", "L", "P", "S", "n"])
 
 layouts = {
+    layout_rc(name="L1P0S1-1", L=1, P=0, S=1, n=1): [
+        frame_rc(c=3, r=3, x_rc=1, y_rc=1, xs_rc=3, ys_rc=2),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=3, xs_rc=3, ys_rc=1),
+    ],
     layout_rc(name="L0P4S0-1", L=0, P=4, S=0, n=1): [
         frame_rc(c=2, r=2, x_rc=1, y_rc=1, xs_rc=1, ys_rc=1),
         frame_rc(c=2, r=2, x_rc=2, y_rc=1, xs_rc=1, ys_rc=1),
@@ -70,9 +74,22 @@ layouts = {
 }
 
 
-def draw_layout(root, layout, area, gutter):
+def draw_layout(root, layout, area, gutter, orientation):
     for frame_i in layout:
-        sp.create_image(*rc2xy(frame_i, area, gutter))
+        if orientation == "Landscape":
+            frame_draw = frame_rc(
+                c=frame_i.r,
+                r=frame_i.c,
+                x_rc=frame_i.y_rc,
+                y_rc=frame_i.c - frame_i.x_rc - frame_i.xs_rc + 2,
+                xs_rc=frame_i.ys_rc,
+                ys_rc=frame_i.xs_rc,
+            )
+        elif orientation == "Portrait":
+            frame_draw = frame_i
+        else:
+            pass  # square yet TODO
+        sp.create_image(*rc2xy(frame_draw, area, gutter))
     root.destroy()
     return
 
@@ -137,7 +154,7 @@ def select_draw(root, button_imgs, L, P, S, gutter, layouts, orientation):
                 image=button_imgs[lkey],
                 compound="image",
                 command=lambda lkey=lkey: draw_layout(
-                    root, layouts[lkey], area, gutter
+                    root, layouts[lkey], area, gutter, orientation
                 ),  # lambda lkey=lkey makes sure lkey is assigned the value of the key, not the last generated value
             )
             button_dict[lkey].grid(row=button_r, column=button_c)

@@ -17,9 +17,16 @@ from tkinter.ttk import *
 layout_rc = namedtuple("layout_rc", ["name", "L", "P", "S", "n"])
 
 layouts = {
+    layout_rc(name="L0P1S0-1", L=0, P=1, S=0, n=1): [
+        frame_rc(c=1, r=1, x_rc=1, y_rc=1, xs_rc=1, ys_rc=1),
+    ],
     layout_rc(name="L1P0S1-1", L=1, P=0, S=1, n=1): [
         frame_rc(c=3, r=3, x_rc=1, y_rc=1, xs_rc=3, ys_rc=2),
         frame_rc(c=3, r=3, x_rc=1, y_rc=3, xs_rc=3, ys_rc=1),
+    ],
+    layout_rc(name="L1P0S1-2", L=1, P=0, S=1, n=2): [
+        frame_rc(c=3, r=3, x_rc=1, y_rc=2, xs_rc=3, ys_rc=2),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=1, xs_rc=3, ys_rc=1),
     ],
     layout_rc(name="L0P4S0-1", L=0, P=4, S=0, n=1): [
         frame_rc(c=2, r=2, x_rc=1, y_rc=1, xs_rc=1, ys_rc=1),
@@ -74,7 +81,7 @@ layouts = {
 }
 
 
-def draw_layout(root, layout, area, gutter, orientation):
+def draw_layout(layout, area, gutter, orientation, tkwindow="none"):
     for frame_i in layout:
         if orientation == "Landscape":
             frame_draw = frame_rc(
@@ -90,7 +97,8 @@ def draw_layout(root, layout, area, gutter, orientation):
         else:
             pass  # square yet TODO
         sp.create_image(*rc2xy(frame_draw, area, gutter))
-    root.destroy()
+    if tkwindow != "none":
+        tkwindow.destroy()
     return
 
 
@@ -152,9 +160,9 @@ def select_draw(root, button_imgs, L, P, S, gutter, layouts, orientation):
                 selection_window,
                 text=lkey.name,
                 image=button_imgs[lkey],
-                compound="image",
+                compound=TOP,  # "image",
                 command=lambda lkey=lkey: draw_layout(
-                    root, layouts[lkey], area, gutter, orientation
+                    layouts[lkey], area, gutter, orientation, root
                 ),  # lambda lkey=lkey makes sure lkey is assigned the value of the key, not the last generated value
             )
             button_dict[lkey].grid(row=button_r, column=button_c)
@@ -317,6 +325,25 @@ def build_main(area, layouts, gutter, my_units):
     # end of Tkinter loop
 
 
+def generate_icons(my_units, my_defaults, page, gutter):
+    exportpath = "/home/paul/IMG-en-cours/scribus_prepare"
+    orientation = sp.get_orientation(page)
+    if orientation == "Portrait":
+        prefix = "P-"
+    elif orientation == "Landscape":
+        prefix = "L-"
+    else:  # orientation=square
+        prefix = "S-"
+    for l_key in layouts.keys():
+        draw_layout(layouts[l_key], page, gutter, orientation)
+        image_page = scribus.ImageExport()
+        image_page.type = "PNG"
+        image_path = os.path.join(exportpath, "".join([prefix, l_key.name, ".png"]))
+        image_page.saveAs(image_path)
+        scribus.newPage(-1)
+        scribus.deletePage(1)
+
+
 # def main():
 # take care of Units and initialize default values
 sp.check_doc_present()
@@ -329,7 +356,7 @@ page = sp.get_page_info()
 area = sp.page_available(page)
 
 build_main(area, layouts, gutter, my_units)
-
+# generate_icons(my_units, my_defaults, area, gutter)
 scribus.setUnit(initial_units)
 
 

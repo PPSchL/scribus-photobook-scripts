@@ -20,6 +20,10 @@ layouts = {
     layout_rc(name="L0P1S0-1", L=0, P=1, S=0, n=1): [
         frame_rc(c=1, r=1, x_rc=1, y_rc=1, xs_rc=1, ys_rc=1),
     ],
+    layout_rc(name="L0P2S0-1", L=0, P=2, S=0, n=1): [
+        frame_rc(c=2, r=1, x_rc=1, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=1, x_rc=2, y_rc=1, xs_rc=1, ys_rc=1),
+    ],
     layout_rc(name="L2P0S0-1", L=2, P=0, S=0, n=1): [
         frame_rc(c=2, r=2, x_rc=1, y_rc=1, xs_rc=2, ys_rc=1),
         frame_rc(c=2, r=2, x_rc=1, y_rc=2, xs_rc=2, ys_rc=1),
@@ -181,6 +185,172 @@ layouts = {
         frame_rc(c=2, r=3, x_rc=1, y_rc=1, xs_rc=1, ys_rc=1),
         frame_rc(c=2, r=3, x_rc=2, y_rc=1, xs_rc=1, ys_rc=1),
     ],
+    layout_rc(name="L4P1S0-1", L=4, P=1, S=0, n=1): [
+        frame_rc(c=2, r=4, x_rc=1, y_rc=1, xs_rc=1, ys_rc=4),
+        frame_rc(c=2, r=4, x_rc=2, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=2, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=2, y_rc=3, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=2, y_rc=4, xs_rc=1, ys_rc=1),
+    ],
+    layout_rc(name="L4P1S0-2", L=4, P=1, S=0, n=2): [
+        frame_rc(c=2, r=4, x_rc=2, y_rc=1, xs_rc=1, ys_rc=4),
+        frame_rc(c=2, r=4, x_rc=1, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=1, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=1, y_rc=3, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=1, y_rc=4, xs_rc=1, ys_rc=1),
+    ],
+    layout_rc(name="L1P4S0-1", L=1, P=4, S=0, n=1): [
+        frame_rc(c=3, r=3, x_rc=1, y_rc=1, xs_rc=2, ys_rc=2),
+        frame_rc(c=3, r=3, x_rc=3, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=3, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=3, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=2, y_rc=3, xs_rc=2, ys_rc=1),
+    ],
+    layout_rc(name="L1P4S0-2", L=1, P=4, S=0, n=2): [
+        frame_rc(c=3, r=3, x_rc=2, y_rc=1, xs_rc=2, ys_rc=2),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=3, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=2, y_rc=3, xs_rc=2, ys_rc=1),
+    ],
+    layout_rc(name="L1P4S0-3", L=1, P=4, S=0, n=3): [
+        frame_rc(c=3, r=3, x_rc=1, y_rc=1, xs_rc=2, ys_rc=2),
+        frame_rc(c=3, r=3, x_rc=3, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=3, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=3, y_rc=3, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=3, xs_rc=2, ys_rc=1),
+    ],
+    layout_rc(name="L1P4S0-4", L=1, P=4, S=0, n=4): [
+        frame_rc(c=3, r=3, x_rc=2, y_rc=1, xs_rc=2, ys_rc=2),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=3, y_rc=3, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=3, xs_rc=2, ys_rc=1),
+    ],
+    layout_rc(name="L1P4S0-5", L=1, P=4, S=0, n=5): [
+        frame_rc(c=3, r=3, x_rc=1, y_rc=2, xs_rc=2, ys_rc=2),
+        frame_rc(c=3, r=3, x_rc=3, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=3, y_rc=3, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=2, y_rc=1, xs_rc=2, ys_rc=1),
+    ],
+    layout_rc(name="L1P4S0-6", L=1, P=4, S=0, n=6): [
+        frame_rc(c=3, r=3, x_rc=2, y_rc=2, xs_rc=2, ys_rc=2),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=3, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=2, y_rc=1, xs_rc=2, ys_rc=1),
+    ],
+    layout_rc(name="L1P4S0-7", L=1, P=4, S=0, n=7): [
+        frame_rc(c=3, r=3, x_rc=1, y_rc=2, xs_rc=2, ys_rc=2),
+        frame_rc(c=3, r=3, x_rc=3, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=3, y_rc=3, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=3, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=1, xs_rc=2, ys_rc=1),
+    ],
+    layout_rc(name="L1P4S0-8", L=1, P=4, S=0, n=8): [
+        frame_rc(c=3, r=3, x_rc=2, y_rc=2, xs_rc=2, ys_rc=2),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=3, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=3, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=1, xs_rc=2, ys_rc=1),
+    ],
+    layout_rc(name="L0P0S6-1", L=0, P=0, S=6, n=1): [
+        frame_rc(c=2, r=3, x_rc=1, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=3, x_rc=2, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=3, x_rc=1, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=3, x_rc=2, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=3, x_rc=1, y_rc=3, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=3, x_rc=2, y_rc=3, xs_rc=1, ys_rc=1),
+    ],
+    layout_rc(name="L4P2S0-1", L=4, P=2, S=0, n=1): [
+        frame_rc(c=2, r=4, x_rc=1, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=1, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=1, y_rc=3, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=1, y_rc=4, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=2, y_rc=1, xs_rc=1, ys_rc=2),
+        frame_rc(c=2, r=4, x_rc=2, y_rc=3, xs_rc=1, ys_rc=2),
+    ],
+    layout_rc(name="L4P2S0-2", L=4, P=2, S=0, n=2): [
+        frame_rc(c=2, r=4, x_rc=2, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=2, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=2, y_rc=3, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=2, y_rc=4, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=1, y_rc=1, xs_rc=1, ys_rc=2),
+        frame_rc(c=2, r=4, x_rc=1, y_rc=3, xs_rc=1, ys_rc=2),
+    ],
+    layout_rc(name="L4P2S0-3", L=4, P=2, S=0, n=3): [
+        frame_rc(c=2, r=4, x_rc=2, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=2, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=1, y_rc=3, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=1, y_rc=4, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=1, y_rc=1, xs_rc=1, ys_rc=2),
+        frame_rc(c=2, r=4, x_rc=2, y_rc=3, xs_rc=1, ys_rc=2),
+    ],
+    layout_rc(name="L4P2S0-4", L=4, P=2, S=0, n=4): [
+        frame_rc(c=2, r=4, x_rc=1, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=1, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=2, y_rc=3, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=2, y_rc=4, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=2, y_rc=1, xs_rc=1, ys_rc=2),
+        frame_rc(c=2, r=4, x_rc=1, y_rc=3, xs_rc=1, ys_rc=2),
+    ],
+    layout_rc(name="L4P2S0-5", L=4, P=2, S=0, n=5): [
+        frame_rc(c=2, r=4, x_rc=2, y_rc=3, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=2, y_rc=4, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=1, y_rc=3, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=1, y_rc=4, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=1, y_rc=1, xs_rc=1, ys_rc=2),
+        frame_rc(c=2, r=4, x_rc=2, y_rc=1, xs_rc=1, ys_rc=2),
+    ],
+    layout_rc(name="L4P2S0-6", L=4, P=2, S=0, n=6): [
+        frame_rc(c=2, r=4, x_rc=2, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=2, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=1, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=1, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=1, y_rc=3, xs_rc=1, ys_rc=2),
+        frame_rc(c=2, r=4, x_rc=2, y_rc=3, xs_rc=1, ys_rc=2),
+    ],
+    layout_rc(name="L6P0S0-1", L=6, P=0, S=0, n=1): [
+        frame_rc(c=2, r=4, x_rc=1, y_rc=1, xs_rc=2, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=1, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=2, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=1, y_rc=3, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=2, y_rc=3, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=1, y_rc=4, xs_rc=2, ys_rc=1),
+    ],
+    layout_rc(name="L6P0S0-2", L=6, P=0, S=0, n=2): [
+        frame_rc(c=2, r=4, x_rc=1, y_rc=2, xs_rc=2, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=1, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=2, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=1, y_rc=3, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=2, y_rc=3, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=1, y_rc=4, xs_rc=2, ys_rc=1),
+    ],
+    layout_rc(name="L6P0S0-3", L=6, P=0, S=0, n=3): [
+        frame_rc(c=2, r=4, x_rc=1, y_rc=1, xs_rc=2, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=1, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=2, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=2, y_rc=4, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=1, y_rc=4, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=1, y_rc=3, xs_rc=2, ys_rc=1),
+    ],
+    layout_rc(name="L6P0S0-4", L=6, P=0, S=0, n=4): [
+        frame_rc(c=2, r=4, x_rc=1, y_rc=3, xs_rc=2, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=1, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=2, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=1, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=2, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=1, y_rc=4, xs_rc=2, ys_rc=1),
+    ],
+    layout_rc(name="L6P0S0-5", L=6, P=0, S=0, n=5): [
+        frame_rc(c=2, r=4, x_rc=1, y_rc=1, xs_rc=2, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=1, y_rc=4, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=2, y_rc=4, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=1, y_rc=3, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=2, y_rc=3, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=1, y_rc=2, xs_rc=2, ys_rc=1),
+    ],
     layout_rc(name="L0P6S0-1", L=0, P=6, S=0, n=1): [
         frame_rc(c=3, r=3, x_rc=1, y_rc=1, xs_rc=2, ys_rc=2),
         frame_rc(c=3, r=3, x_rc=3, y_rc=1, xs_rc=1, ys_rc=1),
@@ -205,13 +375,13 @@ layouts = {
         frame_rc(c=3, r=3, x_rc=2, y_rc=1, xs_rc=1, ys_rc=1),
         frame_rc(c=3, r=3, x_rc=3, y_rc=1, xs_rc=1, ys_rc=1),
     ],
-    layout_rc(name="L2P4S0-1", L=4, P=2, S=0, n=1): [
-        frame_rc(c=2, r=4, x_rc=1, y_rc=1, xs_rc=1, ys_rc=2),
-        frame_rc(c=2, r=4, x_rc=2, y_rc=1, xs_rc=1, ys_rc=1),
-        frame_rc(c=2, r=4, x_rc=2, y_rc=2, xs_rc=1, ys_rc=1),
-        frame_rc(c=2, r=4, x_rc=1, y_rc=3, xs_rc=1, ys_rc=1),
-        frame_rc(c=2, r=4, x_rc=1, y_rc=4, xs_rc=1, ys_rc=1),
-        frame_rc(c=2, r=4, x_rc=2, y_rc=3, xs_rc=1, ys_rc=2),
+    layout_rc(name="L0P6S0-4", L=0, P=6, S=0, n=4): [
+        frame_rc(c=3, r=3, x_rc=1, y_rc=2, xs_rc=2, ys_rc=2),
+        frame_rc(c=3, r=3, x_rc=3, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=3, y_rc=3, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=2, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=3, y_rc=1, xs_rc=1, ys_rc=1),
     ],
     layout_rc(name="L3P3S0-1", L=3, P=3, S=0, n=1): [
         frame_rc(c=3, r=3, x_rc=1, y_rc=1, xs_rc=2, ys_rc=1),
@@ -220,6 +390,147 @@ layouts = {
         frame_rc(c=3, r=3, x_rc=3, y_rc=1, xs_rc=1, ys_rc=1),
         frame_rc(c=3, r=3, x_rc=3, y_rc=2, xs_rc=1, ys_rc=1),
         frame_rc(c=3, r=3, x_rc=3, y_rc=3, xs_rc=1, ys_rc=1),
+    ],
+    layout_rc(name="L3P3S0-2", L=3, P=3, S=0, n=2): [
+        frame_rc(c=3, r=3, x_rc=2, y_rc=1, xs_rc=2, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=2, y_rc=2, xs_rc=2, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=2, y_rc=3, xs_rc=2, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=3, xs_rc=1, ys_rc=1),
+    ],
+    layout_rc(name="L3P3S0-3", L=3, P=3, S=0, n=3): [
+        frame_rc(c=3, r=3, x_rc=1, y_rc=1, xs_rc=2, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=2, y_rc=2, xs_rc=2, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=3, xs_rc=2, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=3, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=3, y_rc=3, xs_rc=1, ys_rc=1),
+    ],
+    layout_rc(name="L3P3S0-4", L=3, P=3, S=0, n=4): [
+        frame_rc(c=3, r=3, x_rc=2, y_rc=1, xs_rc=2, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=2, xs_rc=2, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=2, y_rc=3, xs_rc=2, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=3, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=3, xs_rc=1, ys_rc=1),
+    ],
+    layout_rc(name="L2P5S0-1", L=2, P=5, S=0, n=1): [
+        frame_rc(c=3, r=3, x_rc=1, y_rc=1, xs_rc=2, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=3, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=2, xs_rc=2, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=3, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=3, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=2, y_rc=3, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=3, y_rc=3, xs_rc=1, ys_rc=1),
+    ],
+    layout_rc(name="L2P5S0-2", L=2, P=5, S=0, n=2): [
+        frame_rc(c=3, r=3, x_rc=1, y_rc=1, xs_rc=2, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=3, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=3, xs_rc=2, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=3, y_rc=3, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=2, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=3, y_rc=2, xs_rc=1, ys_rc=1),
+    ],
+    layout_rc(name="L2P5S0-3", L=2, P=5, S=0, n=3): [
+        frame_rc(c=3, r=3, x_rc=1, y_rc=2, xs_rc=2, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=3, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=3, xs_rc=2, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=3, y_rc=3, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=2, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=3, y_rc=1, xs_rc=1, ys_rc=1),
+    ],
+    layout_rc(name="L2P5S0-4", L=2, P=5, S=0, n=4): [
+        frame_rc(c=3, r=3, x_rc=2, y_rc=1, xs_rc=2, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=2, y_rc=2, xs_rc=2, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=3, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=2, y_rc=3, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=3, y_rc=3, xs_rc=1, ys_rc=1),
+    ],
+    layout_rc(name="L2P5S0-5", L=2, P=5, S=0, n=5): [
+        frame_rc(c=3, r=3, x_rc=2, y_rc=1, xs_rc=2, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=2, y_rc=3, xs_rc=2, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=3, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=2, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=3, y_rc=2, xs_rc=1, ys_rc=1),
+    ],
+    layout_rc(name="L2P5S0-6", L=2, P=5, S=0, n=6): [
+        frame_rc(c=3, r=3, x_rc=2, y_rc=2, xs_rc=2, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=2, y_rc=3, xs_rc=2, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=3, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=2, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=3, y_rc=1, xs_rc=1, ys_rc=1),
+    ],
+    layout_rc(name="L8P0S0-1", L=8, P=0, S=0, n=1): [
+        frame_rc(c=2, r=4, x_rc=1, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=2, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=1, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=2, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=1, y_rc=3, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=2, y_rc=3, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=1, y_rc=4, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=4, x_rc=2, y_rc=4, xs_rc=1, ys_rc=1),
+    ],
+    layout_rc(name="L0P9S0-1", L=0, P=9, S=0, n=1): [
+        frame_rc(c=3, r=3, x_rc=1, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=2, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=3, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=2, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=3, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=3, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=2, y_rc=3, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=3, y_rc=3, xs_rc=1, ys_rc=1),
+    ],
+    layout_rc(name="L0P13S0-1", L=0, P=13, S=0, n=1): [
+        frame_rc(c=4, r=4, x_rc=2, y_rc=2, xs_rc=2, ys_rc=2),
+        frame_rc(c=4, r=4, x_rc=1, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=4, r=4, x_rc=2, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=4, r=4, x_rc=3, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=4, r=4, x_rc=4, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=4, r=4, x_rc=1, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=4, r=4, x_rc=1, y_rc=3, xs_rc=1, ys_rc=1),
+        frame_rc(c=4, r=4, x_rc=4, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=4, r=4, x_rc=4, y_rc=3, xs_rc=1, ys_rc=1),
+        frame_rc(c=4, r=4, x_rc=1, y_rc=4, xs_rc=1, ys_rc=1),
+        frame_rc(c=4, r=4, x_rc=2, y_rc=4, xs_rc=1, ys_rc=1),
+        frame_rc(c=4, r=4, x_rc=3, y_rc=4, xs_rc=1, ys_rc=1),
+        frame_rc(c=4, r=4, x_rc=4, y_rc=4, xs_rc=1, ys_rc=1),
+    ],
+    layout_rc(name="L1P8S0-1", L=1, P=8, S=0, n=1): [
+        frame_rc(c=4, r=4, x_rc=1, y_rc=2, xs_rc=4, ys_rc=2),
+        frame_rc(c=4, r=4, x_rc=1, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=4, r=4, x_rc=2, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=4, r=4, x_rc=3, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=4, r=4, x_rc=4, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=4, r=4, x_rc=1, y_rc=4, xs_rc=1, ys_rc=1),
+        frame_rc(c=4, r=4, x_rc=2, y_rc=4, xs_rc=1, ys_rc=1),
+        frame_rc(c=4, r=4, x_rc=3, y_rc=4, xs_rc=1, ys_rc=1),
+        frame_rc(c=4, r=4, x_rc=4, y_rc=4, xs_rc=1, ys_rc=1),
+    ],
+    layout_rc(name="L1P6S0-1", L=1, P=6, S=0, n=1): [
+        frame_rc(c=3, r=3, x_rc=1, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=2, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=3, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=2, xs_rc=3, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=3, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=2, y_rc=3, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=3, y_rc=3, xs_rc=1, ys_rc=1),
+    ],
+    layout_rc(name="L1P0S4-1", L=1, P=0, S=4, n=1): [
+        frame_rc(c=2, r=3, x_rc=1, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=3, x_rc=2, y_rc=1, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=3, x_rc=1, y_rc=2, xs_rc=2, ys_rc=1),
+        frame_rc(c=2, r=3, x_rc=1, y_rc=3, xs_rc=1, ys_rc=1),
+        frame_rc(c=2, r=3, x_rc=2, y_rc=3, xs_rc=1, ys_rc=1),
     ],
 }
 
@@ -468,8 +779,9 @@ def build_main(area, layouts, gutter, my_units):
     # end of Tkinter loop
 
 
-def generate_icons(my_units, my_defaults, page, gutter):
-    exportpath = "/home/paul/IMG-en-cours/scribus_prepare"
+def generate_icons(
+    my_units, my_defaults, page, gutter, layout_name, export, exportpath
+):
     orientation = sp.get_orientation(page)
     if orientation == "Portrait":
         prefix = "P-"
@@ -478,16 +790,22 @@ def generate_icons(my_units, my_defaults, page, gutter):
     else:  # orientation=square
         prefix = "S-"
     layout_selection = layouts
-    # to only generate an icon for one additional layout, uncomment:
-    layout_selection = (l_key for l_key in layouts.keys() if (l_key.name) == "L0P1S4-4")
+    # if a name is given, only this layout is used to generate a page
+    if layout_name != "all":
+        layout_selection = (
+            l_key for l_key in layouts.keys() if (l_key.name) == layout_name
+        )
     for l_key in layout_selection:
         draw_layout(layouts[l_key], page, gutter, orientation)
-        # image_page = scribus.ImageExport()
-        # image_page.type = "PNG"
-        # image_path = os.path.join(exportpath, "".join([prefix, l_key.name, ".png"]))
-        # image_page.saveAs(image_path)
-        # scribus.newPage(-1)
-        # scribus.deletePage(1)
+        # if all layouts are requested, all the layouts in layouts are generated and the page exported to a png file carrying the name of the layout
+        # these files can then be converted to a GIF of smaller size using imagemagick convert and rotated to also generate landscape icons
+        if layout_name == "all" or export:
+            image_page = scribus.ImageExport()
+            image_page.type = "PNG"
+            image_path = os.path.join(exportpath, "".join([prefix, l_key.name, ".png"]))
+            image_page.saveAs(image_path)
+            scribus.newPage(-1)
+            scribus.deletePage(1)
 
 
 # def main():
@@ -501,8 +819,27 @@ gutter = my_defaults["gutter"]
 page = sp.get_page_info()
 area = sp.page_available(page)
 
-# build_main(area, layouts, gutter, my_units)
-generate_icons(my_units, my_defaults, area, gutter)
+build_main(area, layouts, gutter, my_units)
+""" *** setup utility to generate icon files ***
+- to add layouts and test them, comment the preceding line and uncomment the line after this explanation section
+- to only test a single layout without writing the icon to disk, enter the layout name instead of "all" and set export to False
+e.g.  layout_name="L0P1S0-1"
+- to write the icons to disk enter layout_name="all", and check/change the exportpath at your convenience. 
+*** Caution: if layout_name="all", the function will write to disk even if export==False
+- you can also add a single icon by providing its name, setting export to True and checking the export path
+- then run the script in scribus, and reverse comment/uncomment to run the normal script
+- the icons should be generated in portrait mode, landscape can then be generated by rotation in imagemagick convert when generating the GIF files needed by tkinter 
+"""
+# generate_icons(
+#     my_units,
+#     my_defaults,
+#     area,
+#     gutter,
+#     layout_name="all",
+#     export=True,
+#     exportpath="/home/paul/IMG-en-cours/scribus_prepare",
+# )
+
 scribus.setUnit(initial_units)
 
 

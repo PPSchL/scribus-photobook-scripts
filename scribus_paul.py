@@ -23,6 +23,11 @@ frame_rc = namedtuple(
     ["c", "r", "x_rc", "y_rc", "xs_rc", "ys_rc"],
 )
 
+frame_fr = namedtuple(
+    "frame_fr",
+    ["x_fr", "y_fr", "xs_fr", "ys_fr"],
+)
+
 
 def get_config_data(script_p):
     cfgpath = os.path.join(script_p, ".photobook", "phb.cfg")
@@ -180,6 +185,14 @@ def rc2xy(rc, area, gutter):
     ys = rc2size(rc.ys_rc, unit_ys, gutter)
     x = pict_pos1D(rc.x_rc, area.x, unit_xs, gutter)
     y = pict_pos1D(rc.y_rc, area.y, unit_ys, gutter)
+    return (x, y, xs, ys)
+
+
+def fr2xy(fr, area):
+    x = area.x + fr.x_fr * area.xs
+    y = area.y + fr.y_fr * area.ys
+    xs = fr.xs_fr * area.xs
+    ys = fr.ys_fr * area.ys
     return (x, y, xs, ys)
 
 

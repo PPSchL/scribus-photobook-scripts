@@ -3,7 +3,7 @@ import scribus
 from collections import namedtuple
 from script_path import script_path
 import scribus_paul as sp
-from scribus_paul import frame_rc, rc2xy, get_unit_string
+from scribus_paul import frame_rc, rc2xy, get_unit_string, frame_fr, fr2xy
 
 from tkinter import *
 from tkinter.ttk import *
@@ -15,6 +15,7 @@ from tkinter.ttk import *
 # the named tuple layout_rc  will then be used as key in the dictionary of all possible layouts as a list of frame_rc frame specifications
 # the chosen layout can then be drawn by recalculating the positions and sizes as a function of page and gutter (plus maybe bleed) sizes
 layout_rc = namedtuple("layout_rc", ["name", "L", "P", "S", "n"])
+layout_fr = namedtuple("layout_fr", ["name", "L", "P", "S", "n"])
 
 layouts = {
     layout_rc(name="L0P1S0-1", L=0, P=1, S=0, n=1): [
@@ -533,6 +534,16 @@ layouts = {
         frame_rc(c=2, r=3, x_rc=2, y_rc=3, xs_rc=1, ys_rc=1),
     ],
 }
+layouts_fr = {
+    layout_fr(name="L1P1S0-1-fr", L=1, P=1, S=0, n=1): [
+        frame_fr(
+            x_fr=0.0350594594, y_fr=0.4786823105, xs_fr=0.9567567568, ys_fr=0.4259927798
+        ),
+        frame_fr(
+            x_fr=0.4738162462, y_fr=0.0606642599, xs_fr=0.4432432432, ys_fr=0.4508447653
+        ),
+    ],
+}
 
 
 def draw_layout(layout, area, gutter, orientation, tkwindow="none"):
@@ -556,6 +567,20 @@ def draw_layout(layout, area, gutter, orientation, tkwindow="none"):
     return
 
 
+def draw_layout_fr(layout, area, orientation, tkwindow="none"):
+    for frame_i in layout:
+        if orientation == "Landscape":
+            pass  # TODO
+        elif orientation == "Portrait":
+            frame_draw = frame_i
+        else:
+            pass  # square yet TODO
+        sp.create_image(*fr2xy(frame_draw, area))
+    if tkwindow != "none":
+        tkwindow.destroy()
+    return
+
+
 def filter_layouts(L, P, S, layouts):
     # construct generator for the layouts corresponding to the request: if () enclose the expression makes generator, with [] makes list
     selected_layouts = (
@@ -565,17 +590,24 @@ def filter_layouts(L, P, S, layouts):
 
 
 def filter_similar(L, P, S, layouts, LPSpriority):
+    # select layputs with the same number of either L, P or S photos (depending on LPSpriority)
+    # but allow the o
+    # but any that change one L or P to S, or keep P+L constant in case of priority to S
     if LPSpriority == "L":
         LPScompare_p = "l_key.L"
         LPScomparep = L
-        LPScompare_np = "l_key.P+l_key.S"
-        LPScomparenp = P + S
+        # LPScompare_np = "l_key.P+l_key.S)"
+        # LPScomparenp = P + S
+        LPScompare_np = "(l_key.P,l_key.S)"
+        LPScomparenp = (P - 1, S + 1)
     elif LPSpriority == "P":
         LPScompare_p = "l_key.P"
         LPScomparep = P
-        LPScompare_np = "l_key.L+l_key.S"
-        LPScomparenp = L + S
-    else:
+        # LPScompare_np = "l_key.L+l_key.S"
+        # LPScomparenp = L + S
+        LPScompare_np = "(l_key.L,l_key.S)"
+        LPScomparenp = (L - 1, S + 1)
+    else:  # LPSpriority="S"
         LPScompare_p = "l_key.S"
         LPScomparep = S
         LPScompare_np = "l_key.P+l_key.L"
@@ -605,9 +637,15 @@ def filter_same_total(L, P, S, layouts):
     return selected_layouts
 
 
-def select_draw(root, button_imgs, L, P, S, gutter, layouts, orientation):
-    def draw_buttons(filtered_layouts, button_r, selection_window):
+def select_and_draw(
+    root, button_imgs, L, P, S, gutter, layouts, orientation, buttons_per_row
+):
+    def draw_buttons(filtered_layouts, button_r, selection_window, buttons_per_row):
+        # draws the button to a specified number of buttons per row
+        # then increases the row coordinate
+        # returns a tuple specifying success and new row coordinate
         button_dict = {}
+        button_r_i = button_r
         button_c = 0
         for lkey in filtered_layouts:
             button_dict[lkey] = Button(
@@ -620,11 +658,17 @@ def select_draw(root, button_imgs, L, P, S, gutter, layouts, orientation):
                 ),  # lambda lkey=lkey makes sure lkey is assigned the value of the key, not the last generated value
             )
             button_dict[lkey].grid(row=button_r, column=button_c)
-            button_c += 1
-        if button_c > 0:
-            return "success"
+            # new row if button number equals buttons_per_row
+            # button_c starts at 0, therefore number of buttons on row = (button_c+1)
+            if button_c > 0 and (button_c + 1) % buttons_per_row == 0:
+                button_r += 1
+                button_c = 0
+            else:
+                button_c += 1
+        if button_c > 0 or button_r > button_r_i:
+            return ("success", button_r)
         else:
-            return "no layouts"
+            return ("no layouts",)
 
     choose_layout = Toplevel(
         root,
@@ -650,12 +694,16 @@ def select_draw(root, button_imgs, L, P, S, gutter, layouts, orientation):
         pass
     button_r = 2
     # draw the buttons and simultaneously test for success
-    if draw_buttons(ok_layouts, button_r, choose_layout) != "success":
+    if (
+        draw_buttons(ok_layouts, button_r, choose_layout, buttons_per_row)[0]
+        == "no layouts"
+    ):
         # only propose similar layouts if perfect fit does not exist
+        exact_label.text = "No perfect correpondance found"
         button_r += 1
         similar_label = Label(choose_layout, text="Approximate correspondance")
         similar_label.grid(row=button_r, column=0)
-        for or_i in ("L", "P", "S"):
+        for or_i in ("L", "P"):
             if orientation == "Portrait":
                 similar_layouts = filter_similar(L, P, S, layouts, or_i)
             elif orientation == "Landscape":
@@ -663,14 +711,22 @@ def select_draw(root, button_imgs, L, P, S, gutter, layouts, orientation):
             else:  # orientation=square TODO
                 pass
             button_r += 2
-            draw_buttons(similar_layouts, button_r, choose_layout)
+            draw_outcome = draw_buttons(
+                similar_layouts, button_r, choose_layout, buttons_per_row
+            )
+            if draw_outcome[0] == "success":
+                button_r = draw_outcome[1]
 
         button_r += 1
         same_total_label = Label(choose_layout, text="All with same number of pictures")
         same_total_label.grid(row=button_r, column=0)
         button_r += 1
         same_total = filter_same_total(L, P, S, layouts)
-        draw_buttons(same_total, button_r, choose_layout)
+        draw_outcome = draw_buttons(
+            same_total, button_r, choose_layout, buttons_per_row
+        )
+        if draw_outcome[0] == "success":
+            button_r = draw_outcome[1]
 
     button_r += 1
     stop_top = Button(
@@ -681,13 +737,14 @@ def select_draw(root, button_imgs, L, P, S, gutter, layouts, orientation):
     stop_top.grid(row=button_r, columnspan=10, sticky="nsew")
 
 
-def build_main(area, layouts, gutter, my_units):
+def build_main(page, area, layouts, gutter, my_units):
     orientation = sp.get_orientation(area)
 
     # *** tkinter loop
     root = Tk()
     style = Style()
     style.theme_use("classic")
+
     # style.configure("choosel.TFrame", background="DeepSkyBlue")
     root.title("Build complex photo page")
     main_frame = Frame(root, padding="2 2 4 4")
@@ -713,6 +770,7 @@ def build_main(area, layouts, gutter, my_units):
         prefix = "L-"
     else:  # orientation=square
         prefix = "S-"
+    buttons_per_row = 5  # TODO think about adapting the number of buttons per row according to screen and button size
     # have to create dictionary of button images before calling the button drawing function because only way to keep the images after
     # the drawing functions ends (garbage collection of local variables)
     # used prefix for orientation and screen_type from determinations above
@@ -759,7 +817,7 @@ def build_main(area, layouts, gutter, my_units):
     do_it = Button(
         main_frame,
         text="Ok, show possible layouts",
-        command=lambda: select_draw(
+        command=lambda: select_and_draw(
             root,
             button_imgs,
             eval(L_number_e.get()),
@@ -768,6 +826,7 @@ def build_main(area, layouts, gutter, my_units):
             eval(gutter_number_e.get()),
             layouts,
             orientation,
+            buttons_per_row,
         ),
     )
     do_it.grid(row=8, column=0)
@@ -817,9 +876,16 @@ scribus.setUnit(my_units)
 # get page information from scribus
 gutter = my_defaults["gutter"]
 page = sp.get_page_info()
-area = sp.page_available(page)
+if scribus.selectionCount() > 0:
+    area_name = scribus.getSelectedObject(0)
+    area = sp.get_object_info(area_name)
+    if scribus.isLocked(area.name):
+        scribus.lockObject(area.name)
+    scribus.deleteObject(area_name)
+else:
+    area = sp.page_available(page)
 
-build_main(area, layouts, gutter, my_units)
+build_main(page, area, layouts, gutter, my_units)
 """ *** setup utility to generate icon files ***
 - to add layouts and test them, comment the preceding line and uncomment the line after this explanation section
 - to only test a single layout without writing the icon to disk, enter the layout name instead of "all" and set export to False

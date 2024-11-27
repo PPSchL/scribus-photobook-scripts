@@ -533,8 +533,6 @@ layouts = {
         frame_rc(c=2, r=3, x_rc=1, y_rc=3, xs_rc=1, ys_rc=1),
         frame_rc(c=2, r=3, x_rc=2, y_rc=3, xs_rc=1, ys_rc=1),
     ],
-}
-layouts_fr = {
     layout_fr(name="L1P1S0-1-fr", L=1, P=1, S=0, n=1): [
         frame_fr(
             x_fr=0.0350594594, y_fr=0.4786823105, xs_fr=0.9567567568, ys_fr=0.4259927798
@@ -543,39 +541,131 @@ layouts_fr = {
             x_fr=0.4738162462, y_fr=0.0606642599, xs_fr=0.4432432432, ys_fr=0.4508447653
         ),
     ],
+    layout_fr(name="L1P5S0-1-fr", L=1, P=5, S=0, n=1): [
+        frame_fr(
+            x_fr=0.0945947041635934,
+            y_fr=0.3194947948115103,
+            xs_fr=0.810810591672813,
+            ys_fr=0.3610104103769795,
+        ),
+        frame_fr(
+            x_fr=0.05216154746384606,
+            y_fr=0.7038651223105404,
+            xs_fr=0.270270197224271,
+            ys_fr=0.2707578077827346,
+        ),
+        frame_fr(
+            x_fr=0.38205635319798265,
+            y_fr=0.6924030417810713,
+            xs_fr=0.2702701972242711,
+            ys_fr=0.2707578077827341,
+        ),
+        frame_fr(
+            x_fr=0.7081373461490654,
+            y_fr=0.7178743318465581,
+            xs_fr=0.2702701972242711,
+            ys_fr=0.2707578077827341,
+        ),
+        frame_fr(
+            x_fr=0.10555492642659649,
+            y_fr=0.01231959703257136,
+            xs_fr=0.2702701972242711,
+            ys_fr=0.2707578077827341,
+        ),
+        frame_fr(
+            x_fr=0.6089782137896718,
+            y_fr=0.040338016104606925,
+            xs_fr=0.2702701972242711,
+            ys_fr=0.2707578077827341,
+        ),
+    ],
+    layout_fr(name="L1P5S0-2-fr", L=1, P=5, S=0, n=2): [
+        frame_fr(
+            x_fr=0.0945947041635934,
+            y_fr=0.3194947948115103,
+            xs_fr=0.810810591672813,
+            ys_fr=0.3610104103769795,
+        ),
+        frame_fr(
+            x_fr=0.06169607942148007,
+            y_fr=0.6643846227090359,
+            xs_fr=0.270270197224271,
+            ys_fr=0.2707578077827346,
+        ),
+        frame_fr(
+            x_fr=0.378242540414929,
+            y_fr=0.05689435464717341,
+            xs_fr=0.2702701972242711,
+            ys_fr=0.2707578077827341,
+        ),
+        frame_fr(
+            x_fr=0.567026273176082,
+            y_fr=0.6631110582057613,
+            xs_fr=0.2702701972242711,
+            ys_fr=0.2707578077827341,
+        ),
+        frame_fr(
+            x_fr=0.06360298581300688,
+            y_fr=0.07090356418319119,
+            xs_fr=0.2702701972242711,
+            ys_fr=0.2707578077827341,
+        ),
+        frame_fr(
+            x_fr=0.6947890014083777,
+            y_fr=0.084912773719209,
+            xs_fr=0.2702701972242711,
+            ys_fr=0.2707578077827341,
+        ),
+    ],
+    layout_fr(name="L2P1S0-1-fr", L=2, P=1, S=0, n=1): [
+        frame_fr(
+            x_fr=0.25429362496568675,
+            y_fr=0.3065129972889451,
+            xs_fr=0.3783782761139794,
+            ys_fr=0.3790609308958285,
+        ),
+        frame_fr(
+            x_fr=0.3310510967129167,
+            y_fr=0.6924030417810714,
+            xs_fr=0.6486484733382504,
+            ys_fr=0.2888083283015836,
+        ),
+        frame_fr(
+            x_fr=0.029759886851682172,
+            y_fr=0.009772468026022675,
+            xs_fr=0.648648473338251,
+            ys_fr=0.2888083283015835,
+        ),
+    ],
 }
 
 
-def draw_layout(layout, area, gutter, orientation, tkwindow="none"):
-    for frame_i in layout:
-        if orientation == "Landscape":
-            frame_draw = frame_rc(
-                c=frame_i.r,
-                r=frame_i.c,
-                x_rc=frame_i.y_rc,
-                y_rc=frame_i.c - frame_i.x_rc - frame_i.xs_rc + 2,
-                xs_rc=frame_i.ys_rc,
-                ys_rc=frame_i.xs_rc,
-            )
-        elif orientation == "Portrait":
-            frame_draw = frame_i
-        else:
-            pass  # square yet TODO
-        sp.create_image(*rc2xy(frame_draw, area, gutter))
-    if tkwindow != "none":
-        tkwindow.destroy()
-    return
-
-
-def draw_layout_fr(layout, area, orientation, tkwindow="none"):
-    for frame_i in layout:
-        if orientation == "Landscape":
-            pass  # TODO
-        elif orientation == "Portrait":
-            frame_draw = frame_i
-        else:
-            pass  # square yet TODO
-        sp.create_image(*fr2xy(frame_draw, area))
+def draw_layout(lkey, layout, area, gutter, orientation, tkwindow="none"):
+    if isinstance(lkey, layout_rc):
+        for frame_i in layout:
+            if orientation == "Landscape":
+                frame_draw = frame_rc(
+                    c=frame_i.r,
+                    r=frame_i.c,
+                    x_rc=frame_i.y_rc,
+                    y_rc=frame_i.c - frame_i.x_rc - frame_i.xs_rc + 2,
+                    xs_rc=frame_i.ys_rc,
+                    ys_rc=frame_i.xs_rc,
+                )
+            elif orientation == "Portrait":
+                frame_draw = frame_i
+            else:
+                pass  # square yet TODO
+            sp.create_image(*rc2xy(frame_draw, area, gutter))
+    else:  # layout is of type fr
+        for frame_i in layout:
+            if orientation == "Landscape":
+                pass  # TODO
+            elif orientation == "Portrait":
+                frame_draw = frame_i
+            else:
+                pass  # square yet TODO
+            sp.create_image(*fr2xy(frame_draw, area))
     if tkwindow != "none":
         tkwindow.destroy()
     return
@@ -654,7 +744,7 @@ def select_and_draw(
                 image=button_imgs[lkey],
                 compound=TOP,  # "image",
                 command=lambda lkey=lkey: draw_layout(
-                    layouts[lkey], area, gutter, orientation, root
+                    lkey, layouts[lkey], area, gutter, orientation, root
                 ),  # lambda lkey=lkey makes sure lkey is assigned the value of the key, not the last generated value
             )
             button_dict[lkey].grid(row=button_r, column=button_c)
@@ -839,7 +929,7 @@ def build_main(page, area, layouts, gutter, my_units):
 
 
 def generate_icons(
-    my_units, my_defaults, page, gutter, layout_name, export, exportpath
+    my_units, my_defaults, page, gutter, layout_test, export, exportpath
 ):
     orientation = sp.get_orientation(page)
     if orientation == "Portrait":
@@ -850,21 +940,54 @@ def generate_icons(
         prefix = "S-"
     layout_selection = layouts
     # if a name is given, only this layout is used to generate a page
-    if layout_name != "all":
+    if layout_test != "all":
         layout_selection = (
-            l_key for l_key in layouts.keys() if (l_key.name) == layout_name
+            l_key
+            for l_key in layouts.keys()
+            if eval(layout_test)  # (l_key.name) == layout_name
         )
     for l_key in layout_selection:
-        draw_layout(layouts[l_key], page, gutter, orientation)
+        draw_layout(l_key, layouts[l_key], page, gutter, orientation)
         # if all layouts are requested, all the layouts in layouts are generated and the page exported to a png file carrying the name of the layout
         # these files can then be converted to a GIF of smaller size using imagemagick convert and rotated to also generate landscape icons
-        if layout_name == "all" or export:
+        if layout_test == "all" or export:
             image_page = scribus.ImageExport()
             image_page.type = "PNG"
             image_path = os.path.join(exportpath, "".join([prefix, l_key.name, ".png"]))
             image_page.saveAs(image_path)
             scribus.newPage(-1)
             scribus.deletePage(1)
+
+
+def generate_fr_coordinates():
+    # generates fractional coordinates from a page of frames prepared manually
+    # within scribus select all frames in your preferred order before calling this script
+    p = page  # gives acces to margins
+    pa = sp.page_available(page)  # defines available page size (margins removed)
+    dict_entry = ["""layout_fr(name="L0P0S0-1-fr", L=0, P=0, S=0, n=1): [\n"""]
+    for frame_n in range(scribus.selectionCount()):
+        name_n = scribus.getSelectedObject(
+            frame_n
+        )  # coorfinates are absolute, do not take into account margins
+        i = sp.get_object_info(name_n)
+        dict_entry.append(
+            "frame_fr(x_fr="
+            + str((i.x - p.mleft) / pa.xs)
+            + ",y_fr="
+            + str((i.y - p.mtop) / pa.ys)
+            + ",xs_fr="
+            + str(i.xs / pa.xs)
+            + ",ys_fr="
+            + str(i.ys / pa.ys)
+            + "),\n"
+        )
+    dict_entry.append("],")
+    scribus.messageBox(
+        "Fractional coordinates of page items\nCopy and paste into program file",
+        "".join(dict_entry),
+        scribus.BUTTON_OK,
+    )
+    sys.exit(1)
 
 
 # def main():
@@ -876,6 +999,11 @@ scribus.setUnit(my_units)
 # get page information from scribus
 gutter = my_defaults["gutter"]
 page = sp.get_page_info()
+""" *** utility to generate fractional coordinates for the layout dictionary from manually designed scribus page ***
+uncomment the line after this explanation section
+"""
+generate_fr_coordinates()
+
 if scribus.selectionCount() > 0:
     area_name = scribus.getSelectedObject(0)
     area = sp.get_object_info(area_name)
@@ -885,7 +1013,7 @@ if scribus.selectionCount() > 0:
 else:
     area = sp.page_available(page)
 
-build_main(page, area, layouts, gutter, my_units)
+# build_main(page, area, layouts, gutter, my_units)
 """ *** setup utility to generate icon files ***
 - to add layouts and test them, comment the preceding line and uncomment the line after this explanation section
 - to only test a single layout without writing the icon to disk, enter the layout name instead of "all" and set export to False
@@ -901,7 +1029,7 @@ e.g.  layout_name="L0P1S0-1"
 #     my_defaults,
 #     area,
 #     gutter,
-#     layout_name="all",
+#     layout_test=""""fr" in l_key.name """,  # (l_key.name) == layout_name
 #     export=True,
 #     exportpath="/home/paul/IMG-en-cours/scribus_prepare",
 # )

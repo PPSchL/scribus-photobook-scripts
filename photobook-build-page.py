@@ -533,6 +533,13 @@ layouts = {
         frame_rc(c=2, r=3, x_rc=1, y_rc=3, xs_rc=1, ys_rc=1),
         frame_rc(c=2, r=3, x_rc=2, y_rc=3, xs_rc=1, ys_rc=1),
     ],
+    layout_rc(name="L2P3S0-1", L=2, P=3, S=0, n=1): [
+        frame_rc(c=3, r=3, x_rc=1, y_rc=1, xs_rc=3, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=2, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=3, y_rc=2, xs_rc=1, ys_rc=1),
+        frame_rc(c=3, r=3, x_rc=1, y_rc=3, xs_rc=3, ys_rc=1),
+    ],
     layout_fr(name="L1P1S0-1-fr", L=1, P=1, S=0, n=1): [
         frame_fr(
             x_fr=0.0350594594, y_fr=0.4786823105, xs_fr=0.9567567568, ys_fr=0.4259927798
@@ -637,6 +644,471 @@ layouts = {
             ys_fr=0.2888083283015835,
         ),
     ],
+    layout_fr(name="L1P2S0-2-fr", L=1, P=2, S=0, n=2): [
+        frame_fr(
+            x_fr=0.6490232480117345,
+            y_fr=0.26703249768744036,
+            xs_fr=0.3243242366691252,
+            ys_fr=0.32490936933928155,
+        ),
+        frame_fr(
+            x_fr=0.13082592560260262,
+            y_fr=0.6045270910551417,
+            xs_fr=0.810810591672813,
+            ys_fr=0.3610104103769795,
+        ),
+        frame_fr(
+            x_fr=0.027852980460155385,
+            y_fr=0.07599782219628858,
+            xs_fr=0.648648473338251,
+            ys_fr=0.2888083283015835,
+        ),
+    ],
+    layout_fr(name="L2P3S0-2-fr", L=2, P=3, S=0, n=2): [
+        frame_fr(
+            x_fr=-4.800963133253884e-17,
+            y_fr=0.0,
+            xs_fr=0.6612612627221811,
+            ys_fr=0.32611312512579377,
+        ),
+        frame_fr(
+            x_fr=-4.800963133253884e-17,
+            y_fr=0.5174486426255928,
+            xs_fr=0.3225225254443625,
+            ys_fr=0.32611312512579377,
+        ),
+        frame_fr(
+            x_fr=0.3387387372778186,
+            y_fr=0.33694343743710314,
+            xs_fr=0.3225225254443625,
+            ys_fr=0.32611312512579377,
+        ),
+        frame_fr(
+            x_fr=0.3387387372778186,
+            y_fr=0.6738868748742062,
+            xs_fr=0.6612612627221812,
+            ys_fr=0.32611312512579377,
+        ),
+        frame_fr(
+            x_fr=0.6774774745556374,
+            y_fr=0.19253927328631137,
+            xs_fr=0.3225225254443625,
+            ys_fr=0.32611312512579377,
+        ),
+    ],
+    layout_fr(name="L2P3S0-3-fr", L=2, P=3, S=0, n=3): [
+        frame_fr(
+            x_fr=-4.800963133253884e-17,
+            y_fr=5.816278833849359e-07,
+            xs_fr=0.3225225254443625,
+            ys_fr=0.32611312512579377,
+        ),
+        frame_fr(
+            x_fr=0.6526876914657891,
+            y_fr=0.025702323357372263,
+            xs_fr=0.3225225254443625,
+            ys_fr=0.32611312512579377,
+        ),
+        frame_fr(
+            x_fr=-6.006004382920949e-07,
+            y_fr=0.5415161971933526,
+            xs_fr=0.3225225254443625,
+            ys_fr=0.32611312512579377,
+        ),
+        frame_fr(
+            x_fr=0.3387387372778186,
+            y_fr=0.6738868748742062,
+            xs_fr=0.6612612627221812,
+            ys_fr=0.32611312512579377,
+        ),
+        frame_fr(
+            x_fr=0.18115610719504605,
+            y_fr=0.2954669647596479,
+            xs_fr=0.6612612627221811,
+            ys_fr=0.32611312512579377,
+        ),
+    ],
+    layout_fr(name="L2P2S0-1-fr", L=2, P=2, S=0, n=1): [
+        frame_fr(
+            x_fr=-3.840770506603107e-17,
+            y_fr=0.0,
+            xs_fr=0.6612612627221811,
+            ys_fr=0.3261131251257938,
+        ),
+        frame_fr(
+            x_fr=-3.840770506603107e-17,
+            y_fr=0.4933816696857161,
+            xs_fr=0.32252252544436255,
+            ys_fr=0.3261131251257938,
+        ),
+        frame_fr(
+            x_fr=0.3387387372778186,
+            y_fr=0.6738868748742064,
+            xs_fr=0.6612612627221813,
+            ys_fr=0.3261131251257938,
+        ),
+        frame_fr(
+            x_fr=0.6774774745556374,
+            y_fr=0.1672685445599223,
+            xs_fr=0.32252252544436255,
+            ys_fr=0.3261131251257938,
+        ),
+    ],
+    layout_fr(name="L2P2S0-2-fr", L=2, P=2, S=0, n=2): [
+        frame_fr(
+            x_fr=-6.006004382896944e-07,
+            y_fr=0.13898929880907876,
+            xs_fr=0.4864863550036878,
+            ys_fr=0.21660624622618774,
+        ),
+        frame_fr(
+            x_fr=-6.006004382896944e-07,
+            y_fr=0.5054151561556547,
+            xs_fr=0.4918918940832719,
+            ys_fr=0.4945848438443453,
+        ),
+        frame_fr(
+            x_fr=0.5081081059167283,
+            y_fr=0.0,
+            xs_fr=0.4918918940832719,
+            ys_fr=0.4945848438443453,
+        ),
+        frame_fr(
+            x_fr=0.5144894405283794,
+            y_fr=0.6444044549647336,
+            xs_fr=0.4864863550036888,
+            ys_fr=0.21660624622618735,
+        ),
+    ],
+    layout_fr(name="L2P4S0-1-fr", L=2, P=4, S=0, n=1): [
+        frame_fr(
+            x_fr=-3.840770506603107e-17,
+            y_fr=0.0,
+            xs_fr=0.6510516491985864,
+            ys_fr=0.3261131251257938,
+        ),
+        frame_fr(
+            x_fr=0.6672678610320428,
+            y_fr=0.0,
+            xs_fr=0.3327321389679573,
+            ys_fr=0.3261131251257938,
+        ),
+        frame_fr(
+            x_fr=0.5557559536773473,
+            y_fr=0.3369434374371032,
+            xs_fr=0.3327321389679573,
+            ys_fr=0.3261131251257938,
+        ),
+        frame_fr(
+            x_fr=0.3489483508014136,
+            y_fr=0.6738868748742064,
+            xs_fr=0.6510516491985864,
+            ys_fr=0.3261131251257938,
+        ),
+        frame_fr(
+            x_fr=-3.840770506603107e-17,
+            y_fr=0.6738868748742064,
+            xs_fr=0.3327321389679573,
+            ys_fr=0.3261131251257938,
+        ),
+        frame_fr(
+            x_fr=0.11151190735469516,
+            y_fr=0.33694343743710375,
+            xs_fr=0.3327321389679569,
+            ys_fr=0.32611312512579443,
+        ),
+    ],
+    layout_fr(name="L2P4S0-2-fr", L=2, P=4, S=0, n=2): [
+        frame_fr(
+            x_fr=0.04385884700511637,
+            y_fr=0.033112677085132956,
+            xs_fr=0.6510516491985864,
+            ys_fr=0.3261131251257938,
+        ),
+        frame_fr(
+            x_fr=0.29555497183866314,
+            y_fr=0.6458684558021708,
+            xs_fr=0.6510516491985864,
+            ys_fr=0.3261131251257938,
+        ),
+        frame_fr(
+            x_fr=0.6710816738150964,
+            y_fr=0.01782990304584083,
+            xs_fr=0.270270197224271,
+            ys_fr=0.27075780778273467,
+        ),
+        frame_fr(
+            x_fr=0.15536109247831031,
+            y_fr=0.34189691476090944,
+            xs_fr=0.2702701972242711,
+            ys_fr=0.2707578077827342,
+        ),
+        frame_fr(
+            x_fr=0.6043399501116583,
+            y_fr=0.36418930760168783,
+            xs_fr=0.2702701972242711,
+            ys_fr=0.2707578077827342,
+        ),
+        frame_fr(
+            x_fr=0.037988751828198504,
+            y_fr=0.6283586753950428,
+            xs_fr=0.2702701972242711,
+            ys_fr=0.2707578077827342,
+        ),
+    ],
+    layout_fr(name="L3P1S0-1-fr", L=3, P=1, S=0, n=1): [
+        frame_fr(
+            x_fr=-3.840770506603107e-17, y_fr=0.0, xs_fr=1.0, ys_fr=0.3261131251257938
+        ),
+        frame_fr(
+            x_fr=-3.840770506603107e-17,
+            y_fr=0.3369434374371032,
+            xs_fr=0.6510516491985864,
+            ys_fr=0.3261131251257938,
+        ),
+        frame_fr(
+            x_fr=0.6672678610320428,
+            y_fr=0.3369434374371032,
+            xs_fr=0.3327321389679573,
+            ys_fr=0.3261131251257938,
+        ),
+        frame_fr(
+            x_fr=-3.840770506603107e-17,
+            y_fr=0.6738868748742064,
+            xs_fr=1.0,
+            ys_fr=0.3261131251257938,
+        ),
+    ],
+    layout_fr(name="L3P1S0-2-fr", L=3, P=1, S=0, n=2): [
+        frame_fr(
+            x_fr=0.31463955460192206,
+            y_fr=0.6489667407393181,
+            xs_fr=0.6510516491985866,
+            ys_fr=0.32611312512579443,
+        ),
+        frame_fr(
+            x_fr=-3.840770506603107e-17,
+            y_fr=0.3369434374371032,
+            xs_fr=0.6510516491985864,
+            ys_fr=0.3261131251257938,
+        ),
+        frame_fr(
+            x_fr=0.2936635842951273,
+            y_fr=0.026193698638163655,
+            xs_fr=0.6510516491985866,
+            ys_fr=0.32611312512579443,
+        ),
+        frame_fr(
+            x_fr=0.6672678610320428,
+            y_fr=0.34458482445674926,
+            xs_fr=0.3327321389679573,
+            ys_fr=0.3261131251257938,
+        ),
+    ],
+    layout_fr(name="L3P2S0-1-fr", L=3, P=2, S=0, n=1): [
+        frame_fr(
+            x_fr=0.6520126098998285,
+            y_fr=0.3333433614002882,
+            xs_fr=0.3243242366691252,
+            ys_fr=0.3249093693392816,
+        ),
+        frame_fr(
+            x_fr=0.21351359094227312,
+            y_fr=0.018051102146732372,
+            xs_fr=0.6486484733382504,
+            ys_fr=0.28880832830158365,
+        ),
+        frame_fr(
+            x_fr=0.40235724861215494,
+            y_fr=0.6810264707941852,
+            xs_fr=0.5675674141709699,
+            ys_fr=0.2527072872638861,
+        ),
+        frame_fr(
+            x_fr=0.04004503422206277,
+            y_fr=0.34225831292320924,
+            xs_fr=0.5675674141709699,
+            ys_fr=0.2527072872638861,
+        ),
+        frame_fr(
+            x_fr=0.0322680326536181,
+            y_fr=0.6402724066894061,
+            xs_fr=0.3243242366691246,
+            ys_fr=0.3249093693392823,
+        ),
+    ],
+    layout_fr(name="L3P2S0-2-fr", L=3, P=2, S=0, n=2): [
+        frame_fr(
+            x_fr=0.6520126098998285,
+            y_fr=0.012044096164776424,
+            xs_fr=0.3243242366691252,
+            ys_fr=0.3249093693392816,
+        ),
+        frame_fr(
+            x_fr=0.20270278305330214,
+            y_fr=0.34296047148601383,
+            xs_fr=0.6486484733382504,
+            ys_fr=0.28880832830158365,
+        ),
+        frame_fr(
+            x_fr=0.40235724861215494,
+            y_fr=0.6810264707941852,
+            xs_fr=0.5675674141709699,
+            ys_fr=0.2527072872638861,
+        ),
+        frame_fr(
+            x_fr=0.04004503422206277,
+            y_fr=0.03178935999900691,
+            xs_fr=0.5675674141709699,
+            ys_fr=0.2527072872638861,
+        ),
+        frame_fr(
+            x_fr=0.0322680326536181,
+            y_fr=0.6402724066894061,
+            xs_fr=0.3243242366691246,
+            ys_fr=0.3249093693392823,
+        ),
+    ],
+    layout_fr(name="L4P0S0-1-fr", L=4, P=0, S=0, n=1): [
+        frame_fr(
+            x_fr=0.0819542658478734,
+            y_fr=0.569442443126229,
+            xs_fr=0.8251627412376201,
+            ys_fr=0.38269301167007314,
+        ),
+        frame_fr(
+            x_fr=0.030210202045291196,
+            y_fr=0.2983253515937222,
+            xs_fr=0.4054052958364065,
+            ys_fr=0.18050520518848978,
+        ),
+        frame_fr(
+            x_fr=0.2974773970781809,
+            y_fr=0.02419830719009594,
+            xs_fr=0.5675674141709699,
+            ys_fr=0.2527072872638861,
+        ),
+        frame_fr(
+            x_fr=0.49388875540544136,
+            y_fr=0.3276073071020774,
+            xs_fr=0.4864863550036878,
+            ys_fr=0.21660624622618774,
+        ),
+    ],
+    layout_fr(name="L4P0S0-1-fr", L=4, P=0, S=0, n=2): [
+        frame_fr(
+            x_fr=0.37564554411982237,
+            y_fr=0.0043321249245237845,
+            xs_fr=0.4945945960555146,
+            ys_fr=0.2445848438443453,
+        ),
+        frame_fr(
+            x_fr=-6.006004382896944e-07,
+            y_fr=0.2532490936933929,
+            xs_fr=0.4945945960555146,
+            ys_fr=0.2445848438443453,
+        ),
+        frame_fr(
+            x_fr=0.4538437211833785,
+            y_fr=0.502166062462262,
+            xs_fr=0.4945945960555146,
+            ys_fr=0.2445848438443453,
+        ),
+        frame_fr(
+            x_fr=0.13951948181155133,
+            y_fr=0.7510830312311311,
+            xs_fr=0.4945945960555146,
+            ys_fr=0.2445848438443453,
+        ),
+    ],
+    layout_fr(name="L4P3S0-1-fr", L=4, P=3, S=0, n=1): [
+        frame_fr(
+            x_fr=-3.840770506603107e-17,
+            y_fr=0.0,
+            xs_fr=0.6438444439392725,
+            ys_fr=0.24187726576651797,
+        ),
+        frame_fr(
+            x_fr=-3.840770506603107e-17,
+            y_fr=0.25270757807782734,
+            xs_fr=0.6438444439392725,
+            ys_fr=0.24187726576651797,
+        ),
+        frame_fr(
+            x_fr=0.6924911041315334,
+            y_fr=0.06024295468503183,
+            xs_fr=0.27027019722427104,
+            ys_fr=0.253009393753291,
+        ),
+        frame_fr(
+            x_fr=-3.840770506603107e-17,
+            y_fr=0.5054151561556547,
+            xs_fr=0.6438444439392725,
+            ys_fr=0.24187726576651797,
+        ),
+        frame_fr(
+            x_fr=0.6924911041315334,
+            y_fr=0.3734953031233547,
+            xs_fr=0.27027019722427104,
+            ys_fr=0.253009393753291,
+        ),
+        frame_fr(
+            x_fr=-3.840770506603107e-17,
+            y_fr=0.7581227342334821,
+            xs_fr=0.6438444439392725,
+            ys_fr=0.24187726576651797,
+        ),
+        frame_fr(
+            x_fr=0.6924911041315334,
+            y_fr=0.6867476515616775,
+            xs_fr=0.27027019722427104,
+            ys_fr=0.2530093937532909,
+        ),
+    ],
+    layout_fr(name="L4P3S0-2-fr", L=4, P=3, S=0, n=2): [
+        frame_fr(
+            x_fr=0.024159152629658544,
+            y_fr=0.006367822516371692,
+            xs_fr=0.4864863550036878,
+            ys_fr=0.21660624622618774,
+        ),
+        frame_fr(
+            x_fr=0.5927013413119501,
+            y_fr=0.04241305163919101,
+            xs_fr=0.27027019722427104,
+            ys_fr=0.27075780778273467,
+        ),
+        frame_fr(
+            x_fr=0.5123271888605195,
+            y_fr=0.35405093191026776,
+            xs_fr=0.4864863550036888,
+            ys_fr=0.21660624622618735,
+        ),
+        frame_fr(
+            x_fr=0.0012762759313369387,
+            y_fr=0.5272557043555786,
+            xs_fr=0.4864863550036888,
+            ys_fr=0.21660624622618735,
+        ),
+        frame_fr(
+            x_fr=0.1404804425127934,
+            y_fr=0.7570187744266165,
+            xs_fr=0.4864863550036888,
+            ys_fr=0.21660624622618735,
+        ),
+        frame_fr(
+            x_fr=0.11788164982177704,
+            y_fr=0.2398155496467144,
+            xs_fr=0.2702701972242711,
+            ys_fr=0.2707578077827342,
+        ),
+        frame_fr(
+            x_fr=0.6613499714069152,
+            y_fr=0.6358941101650356,
+            xs_fr=0.2702701972242711,
+            ys_fr=0.2707578077827342,
+        ),
+    ],
 }
 
 
@@ -655,16 +1127,21 @@ def draw_layout(lkey, layout, area, gutter, orientation, tkwindow="none"):
             elif orientation == "Portrait":
                 frame_draw = frame_i
             else:
-                pass  # square yet TODO
+                frame_draw = frame_i
             sp.create_image(*rc2xy(frame_draw, area, gutter))
     else:  # layout is of type fr
         for frame_i in layout:
             if orientation == "Landscape":
-                pass  # TODO
+                frame_draw = frame_fr(
+                    x_fr=frame_i.y_fr,
+                    y_fr=1 - (frame_i.x_fr + frame_i.xs_fr),
+                    xs_fr=frame_i.ys_fr,
+                    ys_fr=frame_i.xs_fr,
+                )
             elif orientation == "Portrait":
                 frame_draw = frame_i
             else:
-                pass  # square yet TODO
+                frame_draw = frame_i
             sp.create_image(*fr2xy(frame_draw, area))
     if tkwindow != "none":
         tkwindow.destroy()
@@ -781,7 +1258,9 @@ def select_and_draw(
     elif orientation == "Landscape":
         ok_layouts = filter_layouts(P, L, S, layouts)
     else:  # orientation=square TODO
-        pass
+        ok_layouts = filter_layouts(
+            0, S, P, layouts
+        )  # TODO may have to create a specific layout dict for square pages
     button_r = 2
     # draw the buttons and simultaneously test for success
     if (
@@ -1002,7 +1481,7 @@ page = sp.get_page_info()
 """ *** utility to generate fractional coordinates for the layout dictionary from manually designed scribus page ***
 uncomment the line after this explanation section
 """
-generate_fr_coordinates()
+# generate_fr_coordinates()
 
 if scribus.selectionCount() > 0:
     area_name = scribus.getSelectedObject(0)
@@ -1013,7 +1492,7 @@ if scribus.selectionCount() > 0:
 else:
     area = sp.page_available(page)
 
-# build_main(page, area, layouts, gutter, my_units)
+build_main(page, area, layouts, gutter, my_units)
 """ *** setup utility to generate icon files ***
 - to add layouts and test them, comment the preceding line and uncomment the line after this explanation section
 - to only test a single layout without writing the icon to disk, enter the layout name instead of "all" and set export to False
@@ -1029,7 +1508,8 @@ e.g.  layout_name="L0P1S0-1"
 #     my_defaults,
 #     area,
 #     gutter,
-#     layout_test=""""fr" in l_key.name """,  # (l_key.name) == layout_name
+#     layout_test="""((l_key.name) == "L2P3S0-1")""",
+#     # eg """"fr" in l_key.name """ or """((l_key.name) == "layout_name")"""
 #     export=True,
 #     exportpath="/home/paul/IMG-en-cours/scribus_prepare",
 # )

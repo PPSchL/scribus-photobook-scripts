@@ -3,7 +3,7 @@ import scribus
 from collections import namedtuple
 from script_path import script_path
 import scribus_paul as sp
-from scribus_paul import frame_rc, rc2xy, get_unit_string, frame_fr, fr2xy
+from scribus_paul import frame_rc, frame_fr
 
 from tkinter import *
 from tkinter.ttk import *
@@ -2244,7 +2244,7 @@ def draw_layout(lkey, layout, area, gutter, orientation, tkwindow="none"):
                 frame_draw = frame_i
             else:
                 frame_draw = frame_i
-            sp.create_image(*rc2xy(frame_draw, area, gutter))
+            sp.create_image(*sp.rc2xy(frame_draw, area, gutter))
     else:  # layout is of type fr
         for frame_i in layout:
             if orientation == "Landscape":
@@ -2258,7 +2258,7 @@ def draw_layout(lkey, layout, area, gutter, orientation, tkwindow="none"):
                 frame_draw = frame_i
             else:
                 frame_draw = frame_i
-            sp.create_image(*fr2xy(frame_draw, area))
+            sp.create_image(*sp.fr2xy(frame_draw, area))
     if tkwindow != "none":
         tkwindow.destroy()
     return
@@ -2320,8 +2320,15 @@ def filter_same_total(L, P, S, layouts):
     return selected_layouts
 
 
+def use_bleed(choice):
+    if choice:
+        return sp.page_with_bleed(page, bleed)
+    else:
+        return area
+
+
 def select_and_draw(
-    root, button_imgs, L, P, S, gutter, layouts, orientation, buttons_per_row
+    root, button_imgs, L, P, S, area, gutter, layouts, orientation, buttons_per_row
 ):
     def draw_buttons(filtered_layouts, button_r, selection_window, buttons_per_row):
         # draws the button to a specified number of buttons per row
@@ -2375,7 +2382,7 @@ def select_and_draw(
         ok_layouts = filter_layouts(P, L, S, layouts)
     else:  # orientation=square TODO
         ok_layouts = filter_layouts(
-            0, S, P, layouts
+            L, P, S, layouts
         )  # TODO may have to create a specific layout dict for square pages
     button_r = 2
     # draw the buttons and simultaneously test for success
@@ -2422,7 +2429,7 @@ def select_and_draw(
     stop_top.grid(row=button_r, columnspan=10, sticky="nsew")
 
 
-def build_main(page, area, gutter, my_units):
+def build_main(page, area, gutter, bleed, my_units):
     orientation = sp.get_orientation(area)
     layouts = get_layouts(orientation)
     # *** tkinter loop
@@ -2434,6 +2441,8 @@ def build_main(page, area, gutter, my_units):
     root.title("Build complex photo page")
     main_frame = Frame(root, padding="2 2 4 4")
     main_frame.grid(column=0, row=0, sticky=(N, W, E, S))
+    specs_frame = Frame(root, padding="2 2 4 4")
+    specs_frame.grid(column=1, row=0, sticky=(W, E, S))
     root.columnconfigure(0, weight=1)
     root.rowconfigure(0, weight=1)
 
@@ -2441,6 +2450,7 @@ def build_main(page, area, gutter, my_units):
     P_number = StringVar(value="6")
     S_number = StringVar(value="0")
     gutter_number = StringVar(value=gutter)
+    bleed_onoff = BooleanVar(value=False)
 
     # determine screen size to adapt button size to screen size, right now only for hd-type or 4K displays
     screen_width = root.winfo_screenwidth()
@@ -2475,7 +2485,7 @@ def build_main(page, area, gutter, my_units):
         main_frame,
         text="Please enter the number of Landscape, Portrait and Square photographs",
     )
-    explication.grid(row=0, column=0)
+    explication.grid(row=0, column=0, columnspan=3)
 
     L_number_label = Label(main_frame, text="Landscape")
     L_number_label.grid(row=1, column=0)
@@ -2493,21 +2503,22 @@ def build_main(page, area, gutter, my_units):
     S_number_e.grid(row=2, column=2)
 
     gutter_label = Label(
-        main_frame, text="".join(["Gutter (", get_unit_string(my_units), ")"])
+        specs_frame, text="".join(["Gutter (", sp.get_unit_string(my_units), ")"])
     )
-    gutter_label.grid(row=1, column=5)
-    gutter_number_e = Entry(main_frame, textvariable=gutter_number)
-    gutter_number_e.grid(row=2, column=5)
+    gutter_label.grid(row=1, column=0)
+    gutter_number_e = Entry(specs_frame, textvariable=gutter_number)
+    gutter_number_e.grid(row=2, column=0)
 
     do_it = Button(
         main_frame,
-        text="Ok, show possible layouts",
+        text="Show possible layouts",
         command=lambda: select_and_draw(
             root,
             button_imgs,
             eval(L_number_e.get()),
             eval(P_number_e.get()),
             eval(S_number_e.get()),
+            use_bleed(bleed_onoff.get()),
             eval(gutter_number_e.get()),
             layouts,
             orientation,
@@ -2518,6 +2529,15 @@ def build_main(page, area, gutter, my_units):
 
     stop_it = Button(main_frame, text="Finished, close all", command=root.destroy)
     stop_it.grid(row=8, column=2)
+
+    bleed_or_not = Checkbutton(
+        specs_frame,
+        text="Draw into bleed",
+        variable=bleed_onoff,
+        offvalue=False,
+        onvalue=True,
+    )
+    bleed_or_not.grid(row=3, column=0)
 
     root.mainloop()
     # end of Tkinter loop
@@ -2594,6 +2614,7 @@ initial_units = scribus.getUnit()
 scribus.setUnit(my_units)
 # get page information from scribus
 gutter = my_defaults["gutter"]
+bleed = my_defaults["bleed"]
 page = sp.get_page_info()
 """ *** utility to generate fractional coordinates for the layout dictionary from manually designed scribus page ***
 uncomment the line after this explanation section
@@ -2609,7 +2630,7 @@ if scribus.selectionCount() > 0:
 else:
     area = sp.page_available(page)
 
-build_main(page, area, gutter, my_units)
+build_main(page, area, gutter, bleed, my_units)
 """ *** setup utility to generate icon files ***
 - to add layouts and test them, comment the preceding line and uncomment the line after this explanation section
 - to only test a single layout without writing the icon to disk, enter the layout name instead of "all" and set export to False

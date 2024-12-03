@@ -166,9 +166,9 @@ def select_msgs(lang_val):
             "ti_nlines": "Picture rows",
             "msg_nlines": "Enter the number of picture rows",
             "ti_ratio": "Image ratio",
-            "msg_ratio": "Entrez the image ratio, typically 3/2 ou 4/3:",
+            "msg_ratio": "Enter the image ratio, typically 3/2 ou 4/3:",
             "ti_direction": "Direction",
-            "msg_direction": "Entrez direction, typically left2right",
+            "msg_direction": "Enter direction, typically left2right",
             "ti_aspect": "Direction type",
             "msg_aspect": "Entrez direction type, typically "
             "constant"

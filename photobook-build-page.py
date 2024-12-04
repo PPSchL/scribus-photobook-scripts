@@ -7,7 +7,6 @@ from scribus_paul import frame_rc, frame_fr
 import scribus_acta as sa
 
 from tkinter import *
-import tkinter.ttk as ttk
 from tkinter.ttk import *
 
 
@@ -2540,12 +2539,15 @@ def draw_acta(root_win, page, linevar, Acta_button_imgs):
     w_acta = Toplevel(
         root_win,
     )
-    w_acta.title("Construct diary page")
+    w_acta.title("Build diary page")
     x0 = root_win.winfo_x()
     y0 = root_win.winfo_y()
-    w_acta.geometry("+%d+%d" % (x0 + 20, y0 + 100))
+    w_acta.geometry("+%d+%d" % (x0 + 20, y0 + 150))
 
-    draw_3 = ttk.Button(
+    quick_draw_title = Label(w_acta, text="Quick selection", style="Title.TLabel")
+    quick_draw_title.grid(row=0, column=0, columnspan=3)
+
+    draw_3 = Button(
         w_acta,
         text="Draw standard page",
         image=Acta_button_imgs["Acta_normal"],
@@ -2554,7 +2556,7 @@ def draw_acta(root_win, page, linevar, Acta_button_imgs):
     )
     draw_3.grid(row=1, column=0, rowspan=3)
 
-    draw_2_top = ttk.Button(
+    draw_2_top = Button(
         w_acta,
         text="Draw double (top)",
         image=Acta_button_imgs["Acta_double_top"],
@@ -2563,7 +2565,7 @@ def draw_acta(root_win, page, linevar, Acta_button_imgs):
     )
     draw_2_top.grid(row=1, column=1, rowspan=3)
 
-    draw_2_bottom = ttk.Button(
+    draw_2_bottom = Button(
         w_acta,
         text="Draw double (bottom)",
         image=Acta_button_imgs["Acta_double_bottom"],
@@ -2572,7 +2574,7 @@ def draw_acta(root_win, page, linevar, Acta_button_imgs):
     )
     draw_2_bottom.grid(row=1, column=2, rowspan=3)
 
-    draw_full = ttk.Button(
+    draw_full = Button(
         w_acta,
         text="Draw full page",
         image=Acta_button_imgs["Acta_full_page"],
@@ -2581,7 +2583,7 @@ def draw_acta(root_win, page, linevar, Acta_button_imgs):
     )
     draw_full.grid(row=1, column=3, rowspan=3)
 
-    line_title = Label(w_acta, text="Customize lines")
+    line_title = Label(w_acta, text="Customize lines", style="Title.TLabel")
     line_title.grid(row=0, column=4)
 
     line1 = Combobox(
@@ -2608,7 +2610,7 @@ def draw_acta(root_win, page, linevar, Acta_button_imgs):
     )
     line3.grid(row=3, column=4)
 
-    line_do_title = Label(w_acta, text="Draw specific line")
+    line_do_title = Label(w_acta, text="Draw specific line", style="Title.TLabel")
     line_do_title.grid(row=0, column=5)
     line1do = Button(
         w_acta, text="draw", command=lambda: draw1(root_win, page, linevar, 1)
@@ -2631,6 +2633,7 @@ def build_main(page, area, gutter, bleed, my_units):
     root = Tk()
     style = Style()
     style.theme_use("classic")
+    style.configure("Title.TLabel", font=("Sans", "10", "bold"), foreground="#202020")
 
     # style.configure("choosel.TFrame", background="DeepSkyBlue")
     root.title("Build complex photo page")
@@ -2698,6 +2701,7 @@ def build_main(page, area, gutter, bleed, my_units):
     explication = Label(
         main_frame,
         text="Choose layout for a number of Landscape, Portrait and Square photographs",
+        style="Title.TLabel",
     )
     explication.grid(row=0, column=0, columnspan=3, pady=10)
 
@@ -2737,10 +2741,12 @@ def build_main(page, area, gutter, bleed, my_units):
     stop_it = Button(main_frame, text="Finished, close all", command=root.destroy)
     stop_it.grid(row=8, column=2)
 
-    specs_frame = Frame(root, padding="20 2 4 4")
+    specs_frame = Frame(root, padding="30 2 30 4")
     specs_frame.grid(column=1, row=0, sticky=(N, W, E, S))
     # specs_frame.rowconfigure(0, weight=1)
-    parameter_label = Label(specs_frame, text="Additional parameters")
+    parameter_label = Label(
+        specs_frame, text="Additional parameters", style="Title.TLabel"
+    )
 
     parameter_label.grid(row=0, column=0, pady=10)
 
@@ -2767,6 +2773,7 @@ def build_main(page, area, gutter, bleed, my_units):
         text="Build diary page",
         image=Acta_button_imgs["Acta_normal"],
         compound=BOTTOM,
+        style="Title.TLabel",
         command=lambda: draw_acta(root, page, linevar, Acta_button_imgs),
     )
     acta_show.grid(row=0, column=0)

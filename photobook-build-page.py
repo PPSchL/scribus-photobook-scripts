@@ -4,8 +4,10 @@ from collections import namedtuple
 from script_path import script_path
 import scribus_paul as sp
 from scribus_paul import frame_rc, frame_fr
+import scribus_acta as sa
 
 from tkinter import *
+import tkinter.ttk as ttk
 from tkinter.ttk import *
 
 
@@ -2429,6 +2431,199 @@ def select_and_draw(
     stop_top.grid(row=button_r, columnspan=10, sticky="nsew")
 
 
+def draw_acta(root_win, page, linevar, Acta_button_imgs):
+    def draw1(root_win, page, linevar, line_n):
+        group_type = linevar[line_n - 1].get()
+        path_to_base, n_groups, gutter, top_group, below_groups, g_pos = (
+            sa.set_acta_data(group_type, page, script_path)
+        )
+
+        sa.draw_1_group(
+            group_type,
+            page,
+            path_to_base,
+            n_groups,
+            line_n,
+            gutter,
+            top_group,
+            below_groups,
+            g_pos,
+        )
+        scribus.deselectAll()
+        root_win.destroy()
+        return
+
+    def draw3(root_win, page, linevar):
+        for group_n in range(1, 4):
+            group_type = linevar[group_n - 1].get()
+            path_to_base, n_groups, gutter, top_group, below_groups, g_pos = (
+                sa.set_acta_data(group_type, page, script_path)
+            )
+
+            sa.draw_1_group(
+                group_type,
+                page,
+                path_to_base,
+                n_groups,
+                group_n,
+                gutter,
+                top_group,
+                below_groups,
+                g_pos,
+            )
+        scribus.deselectAll()
+        root_win.destroy()
+        return
+
+    def draw2(root_win, page, linevar, pos):
+        # pos= tuple with: first= double position, second= single position
+        # draw double at position given by pos[0]
+        group_type = "double"
+        path_to_base, n_groups, gutter, top_group, below_groups, g_pos = (
+            sa.set_acta_data(group_type, page, script_path)
+        )
+
+        sa.draw_1_group(
+            "double",
+            page,
+            path_to_base,
+            n_groups,
+            pos[0],
+            gutter,
+            top_group,
+            below_groups,
+            g_pos,
+        )
+        group_type = linevar[
+            pos[1] - 1
+        ].get()  # linevar from 0 to 2, position from 1 to 3
+        path_to_base, n_groups, gutter, top_group, below_groups, g_pos = (
+            sa.set_acta_data(group_type, page, script_path)
+        )
+
+        sa.draw_1_group(
+            group_type,
+            page,
+            path_to_base,
+            n_groups,
+            pos[1],
+            gutter,
+            top_group,
+            below_groups,
+            g_pos,
+        )
+        scribus.deselectAll()
+        root_win.destroy()
+        return
+
+    def drawfull(root_win, page):
+        group_type = "whole_page"
+        path_to_base, n_groups, gutter, top_group, below_groups, g_pos = (
+            sa.set_acta_data(group_type, page, script_path)
+        )
+
+        sa.draw_1_group(
+            "whole_page",
+            page,
+            path_to_base,
+            n_groups,
+            1,  # group_n=1 for whole page
+            gutter,
+            top_group,
+            below_groups,
+            g_pos,
+        )
+        scribus.deselectAll()
+        root_win.destroy()
+        return
+
+    w_acta = Toplevel(
+        root_win,
+    )
+    w_acta.title("Construct diary page")
+    x0 = root_win.winfo_x()
+    y0 = root_win.winfo_y()
+    w_acta.geometry("+%d+%d" % (x0 + 20, y0 + 100))
+
+    draw_3 = ttk.Button(
+        w_acta,
+        text="Draw standard page",
+        image=Acta_button_imgs["Acta_normal"],
+        compound=BOTTOM,
+        command=lambda: draw3(root_win, page, linevar),
+    )
+    draw_3.grid(row=1, column=0, rowspan=3)
+
+    draw_2_top = ttk.Button(
+        w_acta,
+        text="Draw double (top)",
+        image=Acta_button_imgs["Acta_double_top"],
+        compound=BOTTOM,
+        command=lambda: draw2(root_win, page, linevar, (1, 3)),
+    )
+    draw_2_top.grid(row=1, column=1, rowspan=3)
+
+    draw_2_bottom = ttk.Button(
+        w_acta,
+        text="Draw double (bottom)",
+        image=Acta_button_imgs["Acta_double_bottom"],
+        compound=BOTTOM,
+        command=lambda: draw2(root_win, page, linevar, (2, 1)),
+    )
+    draw_2_bottom.grid(row=1, column=2, rowspan=3)
+
+    draw_full = ttk.Button(
+        w_acta,
+        text="Draw full page",
+        image=Acta_button_imgs["Acta_full_page"],
+        compound=BOTTOM,
+        command=lambda: drawfull(root_win, page),
+    )
+    draw_full.grid(row=1, column=3, rowspan=3)
+
+    line_title = Label(w_acta, text="Customize lines")
+    line_title.grid(row=0, column=4)
+
+    line1 = Combobox(
+        w_acta,
+        text="line 1",
+        textvariable=linevar[0],
+        state="readonly",
+        values=("normal", "central"),
+    )
+    line1.grid(row=1, column=4)
+    line2 = Combobox(
+        w_acta,
+        textvariable=linevar[1],
+        state="readonly",
+        values=("normal", "central"),
+    )
+    line2.grid(row=2, column=4)
+
+    line3 = Combobox(
+        w_acta,
+        textvariable=linevar[2],
+        state="readonly",
+        values=("normal", "central"),
+    )
+    line3.grid(row=3, column=4)
+
+    line_do_title = Label(w_acta, text="Draw specific line")
+    line_do_title.grid(row=0, column=5)
+    line1do = Button(
+        w_acta, text="draw", command=lambda: draw1(root_win, page, linevar, 1)
+    )
+    line1do.grid(row=1, column=5)
+    line2do = Button(
+        w_acta, text="draw", command=lambda: draw1(root_win, page, linevar, 2)
+    )
+    line2do.grid(row=2, column=5)
+    line3do = Button(
+        w_acta, text="draw", command=lambda: draw1(root_win, page, linevar, 3)
+    )
+    line3do.grid(row=3, column=5)
+
+
 def build_main(page, area, gutter, bleed, my_units):
     orientation = sp.get_orientation(area)
     layouts = get_layouts(orientation)
@@ -2441,8 +2636,7 @@ def build_main(page, area, gutter, bleed, my_units):
     root.title("Build complex photo page")
     main_frame = Frame(root, padding="2 2 4 4")
     main_frame.grid(column=0, row=0, sticky=(N, W, E, S))
-    specs_frame = Frame(root, padding="2 2 4 4")
-    specs_frame.grid(column=1, row=0, sticky=(W, E, S))
+
     root.columnconfigure(0, weight=1)
     root.rowconfigure(0, weight=1)
 
@@ -2451,6 +2645,10 @@ def build_main(page, area, gutter, bleed, my_units):
     S_number = StringVar(value="0")
     gutter_number = StringVar(value=gutter)
     bleed_onoff = BooleanVar(value=False)
+    # have to define line variables for acta here to avoid them being garbage collected outside of draw_acta function
+    linevar = []
+    for line_n in range(3):
+        linevar.append(StringVar(value="normal"))
 
     # determine screen size to adapt button size to screen size, right now only for hd-type or 4K displays
     screen_width = root.winfo_screenwidth()
@@ -2480,12 +2678,28 @@ def build_main(page, area, gutter, bleed, my_units):
                 "".join([prefix, lkey.name, ".gif"]),
             )
         )
+    Acta_button_imgs = {}
+    for img_name in (
+        "Acta_normal",
+        "Acta_double_top",
+        "Acta_double_bottom",
+        "Acta_full_page",
+    ):
+        Acta_button_imgs[img_name] = PhotoImage(
+            file=os.path.join(
+                script_path,
+                "docs",
+                "img",
+                screen_type,
+                "".join([img_name, ".gif"]),
+            )
+        )
 
     explication = Label(
         main_frame,
-        text="Please enter the number of Landscape, Portrait and Square photographs",
+        text="Choose layout for a number of Landscape, Portrait and Square photographs",
     )
-    explication.grid(row=0, column=0, columnspan=3)
+    explication.grid(row=0, column=0, columnspan=3, pady=10)
 
     L_number_label = Label(main_frame, text="Landscape")
     L_number_label.grid(row=1, column=0)
@@ -2501,13 +2715,6 @@ def build_main(page, area, gutter, bleed, my_units):
     S_number_label.grid(row=1, column=2)
     S_number_e = Entry(main_frame, textvariable=S_number)
     S_number_e.grid(row=2, column=2)
-
-    gutter_label = Label(
-        specs_frame, text="".join(["Gutter (", sp.get_unit_string(my_units), ")"])
-    )
-    gutter_label.grid(row=1, column=0)
-    gutter_number_e = Entry(specs_frame, textvariable=gutter_number)
-    gutter_number_e.grid(row=2, column=0)
 
     do_it = Button(
         main_frame,
@@ -2530,6 +2737,20 @@ def build_main(page, area, gutter, bleed, my_units):
     stop_it = Button(main_frame, text="Finished, close all", command=root.destroy)
     stop_it.grid(row=8, column=2)
 
+    specs_frame = Frame(root, padding="20 2 4 4")
+    specs_frame.grid(column=1, row=0, sticky=(N, W, E, S))
+    # specs_frame.rowconfigure(0, weight=1)
+    parameter_label = Label(specs_frame, text="Additional parameters")
+
+    parameter_label.grid(row=0, column=0, pady=10)
+
+    gutter_label = Label(
+        specs_frame, text="".join(["Gutter (", sp.get_unit_string(my_units), ")"])
+    )
+    gutter_label.grid(row=1, column=0)
+    gutter_number_e = Entry(specs_frame, textvariable=gutter_number)
+    gutter_number_e.grid(row=2, column=0)
+
     bleed_or_not = Checkbutton(
         specs_frame,
         text="Draw into bleed",
@@ -2537,7 +2758,18 @@ def build_main(page, area, gutter, bleed, my_units):
         offvalue=False,
         onvalue=True,
     )
-    bleed_or_not.grid(row=3, column=0)
+    bleed_or_not.grid(row=3, column=0, pady=10)
+
+    acta_frame = Frame(root, padding="2 2 4 4")
+    acta_frame.grid(column=2, row=0, sticky=(N, W, E, S))
+    acta_show = Button(
+        acta_frame,
+        text="Build diary page",
+        image=Acta_button_imgs["Acta_normal"],
+        compound=BOTTOM,
+        command=lambda: draw_acta(root, page, linevar, Acta_button_imgs),
+    )
+    acta_show.grid(row=0, column=0)
 
     root.mainloop()
     # end of Tkinter loop

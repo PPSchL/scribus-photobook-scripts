@@ -2368,6 +2368,7 @@ def select_and_draw(
     x0 = root.winfo_x()
     y0 = root.winfo_y()
     choose_layout.geometry("+%d+%d" % (x0 + 20, y0 + 100))
+
     # TODO choose_frame = Frame(choose_layout)
     # choose_frame.grid(column=0, row=0, sticky=(N, W, E, S))
     # choose_layout.columnconfigure(0, weight=1)
@@ -2375,16 +2376,17 @@ def select_and_draw(
 
     # the same layout can be used for portrait and landscape,
     # landscapes become portraits and vice-versa=> just invert in the filter function
-    exact_label = Label(choose_layout, text="Perfect correspondance")
-    exact_label.grid(row=0, column=0)
+    exact_label = Label(
+        choose_layout, text="Perfect correspondance", style="Title.TLabel"
+    )
+    exact_label.configure(anchor="center")
+    exact_label.grid(row=0, column=0, columnspan=10, sticky="nsew")
     if orientation == "Portrait":
         ok_layouts = filter_layouts(L, P, S, layouts)
     elif orientation == "Landscape":
         ok_layouts = filter_layouts(P, L, S, layouts)
     else:  # orientation=square TODO
-        ok_layouts = filter_layouts(
-            L, P, S, layouts
-        )  # TODO may have to create a specific layout dict for square pages
+        ok_layouts = filter_layouts(L, P, S, layouts)
     button_r = 2
     # draw the buttons and simultaneously test for success
     if (
@@ -2394,7 +2396,9 @@ def select_and_draw(
         # only propose similar layouts if perfect fit does not exist
         exact_label.text = "No perfect correpondance found"
         button_r += 1
-        similar_label = Label(choose_layout, text="Approximate correspondance")
+        similar_label = Label(
+            choose_layout, text="Approximate correspondance", style="Title.TLabel"
+        )
         similar_label.grid(row=button_r, column=0)
         for or_i in ("L", "P"):
             if orientation == "Portrait":
@@ -2721,17 +2725,17 @@ def build_main(page, area, gutter, bleed, my_units):
 
     L_number_label = Label(main_frame, text="Landscape")
     L_number_label.grid(row=1, column=0)
-    L_number_e = Entry(main_frame, textvariable=L_number)
+    L_number_e = Spinbox(main_frame, from_=0, to=8, textvariable=L_number)
     L_number_e.grid(row=2, column=0)
 
     P_number_label = Label(main_frame, text="Portrait")
     P_number_label.grid(row=1, column=1)
-    P_number_e = Entry(main_frame, textvariable=P_number)
+    P_number_e = Spinbox(main_frame, from_=0, to=13, textvariable=P_number)
     P_number_e.grid(row=2, column=1)
 
     S_number_label = Label(main_frame, text="Square")
     S_number_label.grid(row=1, column=2)
-    S_number_e = Entry(main_frame, textvariable=S_number)
+    S_number_e = Spinbox(main_frame, from_=0, to=6, textvariable=S_number)
     S_number_e.grid(row=2, column=2)
 
     do_it = Button(

@@ -2605,14 +2605,14 @@ def draw_acta(root_win, page, linevar, Acta_button_imgs, gutter_number_e):
         text="line 1",
         textvariable=linevar[0],
         state="readonly",
-        values=("normal", "central"),
+        values=("normal", "central", "double"),
     )
     line1.grid(row=1, column=4)
     line2 = Combobox(
         w_acta,
         textvariable=linevar[1],
         state="readonly",
-        values=("normal", "central"),
+        values=("normal", "central", "double"),
     )
     line2.grid(row=2, column=4)
 
@@ -2658,7 +2658,7 @@ def build_main(page, area, gutter, bleed, my_units):
     root.rowconfigure(0, weight=1)
 
     L_number = StringVar(value="0")
-    P_number = StringVar(value="6")
+    P_number = StringVar(value="4")
     S_number = StringVar(value="0")
     gutter_number = StringVar(value=gutter)
     bleed_onoff = BooleanVar(value=False)

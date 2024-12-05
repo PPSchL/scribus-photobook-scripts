@@ -2329,7 +2329,17 @@ def use_bleed(choice):
 
 
 def select_and_draw(
-    root, button_imgs, L, P, S, area, gutter, layouts, orientation, buttons_per_row
+    root,
+    button_imgs,
+    L,
+    P,
+    S,
+    area,
+    gutter,
+    layouts,
+    orientation,
+    buttons_per_row,
+    same_total_only,
 ):
     def draw_buttons(filtered_layouts, button_r, selection_window, buttons_per_row):
         # draws the button to a specified number of buttons per row
@@ -2361,6 +2371,25 @@ def select_and_draw(
         else:
             return ("no layouts",)
 
+    def draw_all(choose_layout, L, P, S, layouts, buttons_per_row, button_r):
+        button_r += 1
+        same_total = filter_same_total(L, P, S, layouts)
+
+        draw_outcome = draw_buttons(
+            same_total, button_r, choose_layout, buttons_per_row
+        )
+        if draw_outcome[0] == "success":
+            button_r = draw_outcome[1]
+        else:
+            no_layouts_label = Label(
+                choose_layout,
+                text="No layouts with the same number of pictures!",
+                style="TitleRed.TLabel",
+            )
+            no_layouts_label.configure(anchor="center")
+            no_layouts_label.grid(row=button_r, column=0, columnspan=10, sticky="nsew")
+        return button_r
+
     choose_layout = Toplevel(
         root,
     )
@@ -2373,57 +2402,89 @@ def select_and_draw(
     # choose_frame.grid(column=0, row=0, sticky=(N, W, E, S))
     # choose_layout.columnconfigure(0, weight=1)
     # choose_layout.rowconfigure(0, weight=1)
-
-    # the same layout can be used for portrait and landscape,
-    # landscapes become portraits and vice-versa=> just invert in the filter function
-    exact_label = Label(
-        choose_layout, text="Perfect correspondance", style="Title.TLabel"
-    )
-    exact_label.configure(anchor="center")
-    exact_label.grid(row=0, column=0, columnspan=10, sticky="nsew")
-    if orientation == "Portrait":
-        ok_layouts = filter_layouts(L, P, S, layouts)
-    elif orientation == "Landscape":
-        ok_layouts = filter_layouts(P, L, S, layouts)
-    else:  # orientation=square TODO
-        ok_layouts = filter_layouts(L, P, S, layouts)
-    button_r = 2
-    # draw the buttons and simultaneously test for success
-    if (
-        draw_buttons(ok_layouts, button_r, choose_layout, buttons_per_row)[0]
-        == "no layouts"
-    ):
-        # only propose similar layouts if perfect fit does not exist
-        exact_label.text = "No perfect correpondance found"
-        button_r += 1
-        similar_label = Label(
-            choose_layout, text="Approximate correspondance", style="Title.TLabel"
+    if not same_total_only:
+        # the same layout can be used for portrait and landscape,
+        # landscapes become portraits and vice-versa=> just invert in the filter function
+        exact_label = Label(
+            choose_layout, text="Perfect correspondance", style="Title.TLabel"
         )
-        similar_label.grid(row=button_r, column=0)
-        for or_i in ("L", "P"):
-            if orientation == "Portrait":
-                similar_layouts = filter_similar(L, P, S, layouts, or_i)
-            elif orientation == "Landscape":
-                similar_layouts = filter_similar(P, L, S, layouts, or_i)
-            else:  # orientation=square TODO
-                pass
-            button_r += 2
-            draw_outcome = draw_buttons(
-                similar_layouts, button_r, choose_layout, buttons_per_row
+        exact_label.configure(anchor="center")
+        exact_label.grid(row=0, column=0, columnspan=10, sticky="nsew")
+        if orientation == "Portrait":
+            ok_layouts = filter_layouts(L, P, S, layouts)
+        elif orientation == "Landscape":
+            ok_layouts = filter_layouts(P, L, S, layouts)
+        else:  # orientation=square TODO
+            ok_layouts = filter_layouts(L, P, S, layouts)
+        button_r = 2
+        # draw the buttons and simultaneously test for success
+        if (
+            draw_buttons(ok_layouts, button_r, choose_layout, buttons_per_row)[0]
+            == "no layouts"
+        ):
+            # only propose similar layouts if perfect fit does not exist
+            exact_label.destroy()
+            no_exact_label = Label(
+                choose_layout,
+                text="No perfect correspondance!",
+                style="TitleRed.TLabel",
             )
-            if draw_outcome[0] == "success":
-                button_r = draw_outcome[1]
+            no_exact_label.configure(anchor="center")
+            no_exact_label.grid(row=0, column=0, columnspan=10, sticky="nsew")
+            button_r += 1
+            # similar_label = Label(
+            #     choose_layout, text="Approximate correspondance:", style="Title.TLabel"
+            # )
+            # similar_label.configure(anchor="center")
+            # similar_label.grid(row=button_r, column=0, columnspan=3, sticky="nsew")
+            # finally, there never are close similars => show all with same number of pictures
+            # for or_i in ("L", "P"):
+            #     if orientation == "Portrait":
+            #         similar_layouts = filter_similar(L, P, S, layouts, or_i)
+            #     elif orientation == "Landscape":
+            #         similar_layouts = filter_similar(P, L, S, layouts, or_i)
+            #     else:  # orientation=square TODO
+            #         pass
+            #     button_r += 2
+            #     draw_outcome = draw_buttons(
+            #         similar_layouts, button_r, choose_layout, buttons_per_row
+            #     )
+            #     if draw_outcome[0] == "success":
+            #         button_r = draw_outcome[1]
 
-        button_r += 1
-        same_total_label = Label(choose_layout, text="All with same number of pictures")
-        same_total_label.grid(row=button_r, column=0)
-        button_r += 1
-        same_total = filter_same_total(L, P, S, layouts)
-        draw_outcome = draw_buttons(
-            same_total, button_r, choose_layout, buttons_per_row
+            # button_r += 1
+            same_total_label = Label(
+                choose_layout,
+                text="Approximate correspondance: Layouts with the same number of pictures",
+                style="Title.TLabel",
+            )
+            same_total_label.grid(row=button_r, column=0, columnspan=10, sticky="nsew")
+            button_r = draw_all(
+                choose_layout, L, P, S, layouts, buttons_per_row, button_r
+            )
+            # same_total_label = Label(
+            #     choose_layout,
+            #     text="Approximate correspondance: Layouts with the same number of pictures",
+            #     style="Title.TLabel",
+            # )
+            # # same_total_label.configure(anchor="center")
+            # same_total_label.grid(row=button_r, column=0, columnspan=10, sticky="nsew")
+            # button_r += 1
+            # same_total = filter_same_total(L, P, S, layouts)
+            # draw_outcome = draw_buttons(
+            #     same_total, button_r, choose_layout, buttons_per_row
+            # )
+            # if draw_outcome[0] == "success":
+            #     button_r = draw_outcome[1]
+    else:
+        button_r = 2
+        same_total_label = Label(
+            choose_layout,
+            text="Approximate correspondance: Layouts with the same number of pictures",
+            style="Title.TLabel",
         )
-        if draw_outcome[0] == "success":
-            button_r = draw_outcome[1]
+        same_total_label.grid(row=button_r, column=0, columnspan=10, sticky="nsew")
+        button_r = draw_all(choose_layout, L, P, S, layouts, buttons_per_row, button_r)
 
     button_r += 1
     stop_top = Button(
@@ -2652,6 +2713,9 @@ def build_main(page, area, gutter, bleed, my_units):
     style = Style()
     style.theme_use("classic")
     style.configure("Title.TLabel", font=("Sans", "10", "bold"), foreground="#202050")
+    style.configure(
+        "TitleRed.TLabel", font=("Sans", "10", "bold"), foreground="#C02020"
+    )
 
     # style.configure("choosel.TFrame", background="DeepSkyBlue")
     root.title("Build complex photo page")
@@ -2684,7 +2748,7 @@ def build_main(page, area, gutter, bleed, my_units):
         prefix = "L-"
     else:  # orientation=square
         prefix = "S-"
-    buttons_per_row = 5  # TODO think about adapting the number of buttons per row according to screen and button size
+    buttons_per_row = 6  # TODO think about adapting the number of buttons per row according to screen and button size
     # have to create dictionary of button images before calling the button drawing function because only way to keep the images after
     # the drawing functions ends (garbage collection of local variables)
     # used prefix for orientation and screen_type from determinations above
@@ -2752,9 +2816,29 @@ def build_main(page, area, gutter, bleed, my_units):
             layouts,
             orientation,
             buttons_per_row,
+            False,
         ),
     )
     do_it.grid(row=8, column=0)
+
+    show_all_same_number = Button(
+        main_frame,
+        text="All with same total",
+        command=lambda: select_and_draw(
+            root,
+            button_imgs,
+            eval(L_number_e.get()),
+            eval(P_number_e.get()),
+            eval(S_number_e.get()),
+            use_bleed(bleed_onoff.get()),
+            eval(gutter_number_e.get()),
+            layouts,
+            orientation,
+            buttons_per_row,
+            True,
+        ),
+    )
+    show_all_same_number.grid(row=8, column=1)
 
     stop_it = Button(main_frame, text="Finished, close all", command=root.destroy)
     stop_it.grid(row=8, column=2)

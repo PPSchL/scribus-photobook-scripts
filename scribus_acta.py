@@ -92,21 +92,20 @@ def set_g_pos_variable(group_type, g_pos, page, n_groups, gutter):
     return g_pos
 
 
-def set_acta_data(group_type, page, script_p):
+def set_acta_data(group_type, page, script_p, gutter):
     # *** define page layout decisions here ***
     # text frame x size (width) is considered constant, text frame height (y size) and image size will be adapted
     path_to_base = os.path.join(script_p, ".photobook", "Annales_base.sla")
     n_groups = (
         3  # number of "days" on each page, 3 (top, middle, bottom) not likely to change
     )
-    gutter = 3.0
     top_group = ["Acta_jour", "Acta_mois", "Acta_txt", "Acta_img"]
     below_groups = ["Acta_jour", "Acta_txt", "Acta_img"]
     g_pos = {}  # dictionary of group elements, which are themselves dictionaries of sizes and relative positions vs topleft
     # dictionaries used because mutable
     set_g_pos_moisjour(page, g_pos)  # identical for all group_types
     set_g_pos_variable(group_type, g_pos, page, n_groups, gutter)
-    return (path_to_base, n_groups, gutter, top_group, below_groups, g_pos)
+    return (path_to_base, n_groups, top_group, below_groups, g_pos)
 
 
 def copy_group(path_to_base, group_n, top_group, below_groups):

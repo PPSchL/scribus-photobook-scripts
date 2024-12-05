@@ -12,8 +12,8 @@ scribus.setUnit(my_units)
 gutter = my_defaults["acta_gutter"]
 # get page margins, size and type (left or right)
 page = sp.get_page_info()
-path_to_base, n_groups, gutter, top_group, below_groups, g_pos = sa.set_acta_data(
-    "normal", page, script_path
+path_to_base, n_groups, top_group, below_groups, g_pos = sa.set_acta_data(
+    "normal", page, script_path, gutter
 )
 sa.draw_normal_page(
     page, path_to_base, n_groups, gutter, top_group, below_groups, g_pos

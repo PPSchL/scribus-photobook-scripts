@@ -2430,11 +2430,11 @@ def select_and_draw(
     stop_top.grid(row=button_r, columnspan=10, sticky="nsew")
 
 
-def draw_acta(root_win, page, linevar, Acta_button_imgs):
+def draw_acta(root_win, page, linevar, Acta_button_imgs, gutter_number_e):
     def draw1(root_win, page, linevar, line_n):
         group_type = linevar[line_n - 1].get()
-        path_to_base, n_groups, gutter, top_group, below_groups, g_pos = (
-            sa.set_acta_data(group_type, page, script_path)
+        path_to_base, n_groups, top_group, below_groups, g_pos = sa.set_acta_data(
+            group_type, page, script_path, gutter
         )
 
         sa.draw_1_group(
@@ -2455,8 +2455,11 @@ def draw_acta(root_win, page, linevar, Acta_button_imgs):
     def draw3(root_win, page, linevar):
         for group_n in range(1, 4):
             group_type = linevar[group_n - 1].get()
-            path_to_base, n_groups, gutter, top_group, below_groups, g_pos = (
-                sa.set_acta_data(group_type, page, script_path)
+            path_to_base, n_groups, top_group, below_groups, g_pos = sa.set_acta_data(
+                group_type,
+                page,
+                script_path,
+                gutter,
             )
 
             sa.draw_1_group(
@@ -2478,8 +2481,11 @@ def draw_acta(root_win, page, linevar, Acta_button_imgs):
         # pos= tuple with: first= double position, second= single position
         # draw double at position given by pos[0]
         group_type = "double"
-        path_to_base, n_groups, gutter, top_group, below_groups, g_pos = (
-            sa.set_acta_data(group_type, page, script_path)
+        path_to_base, n_groups, top_group, below_groups, g_pos = sa.set_acta_data(
+            group_type,
+            page,
+            script_path,
+            gutter,
         )
 
         sa.draw_1_group(
@@ -2496,8 +2502,11 @@ def draw_acta(root_win, page, linevar, Acta_button_imgs):
         group_type = linevar[
             pos[1] - 1
         ].get()  # linevar from 0 to 2, position from 1 to 3
-        path_to_base, n_groups, gutter, top_group, below_groups, g_pos = (
-            sa.set_acta_data(group_type, page, script_path)
+        path_to_base, n_groups, top_group, below_groups, g_pos = sa.set_acta_data(
+            group_type,
+            page,
+            script_path,
+            gutter,
         )
 
         sa.draw_1_group(
@@ -2517,8 +2526,11 @@ def draw_acta(root_win, page, linevar, Acta_button_imgs):
 
     def drawfull(root_win, page):
         group_type = "whole_page"
-        path_to_base, n_groups, gutter, top_group, below_groups, g_pos = (
-            sa.set_acta_data(group_type, page, script_path)
+        path_to_base, n_groups, top_group, below_groups, g_pos = sa.set_acta_data(
+            group_type,
+            page,
+            script_path,
+            gutter,
         )
 
         sa.draw_1_group(
@@ -2546,6 +2558,8 @@ def draw_acta(root_win, page, linevar, Acta_button_imgs):
 
     quick_draw_title = Label(w_acta, text="Quick selection", style="Title.TLabel")
     quick_draw_title.grid(row=0, column=0, columnspan=3)
+    # in order to use gutter from menu, have to define gutter here!
+    gutter = eval(gutter_number_e.get())
 
     draw_3 = Button(
         w_acta,
@@ -2633,7 +2647,7 @@ def build_main(page, area, gutter, bleed, my_units):
     root = Tk()
     style = Style()
     style.theme_use("classic")
-    style.configure("Title.TLabel", font=("Sans", "10", "bold"), foreground="#202020")
+    style.configure("Title.TLabel", font=("Sans", "10", "bold"), foreground="#202050")
 
     # style.configure("choosel.TFrame", background="DeepSkyBlue")
     root.title("Build complex photo page")
@@ -2774,7 +2788,9 @@ def build_main(page, area, gutter, bleed, my_units):
         image=Acta_button_imgs["Acta_normal"],
         compound=BOTTOM,
         style="Title.TLabel",
-        command=lambda: draw_acta(root, page, linevar, Acta_button_imgs),
+        command=lambda: draw_acta(
+            root, page, linevar, Acta_button_imgs, gutter_number_e
+        ),
     )
     acta_show.grid(row=0, column=0)
 

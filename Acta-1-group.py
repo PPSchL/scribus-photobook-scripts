@@ -33,8 +33,8 @@ else:
 
 # get page margins, size and type (left or right)
 page = sp.get_page_info()
-path_to_base, n_groups, gutter, top_group, below_groups, g_pos = sa.set_acta_data(
-    group_type, page, script_path
+path_to_base, n_groups, top_group, below_groups, g_pos = sa.set_acta_data(
+    group_type, page, script_path, gutter
 )
 
 sa.draw_1_group(

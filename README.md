@@ -1,16 +1,24 @@
 ### Introduction
-This repository cointains a collection of scribus scripts that facilitate the creation of photobooks in scribus. You start with a page of same-size image frames that you can then adapt to your taste and needs by combinig several frames into a single one (combine images), or split a frame into several smaller ones (split image).
+This repository cointains a collection of scribus scripts that facilitate the creation of photobooks in scribus. 
 
 I started this collection of scripts because I became frustrated with the photobook printing services that do not allow saving your creations except on the site itsself. This obviously means that if the site closes down or for whatever reasons decides to remove your photobooks, you will have to start from scratch. After some research on alternatives, I decided to create my photobooks in scribus and export them to pdf for screen viewing (at 150 ppi) or printing (at 300 ppi). Your scribus photobooks are best saved with your images, are very small because they do not contain the pictures themselves but only links to the pictures, and can use all sorts of image formats, including even the new and very convenient JPEG XL files. Pdfs can be generated as needed, with different resolutions and color profiles.
 
 As I live in France, I had some problems finding a photobook print service that accepts pdf files. I finally found [flexilivres](https://www.flexilivre.com/fichier/), which gives me good results (I am not linked to them in any way, and do not endorse them, I just provide this information for your convenience). I found that they apparently convert PDF pages to image files, so you may be able to manually use a similar approach to use other print services with pdf files.
 
+In this version 2, the page build scripts are all available from a graphical main menu, where you can choose your layout depending on the number of landscape, portrait or square photographs that you want to use. All the previous scripts are still available too, and some (like swap-frames, combine-images or split-image are still only available in the from of the previous version, because there is no advantage in integrating them in the main menu (actually, you would need a higher number of clicks if it was implemented in the main menu))
+
 These photobook scripts are very simple and tailored to my specific way of working, therefore I do not accept collaboration on improving the scripts. You are obviously wellcome to fork or clone the repository, although if you are fluent in python programming you definitely do not need my scripts!
-### installation
+
+### A warning to Mac users of Version 2.
+Version 2 uses a graphical user interface built using tkinter, which is often not installed correctly on Macs because the python version natively installed on Macs is not complete. In order to make sure the scripts work perfectly, you will have to install python for Mac from the official python.org website [python website](https://www.python.org/). Just go to the "Downloads" tab and select "macOS". Full information on the installation process can be found here: [install on macOS](https://docs.python.org/3/using/mac.html)
+
+### Version 2 installation
 - download all files from github resulting in a zip file (click on the **<>Code** menu and select **Download Zip**):
   
   ![down-load menu](docs/img/download-zip.png)
   
+- Alternatively, you can click on "Version 2, with GUI" below "Releases" on the menu to the right and then download the source code as a zip file
+#### first installation (version 1 not installed)
 - create a directory for scribus scripts at a convenient location
 - define this directory as scripts directory in scribus preferences
 - extract all files (including hidden directories and files) into this scripts directory
@@ -18,11 +26,48 @@ These photobook scripts are very simple and tailored to my specific way of worki
 - **CAVEAT**: the scripts have only been tested under Linux
 
 - launch scribus and within scribus execute the setup_photobook_tkinter.py script which you should see when accessing the Scripts menu and launching a script
-- if setup_photobook_tkinter.py does not work (eg Apple Mac), run setup_photobook.py
 - in this setup script, the first step is to select the previously defined scripts directory, then select your preferred units and menu language
 - you can redo the setup and overwrite the previous configuration as often as required...the script path will be conserved but can be changed if needed
 
-- you can now use the different scripts
+- you can now run the new photobook-build-page script which will show you the main menu or else use the different scripts from version 1
+
+#### installation of version 2 if version 1 is already installed
+- download the source code zip as explained above
+- extract the files into  the scribus scripts directory where the version 1 files are located, overwriting the older files with the new version
+- run the setup_photobook_tkinter.py script from within scribus, you will have to choose your units and language again, but your path to the scripts directory should be conserved, so this should be very quick
+- you can now run the new photobook-build-page script which will show you the main menu
+- please note that on first use, the drawing of the page can be quite slow (really slow!), but on subsequent runs will be much faster (ie immediate on my 12-year-old PC)
+  
+### Version 2 use
+
+Version 2 is very simple to use, because once the main menu is launched by running the script photobook-build-page, you just have to click on the icons to draw your page:
+#### Choose your page layout
+- the main menu looks like this: ![main menu](/docs/img/main-menu.png)
+- you enter the number of landscape, portrait and square photographs you would like to put onto the page, then click on "Show possible layouts"
+- the script will then show you any layouts corresponding to this selection of photographs: ![possible layouts](/docs/img/choose-layout.png)
+- you then click the icon of the layout to be used, and the page will be drawn immediately and the script will be closed
+- if none of the layouts suits your taste, click on the "None are convenient" button and go back to the main menu
+- you can then either enter another number of photographs, or click on "All with same total" which will show you all the layouts with the same total number of photographs, be they landscape, portrait or square. This may allow you to find a suitable layout, even if you will have to zoom in into the photographs
+- if you really do not find any suitable layout, you can click on "Finished" to close all the windows and terminate the script. You will then have to use the version 1 scripts to build your own customized page.
+#### Additional parameters
+- gutter: enter your preferred distance between the photographs. The default distance works well for me, but may not please you. See below, "More advanced customization" to permanently change the default gutter value
+- "Draw into bleed", if checked will draw the layout on the whole page, including the bleed (which is 5 mm and cannot be customized for now, but should be suitable for most of the commercial print services). Make sure nothing important is in the bleed area when you choose your photographs because this area will be cut by the print service after printing the page. If unchecked the layout is drawn within the margins of the page
+#### Building a diary page
+- click on the "Build diary page" icon to the right to open the diary menu: ![diary menu](/docs/img/diary-menu.png)
+- You can then use a set of ready-made layouts by clicking on the different icons:
+  - "Draw standard" page will draw a page for 3 days of diary, using the line types defined on the right of the menu: normal (text to the left or right of 1 photograph depending on the page) is preselected, but you can choose for each line either normal or central (central text above 3 photographs)
+  - "Double (top)" will draw a double-sized layout (central text above 6 photographs) at the top of the page, plus a lower line corresponding to the line type selected on the right
+  - "Double (bottom) will draw a line at the top and the double-sized layout at the bottom
+  - "Draw full page" will draw a triple-sized layout with central text and 9 photographs below
+  - if you made a mistake, you can manually remove any layout and redo a customized layot by selecting the line type and selectively draw each line by clicking the buttons on the right
+  - don't forget that you can also use the version 1 scripts to further customize each layout
+### Very IMPORTANT note!
+The new layouts of version 2 can also be used on any area of the page you select before running the "photobook-build-page" script. If an area/frame is selected before running the script, it will work on this area instead of the page. This obviously can be very efficient to draw really complex layouts and was included for this reason!
+However, this can also be very problematic if you run the script with a frame or group of frames ou previously worked on still selected, because they will be deleted and replaced by the new layout. So ***BE VERY CAREFUL, and start the "photobook-build-page" script on a new page, unless you select a region/frame you really want to futher customize***!
+
+### Version 1 use
+
+You start with a page of same-size image frames that you can then adapt to your taste and needs by combinig several frames into a single one (combine images), or split a frame into several smaller ones (split image).
 
 ### use for photobook creation
 - open the file or create the document you want to work with. **important** the scripts only work if a document is open.
@@ -123,7 +168,7 @@ These photobook scripts are very simple and tailored to my specific way of worki
   
   ![diary example page](docs/img/diary-example.png)
 
-### More advanced personalization
+### More advanced customization
 I have not yet added the possibility to define the default distance between images (gutter) through the setup scripts. The present values are my preferred defaults and can be changed when running the scripts. In order to change the default values, right now you will have to change the code in the setup_photobook.py file.
 How-to:
 - Open this file in your preferred text editor

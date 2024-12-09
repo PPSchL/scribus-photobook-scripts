@@ -2097,7 +2097,7 @@ def select_and_draw(
                 selection_window,
                 text=lkey.name,
                 image=button_imgs[lkey],
-                compound=TOP,  # "image",
+                compound="image",  # TOP,
                 command=lambda lkey=lkey: draw_layout(
                     lkey, layouts[lkey], area, gutter, orientation, root
                 ),  # lambda lkey=lkey makes sure lkey is assigned the value of the key, not the last generated value

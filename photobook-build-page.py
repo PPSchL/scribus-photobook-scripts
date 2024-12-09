@@ -2127,7 +2127,7 @@ def select_and_draw(
         else:
             no_layouts_label = Label(
                 choose_layout,
-                text="No layouts with the same number of pictures!",
+                text=my_msg["no_layouts_label"],
                 style="TitleRed.TLabel",
             )
             no_layouts_label.configure(anchor="center")
@@ -2137,7 +2137,7 @@ def select_and_draw(
     choose_layout = Toplevel(
         root,
     )
-    choose_layout.title("Choose layout")
+    choose_layout.title(my_msg["choose_layout.title"])
     x0 = root.winfo_x()
     y0 = root.winfo_y()
     choose_layout.geometry("+%d+%d" % (x0 + 20, y0 + 100))
@@ -2150,7 +2150,7 @@ def select_and_draw(
         # the same layout can be used for portrait and landscape,
         # landscapes become portraits and vice-versa=> just invert in the filter function
         exact_label = Label(
-            choose_layout, text="Perfect correspondance", style="Title.TLabel"
+            choose_layout, text=my_msg["exact_label"], style="Title.TLabel"
         )
         exact_label.configure(anchor="center")
         exact_label.grid(row=0, column=0, columnspan=10, sticky="nsew")
@@ -2170,7 +2170,7 @@ def select_and_draw(
             exact_label.destroy()
             no_exact_label = Label(
                 choose_layout,
-                text="No perfect correspondance!",
+                text=my_msg["no_exact_label"],
                 style="TitleRed.TLabel",
             )
             no_exact_label.configure(anchor="center")
@@ -2199,7 +2199,7 @@ def select_and_draw(
             # button_r += 1
             same_total_label = Label(
                 choose_layout,
-                text="Approximate correspondance: Layouts with the same number of pictures",
+                text=my_msg["same_total_label"],
                 style="Title.TLabel",
             )
             same_total_label.grid(row=button_r, column=0, columnspan=10, sticky="nsew")
@@ -2210,7 +2210,7 @@ def select_and_draw(
         button_r = 2
         same_total_label = Label(
             choose_layout,
-            text="Approximate correspondance: Layouts with the same number of pictures",
+            text=my_msg["same_total_label"],
             style="Title.TLabel",
         )
         same_total_label.grid(row=button_r, column=0, columnspan=10, sticky="nsew")
@@ -2219,7 +2219,7 @@ def select_and_draw(
     button_r += 1
     stop_top = Button(
         choose_layout,
-        text="None are convenient, go back to ratio specification",
+        text=my_msg["stop_top"],
         command=choose_layout.destroy,
     )
     stop_top.grid(row=button_r, columnspan=10, sticky="nsew")
@@ -2346,19 +2346,21 @@ def draw_acta(root_win, page, linevar, Acta_button_imgs, gutter_number_e):
     w_acta = Toplevel(
         root_win,
     )
-    w_acta.title("Build diary page")
+    w_acta.title(my_msg["w_acta.title"])
     x0 = root_win.winfo_x()
     y0 = root_win.winfo_y()
     w_acta.geometry("+%d+%d" % (x0 + 20, y0 + 150))
 
-    quick_draw_title = Label(w_acta, text="Quick selection", style="Title.TLabel")
+    quick_draw_title = Label(
+        w_acta, text=my_msg["quick_draw_title"], style="Title.TLabel"
+    )
     quick_draw_title.grid(row=0, column=0, columnspan=3)
     # in order to use gutter from menu, have to define gutter here!
     gutter = eval(gutter_number_e.get())
 
     draw_3 = Button(
         w_acta,
-        text="Draw standard page",
+        text=my_msg["draw_3"],
         image=Acta_button_imgs["Acta_normal"],
         compound=BOTTOM,
         command=lambda: draw3(root_win, page, linevar),
@@ -2367,7 +2369,7 @@ def draw_acta(root_win, page, linevar, Acta_button_imgs, gutter_number_e):
 
     draw_2_top = Button(
         w_acta,
-        text="Draw double (top)",
+        text=my_msg["draw_2_top"],
         image=Acta_button_imgs["Acta_double_top"],
         compound=BOTTOM,
         command=lambda: draw2(root_win, page, linevar, (1, 3)),
@@ -2376,7 +2378,7 @@ def draw_acta(root_win, page, linevar, Acta_button_imgs, gutter_number_e):
 
     draw_2_bottom = Button(
         w_acta,
-        text="Draw double (bottom)",
+        text=my_msg["draw_2_bottom"],
         image=Acta_button_imgs["Acta_double_bottom"],
         compound=BOTTOM,
         command=lambda: draw2(root_win, page, linevar, (2, 1)),
@@ -2385,19 +2387,18 @@ def draw_acta(root_win, page, linevar, Acta_button_imgs, gutter_number_e):
 
     draw_full = Button(
         w_acta,
-        text="Draw full page",
+        text=my_msg["draw_full"],
         image=Acta_button_imgs["Acta_full_page"],
         compound=BOTTOM,
         command=lambda: drawfull(root_win, page),
     )
     draw_full.grid(row=1, column=3, rowspan=3)
 
-    line_title = Label(w_acta, text="Customize lines", style="Title.TLabel")
+    line_title = Label(w_acta, text=my_msg["line_title"], style="Title.TLabel")
     line_title.grid(row=0, column=4)
 
     line1 = Combobox(
         w_acta,
-        text="line 1",
         textvariable=linevar[0],
         state="readonly",
         values=("normal", "central", "double"),
@@ -2419,18 +2420,18 @@ def draw_acta(root_win, page, linevar, Acta_button_imgs, gutter_number_e):
     )
     line3.grid(row=3, column=4)
 
-    line_do_title = Label(w_acta, text="Draw specific line", style="Title.TLabel")
+    line_do_title = Label(w_acta, text=my_msg["line_do_title"], style="Title.TLabel")
     line_do_title.grid(row=0, column=5)
     line1do = Button(
-        w_acta, text="draw", command=lambda: draw1(root_win, page, linevar, 1)
+        w_acta, text=my_msg["linedo"], command=lambda: draw1(root_win, page, linevar, 1)
     )
     line1do.grid(row=1, column=5)
     line2do = Button(
-        w_acta, text="draw", command=lambda: draw1(root_win, page, linevar, 2)
+        w_acta, text=my_msg["linedo"], command=lambda: draw1(root_win, page, linevar, 2)
     )
     line2do.grid(row=2, column=5)
     line3do = Button(
-        w_acta, text="draw", command=lambda: draw1(root_win, page, linevar, 3)
+        w_acta, text=my_msg["linedo"], command=lambda: draw1(root_win, page, linevar, 3)
     )
     line3do.grid(row=3, column=5)
 
@@ -2448,7 +2449,7 @@ def build_main(page, area, gutter, bleed, my_units):
     )
 
     # style.configure("choosel.TFrame", background="DeepSkyBlue")
-    root.title("Build complex photo page")
+    root.title(my_msg["root.title"])
     main_frame = Frame(root, padding="2 2 4 4")
     main_frame.grid(column=0, row=0, sticky=(N, W, E, S))
 
@@ -2512,29 +2513,29 @@ def build_main(page, area, gutter, bleed, my_units):
 
     explication = Label(
         main_frame,
-        text="Choose layout for a number of Landscape, Portrait and Square photographs",
+        text=my_msg["explication"],
         style="Title.TLabel",
     )
     explication.grid(row=0, column=0, columnspan=3, pady=10)
 
-    L_number_label = Label(main_frame, text="Landscape")
+    L_number_label = Label(main_frame, text=my_msg["L_number_label"])
     L_number_label.grid(row=1, column=0)
     L_number_e = Spinbox(main_frame, from_=0, to=8, textvariable=L_number)
     L_number_e.grid(row=2, column=0)
 
-    P_number_label = Label(main_frame, text="Portrait")
+    P_number_label = Label(main_frame, text=my_msg["P_number_label"])
     P_number_label.grid(row=1, column=1)
     P_number_e = Spinbox(main_frame, from_=0, to=13, textvariable=P_number)
     P_number_e.grid(row=2, column=1)
 
-    S_number_label = Label(main_frame, text="Square")
+    S_number_label = Label(main_frame, text=my_msg["S_number_label"])
     S_number_label.grid(row=1, column=2)
     S_number_e = Spinbox(main_frame, from_=0, to=6, textvariable=S_number)
     S_number_e.grid(row=2, column=2)
 
     do_it = Button(
         main_frame,
-        text="Show possible layouts",
+        text=my_msg["do_it"],
         command=lambda: select_and_draw(
             root,
             button_imgs,
@@ -2553,7 +2554,7 @@ def build_main(page, area, gutter, bleed, my_units):
 
     show_all_same_number = Button(
         main_frame,
-        text="All with same total",
+        text=my_msg["show_all_same_number"],
         command=lambda: select_and_draw(
             root,
             button_imgs,
@@ -2570,20 +2571,21 @@ def build_main(page, area, gutter, bleed, my_units):
     )
     show_all_same_number.grid(row=8, column=1)
 
-    stop_it = Button(main_frame, text="Finished, close all", command=root.destroy)
+    stop_it = Button(main_frame, text=my_msg["stop_it"], command=root.destroy)
     stop_it.grid(row=8, column=2)
 
     specs_frame = Frame(root, padding="30 2 30 4")
     specs_frame.grid(column=1, row=0, sticky=(N, W, E, S))
     # specs_frame.rowconfigure(0, weight=1)
     parameter_label = Label(
-        specs_frame, text="Additional parameters", style="Title.TLabel"
+        specs_frame, text=my_msg["parameter_label"], style="Title.TLabel"
     )
 
     parameter_label.grid(row=0, column=0, pady=10)
 
     gutter_label = Label(
-        specs_frame, text="".join(["Gutter (", sp.get_unit_string(my_units), ")"])
+        specs_frame,
+        text="".join([my_msg["gutter_label"], sp.get_unit_string(my_units), ")"]),
     )
     gutter_label.grid(row=1, column=0)
     gutter_number_e = Entry(specs_frame, textvariable=gutter_number)
@@ -2591,7 +2593,7 @@ def build_main(page, area, gutter, bleed, my_units):
 
     bleed_or_not = Checkbutton(
         specs_frame,
-        text="Draw into bleed",
+        text=my_msg["bleed_or_not"],
         variable=bleed_onoff,
         offvalue=False,
         onvalue=True,
@@ -2602,7 +2604,7 @@ def build_main(page, area, gutter, bleed, my_units):
     acta_frame.grid(column=2, row=0, sticky=(N, W, E, S))
     acta_show = Button(
         acta_frame,
-        text="Build diary page",
+        text=my_msg["acta_show"],
         image=Acta_button_imgs["Acta_normal"],
         compound=BOTTOM,
         style="Title.TLabel",

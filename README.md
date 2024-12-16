@@ -18,7 +18,7 @@ Version 2 uses a graphical user interface built using tkinter, which is often no
   ![down-load menu](docs/img/download-zip.png)
   
 - Alternatively, you can click on "Version 2, with GUI" below "Releases" on the menu to the right and then download the source code as a zip file
-#### first installation (version 1 not installed)
+#### first installation (version 1 not previously installed)
 - create a directory for scribus scripts at a convenient location
 - define this directory as scripts directory in scribus preferences
 - extract all files (including hidden directories and files) into this scripts directory
@@ -34,20 +34,22 @@ Version 2 uses a graphical user interface built using tkinter, which is often no
 #### installation of version 2 if version 1 is already installed
 - download the source code zip as explained above
 - extract the files into  the scribus scripts directory where the version 1 files are located, overwriting the older files with the new version
-- run the setup_photobook_tkinter.py script from within scribus, you will have to choose your units and language again, but your path to the scripts directory should be conserved, so this should be very quick
-- you can now run the new photobook-build-page script which will show you the main menu
+- run the setup_photobook_tkinter.py script from within scribus, your path to the scripts directory and previous choices should be conserved, so this should be very quick
+- you can now run the new photobook-build-page script which will display the main menu
 - please note that on first use, the drawing of the page can be quite slow (really slow!), but on subsequent runs will be much faster (ie immediate on my 12-year-old PC)
   
 ### Version 2 use
 
-Version 2 is very simple to use, because once the main menu is launched by running the script photobook-build-page, you just have to click on the icons to draw your page:
+Version 2 is very simple to use, because once the main menu is launched by running the script photobook-build-page, you just have to click on one of the icons to draw your page:
 #### Choose your page layout
+- these scribus scripts are intended to work on one page at the time, because this seems the most natural way of working: you define the layout you want for the page using the scripts, and then fill in the image frames with the pictures ou want to use. Start by opening a new document file and customizing the margins to your taste.
+- then start the script *photobook-build-page* from the Scripts menu
 - the main menu looks like this: ![main menu](/docs/img/main-menu.png)
 - you enter the number of landscape, portrait and square photographs you would like to put onto the page, then click on "Show possible layouts"
 - the script will then show you any layouts corresponding to this selection of photographs: ![possible layouts](/docs/img/choose-layout.png)
 - you then click the icon of the layout to be used, and the page will be drawn immediately and the script will be closed
 - if none of the layouts suits your taste, click on the "None are convenient" button and go back to the main menu
-- you can then either enter another number of photographs, or click on "All with same total" which will show you all the layouts with the same total number of photographs, be they landscape, portrait or square. This may allow you to find a suitable layout, even if you will have to zoom in into the photographs
+- you can then either enter another number of photographs, or click on "All with same total" which will show you all the layouts with the same total number of photographs, be they landscape, portrait or square. This may allow you to find a suitable layout, even if you will have adapt the pictures to some frames by zooming in into the photographs
 - if you really do not find any suitable layout, you can click on "Finished" to close all the windows and terminate the script. You will then have to use the version 1 scripts to build your own customized page.
 #### Additional parameters
 - gutter: enter your preferred distance between the photographs. The default distance works well for me, but may not please you. See below, "More advanced customization" to permanently change the default gutter value

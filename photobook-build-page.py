@@ -2088,7 +2088,7 @@ def select_and_draw(
     def draw_buttons(filtered_layouts, button_r, selection_window, buttons_per_row):
         # draws the button to a specified number of buttons per row
         # then increases the row coordinate
-        # returns a tuple specifying success and new row coordinate
+        # returns a tuple specifying success and the new row coordinate
         button_dict = {}
         button_r_i = button_r
         button_c = 0
@@ -2697,7 +2697,12 @@ uncomment the line after this explanation section
 # generate_fr_coordinates()
 
 if scribus.selectionCount() > 0:
-    area_name = scribus.getSelectedObject(0)
+    if (
+        scribus.selectionCount() > 1
+    ):  # selection contains several images=> combine and create 1 single
+        area_name = sp.combine_images()
+    else:  # count=1
+        area_name = scribus.getSelectedObject(0)
     area = sp.get_object_info(area_name)
     if scribus.isLocked(area.name):
         scribus.lockObject(area.name)

@@ -344,6 +344,7 @@ def combine_images():
     scribus.moveObjectAbs(xpict, ypict, keep_img)
     scribus.sizeObject(xs, ys, keep_img)
     scribus.lockObject(keep_img)
+    return keep_img
 
 
 def get_position4pict(my_msg, x_n_picts, y_n_picts):

@@ -1391,6 +1391,12 @@ def get_layouts(orientation):
                 frame_rc(c=3, r=3, x_rc=3, y_rc=2, xs_rc=1, ys_rc=1),
                 frame_rc(c=3, r=3, x_rc=1, y_rc=3, xs_rc=3, ys_rc=1),
             ],
+            layout_rc(name="L4P0S0-3", L=4, P=0, S=0, n=3): [
+                frame_rc(c=1, r=4, x_rc=1, y_rc=1, xs_rc=1, ys_rc=1),
+                frame_rc(c=1, r=4, x_rc=1, y_rc=2, xs_rc=1, ys_rc=1),
+                frame_rc(c=1, r=4, x_rc=1, y_rc=3, xs_rc=1, ys_rc=1),
+                frame_rc(c=1, r=4, x_rc=1, y_rc=4, xs_rc=1, ys_rc=1),
+            ],
             layout_fr(name="L1P1S0-1-fr", L=1, P=1, S=0, n=1): [
                 frame_fr(
                     x_fr=0.0350594594,
@@ -1973,7 +1979,7 @@ def get_layouts(orientation):
     return layouts
 
 
-def draw_layout(lkey, layout, area, gutter, orientation, tkwindow="none"):
+def draw_layout(lkey, layout, area, area_is_page, gutter, orientation, tkwindow="none"):
     if isinstance(lkey, layout_rc):
         for frame_i in layout:
             if orientation == "Landscape":
@@ -2004,6 +2010,10 @@ def draw_layout(lkey, layout, area, gutter, orientation, tkwindow="none"):
             else:
                 frame_draw = frame_i
             sp.create_image(*sp.fr2xy(frame_draw, area))
+    if not area_is_page:
+        if scribus.isLocked(area.name):
+            scribus.lockObject(area.name)
+        scribus.deleteObject(area_name)
     if tkwindow != "none":
         tkwindow.destroy()
     return
@@ -2079,6 +2089,7 @@ def select_and_draw(
     P,
     S,
     area,
+    area_is_page,
     gutter,
     layouts,
     orientation,
@@ -2099,7 +2110,7 @@ def select_and_draw(
                 image=button_imgs[lkey],
                 compound="image",  # TOP,
                 command=lambda lkey=lkey: draw_layout(
-                    lkey, layouts[lkey], area, gutter, orientation, root
+                    lkey, layouts[lkey], area, area_is_page, gutter, orientation, root
                 ),  # lambda lkey=lkey makes sure lkey is assigned the value of the key, not the last generated value
             )
             button_dict[lkey].grid(row=button_r, column=button_c)
@@ -2436,7 +2447,7 @@ def draw_acta(root_win, page, linevar, Acta_button_imgs, gutter_number_e):
     line3do.grid(row=3, column=5)
 
 
-def build_main(page, area, gutter, bleed, my_units):
+def build_main(page, area, are_is_page, gutter, bleed, my_units):
     orientation = sp.get_orientation(area)
     layouts = get_layouts(orientation)
     # *** tkinter loop
@@ -2543,6 +2554,7 @@ def build_main(page, area, gutter, bleed, my_units):
             eval(P_number_e.get()),
             eval(S_number_e.get()),
             use_bleed(bleed_onoff.get()),
+            area_is_page,
             eval(gutter_number_e.get()),
             layouts,
             orientation,
@@ -2562,6 +2574,7 @@ def build_main(page, area, gutter, bleed, my_units):
             eval(P_number_e.get()),
             eval(S_number_e.get()),
             use_bleed(bleed_onoff.get()),
+            area_is_page,
             eval(gutter_number_e.get()),
             layouts,
             orientation,
@@ -2638,7 +2651,7 @@ def generate_icons(
             if eval(layout_test)  # (l_key.name) == layout_name
         )
     for l_key in layout_selection:
-        draw_layout(l_key, layouts[l_key], page, gutter, orientation)
+        draw_layout(l_key, layouts[l_key], page, area_is_page, gutter, orientation)
         # if all layouts are requested, all the layouts in layouts are generated and the page exported to a png file carrying the name of the layout
         # these files can then be converted to a GIF of smaller size using imagemagick convert and rotated to also generate landscape icons
         if layout_test == "all" or export:
@@ -2692,25 +2705,28 @@ gutter = my_defaults["gutter"]
 bleed = my_defaults["bleed"]
 page = sp.get_page_info()
 """ *** utility to generate fractional coordinates for the layout dictionary from manually designed scribus page ***
-uncomment the line after this explanation section
+- uncomment the line after this explanation section
+- design a page in scribus
+- run photobook-build-page
+- copy the dictionary entry shown in the message-box, paste into this here file, edit name, etc
 """
 # generate_fr_coordinates()
 
 if scribus.selectionCount() > 0:
     if (
         scribus.selectionCount() > 1
-    ):  # selection contains several images=> combine and create 1 single
+    ):  # selection contains several images=> combine and create 1 single image frame
         area_name = sp.combine_images()
     else:  # count=1
         area_name = scribus.getSelectedObject(0)
     area = sp.get_object_info(area_name)
-    if scribus.isLocked(area.name):
-        scribus.lockObject(area.name)
-    scribus.deleteObject(area_name)
+    area_is_page = False  # variable is needed to decide later whether to delete the area (if one or several frames) or not (if a page)
+
 else:
     area = sp.page_available(page)
+    area_is_page = True
 
-build_main(page, area, gutter, bleed, my_units)
+build_main(page, area, area_is_page, gutter, bleed, my_units)
 """ *** setup utility to generate icon files ***
 - to add layouts and test them, comment the preceding line and uncomment the line after this explanation section
 - to only test a single layout without writing the icon to disk, enter the layout name instead of "all" and set export to False

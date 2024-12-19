@@ -4,6 +4,15 @@ import os
 import pickle
 from scribus_paul import get_config_data
 
+conversion_factor = {
+    scribus.UNIT_MILLIMETERS: 1,
+    scribus.UNIT_CENTIMETRES: 0.1,
+    scribus.UNIT_INCHES: 1 / 25.4,
+    scribus.UNIT_POINTS: 1 / 25.4 * 72,
+    scribus.UNIT_PICAS: 1 / 25.4 * 6,
+    scribus.UNIT_CICERO: 1 / 4.51165812456,
+}
+
 
 def set_defaults():
     script_path = os.getcwd()
@@ -27,13 +36,6 @@ def set_my_defaults(my_units):
         "asym_direction": "left2right",
         "asym_aspect": "constant",
         "acta_gutter": 3.0,  # gutter for the diary scripts
-    }
-    conversion_factor = {
-        scribus.UNIT_CENTIMETRES: 0.1,
-        scribus.UNIT_INCHES: 1 / 25.4,
-        scribus.UNIT_POINTS: 1 / 25.4 * 72,
-        scribus.UNIT_PICAS: 1 / 25.4 * 6,
-        scribus.UNIT_CICERO: 1 / 4.51165812456,
     }
     n_digits4unit = {
         # target a precision of 1/100 of a pt (300 dpi=>~ 4 dots/point)

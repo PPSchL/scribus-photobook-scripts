@@ -1,6 +1,11 @@
 import scribus
 import os
 import scribus_paul as sp
+from setup_photobook import conversion_factor
+
+
+def cu(x):  # convert unit, short name to decrease expression size
+    return x * conversion_factor[scribus.getUnit()]
 
 
 def set_g_pos_moisjour(page, g_pos):
@@ -20,12 +25,12 @@ def set_g_pos_moisjour(page, g_pos):
         )
         return g_pos
 
-    g_pos["Acta_jour"] = {"xs": 12.5, "ys": 8.0}
-    g_pos["Acta_mois"] = {"xs": 35.0, "ys": 8.0}
+    g_pos["Acta_jour"] = {"xs": cu(12.5), "ys": cu(8.0)}
+    g_pos["Acta_mois"] = {"xs": cu(35.0), "ys": cu(8.0)}
 
     # left page
-    g_pos["Acta_jour"].update({"dx": 1.0, "dy": 0.5})
-    g_pos["Acta_mois"].update({"dx": 16.0, "dy": -4.0})
+    g_pos["Acta_jour"].update({"dx": cu(1.0), "dy": cu(0.5)})
+    g_pos["Acta_mois"].update({"dx": cu(16.0), "dy": cu(-4.0)})
     if page.page_type != 0:  # right page:
         # identation identical to left page, but negative vs right margin=> use data from left margin for calculation
         g_pos = invert4rightpage("Acta_jour", g_pos, page)
@@ -35,7 +40,7 @@ def set_g_pos_moisjour(page, g_pos):
 
 def set_g_pos_variable(group_type, g_pos, page, n_groups, gutter):
     if group_type == "normal":
-        g_pos["Acta_txt"] = {"xs": 55.0}  # width of text frame determined here
+        g_pos["Acta_txt"] = {"xs": cu(55.0)}  # width of text frame determined here
         # image size= page available width - text width
         g_pos["Acta_img"] = {
             "xs": page.xs - page.mleft - page.mright - g_pos["Acta_txt"]["xs"]
@@ -61,7 +66,7 @@ def set_g_pos_variable(group_type, g_pos, page, n_groups, gutter):
         g_pos["Acta_img"] = {"xs": g_pos["Acta_txt"]["xs"]}
         # text height set to 20 mm as sufficient for 3 lines
         if group_type == "central":
-            g_pos["Acta_txt"]["ys"] = 20.0
+            g_pos["Acta_txt"]["ys"] = cu(20.0)
             # image height determined by group height (number of groups and gutter)- text height determined above
             g_pos["Acta_img"]["ys"] = (
                 sp.pict_size1D(n_groups, page.mtop, page.mbottom, gutter, page.ys)
@@ -69,7 +74,7 @@ def set_g_pos_variable(group_type, g_pos, page, n_groups, gutter):
             )
         elif group_type == "double":
             # increase text heigh to 4 lines
-            g_pos["Acta_txt"]["ys"] = 27.0
+            g_pos["Acta_txt"]["ys"] = cu(27.0)
             # image height equals twice the group height (from number of groups and gutter) + gutter- text height determined above
             g_pos["Acta_img"]["ys"] = (
                 2 * sp.pict_size1D(n_groups, page.mtop, page.mbottom, gutter, page.ys)
@@ -78,7 +83,7 @@ def set_g_pos_variable(group_type, g_pos, page, n_groups, gutter):
             )
         else:  # group_type=="whole_page"
             # increase text heigh to 4 lines
-            g_pos["Acta_txt"]["ys"] = 27.0
+            g_pos["Acta_txt"]["ys"] = cu(27.0)
             # image height equals whole available page size-text height determined above
             g_pos["Acta_img"]["ys"] = (
                 page.ys - page.mtop - page.mbottom - g_pos["Acta_txt"]["ys"]
@@ -149,7 +154,7 @@ def paste_and_resize_group(
                 scribus.lockObject(elem)
     # in an additional step, split image if group_type different from normal
     if group_type != "normal":
-        gutter = 0.5
+        gutter = cu(0.5)  # small gutter inside the daily image groups
         if group_type == "central":
             x_n_picts = 3
             y_n_picts = 1

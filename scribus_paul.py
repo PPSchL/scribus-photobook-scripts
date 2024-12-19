@@ -22,7 +22,10 @@ frame_rc = namedtuple(
     "frame_rc",
     ["c", "r", "x_rc", "y_rc", "xs_rc", "ys_rc"],
 )
-
+""" frame_fr specifies the parameters that define the different frames in fractional units (ie fractions of the available space)
+eg: a frame that takes up the whole area (page) would have a fractional size of 1 in both x and y coordinates and start at (0,0) tuple:(0,0,1,1)
+this system is also independent of page size
+"""
 frame_fr = namedtuple(
     "frame_fr",
     ["x_fr", "y_fr", "xs_fr", "ys_fr"],
@@ -44,6 +47,7 @@ def get_config_data(script_p):
 
 
 def check_doc_present():
+    # partially copied from Gregory Pittman, see https://opensource.com/sites/default/files/ebooks/pythonscriptingwithscribus.pdf
     if not scribus.haveDoc():
         scribus.messageBox(
             "Scribus -Script Error",

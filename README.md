@@ -5,9 +5,9 @@ I started this collection of scripts because I became frustrated with the photob
 
 As I live in France, I had some problems finding a photobook print service that accepts pdf files. I finally found [flexilivres](https://www.flexilivre.com/fichier/), which gives me good results (I am not linked to them in any way, and do not endorse them, I just provide this information for your convenience). I found that they apparently convert PDF pages to image files, so you may be able to manually use a similar approach to use other print services with pdf files.
 
-In this version 2, the page build scripts are all available from a graphical main menu, where you can choose your layout depending on the number of landscape, portrait or square photographs that you want to use. All the previous scripts are still available too, and some (like swap-frames, combine-images or split-image are still only available in the from of the previous version, because there is no advantage in integrating them in the main menu (actually, you would need a higher number of clicks if it was implemented in the main menu))
+In this version 2, the page build scripts are all available from a graphical main menu, where you can choose your layout depending on the number of landscape, portrait or square photographs that you want to use. All the previous scripts are still available too, and some (like swap-frames, combine-images or split-image are still only available in the previous version, because there is no advantage in integrating them in the main menu (actually, you would need a higher number of clicks if they were implemented in the main menu))
 
-These photobook scripts are very simple and tailored to my specific way of working, therefore I do not accept collaboration on improving the scripts. You are obviously wellcome to fork or clone the repository, although if you are fluent in python programming you definitely do not need my scripts!
+These photobook scripts are very simple and tailored to my specific way of working, therefore I do not for now accept collaboration on improving the scripts. You are obviously wellcome to fork or clone the repository, although if you are fluent in python programming you definitely will not need my scripts!
 
 ### A warning to Mac users of Version 2.
 Version 2 uses a graphical user interface built using tkinter, which is often not installed correctly on Macs because the python version natively installed on Macs is not complete. In order to make sure the scripts work perfectly, you will have to install python for Mac from the official python.org website [python website](https://www.python.org/). Just go to the "Downloads" tab and select "macOS". Full information on the installation process can be found here: [install on macOS](https://docs.python.org/3/using/mac.html)
@@ -37,7 +37,17 @@ Version 2 uses a graphical user interface built using tkinter, which is often no
 - run the setup_photobook_tkinter.py script from within scribus, your path to the scripts directory and previous choices should be conserved, so this should be very quick
 - you can now run the new photobook-build-page script which will display the main menu
 - please note that on first use, the drawing of the page can be quite slow (really slow!), but on subsequent runs will be much faster (ie immediate on my 12-year-old PC)
-  
+
+### Specific instructions for Ubuntu linux users:
+When running the script, Ubuntu (and maybe other Linux systems) will frequently show you a Message box showing "Application not responding" which can be ignored, but is annoying nonetheless. In order to avoid or at least strongly decrease the frequency of this error message, you can increase the check-alive-timeout parameter of mutter to 1 minute (60000 ms):
+- install dconf-editor `sudo apt install dconf-editor`
+- run dconf-editor from the commandline
+- click on org
+- click on gnome
+- click on mutter
+- find check-time-out and deselect "use the default value"
+- change the value of  check-time-out to 60000 (=1 min, 60000 ms instead of 5 s)  
+- 
 ### Version 2 use
 
 Version 2 is very simple to use, because once the main menu is launched by running the script photobook-build-page, you just have to click on one of the icons to draw your page:
@@ -55,17 +65,19 @@ Version 2 is very simple to use, because once the main menu is launched by runni
 - gutter: enter your preferred distance between the photographs. The default distance works well for me, but may not please you. See below, "More advanced customization" to permanently change the default gutter value
 - "Draw into bleed", if checked will draw the layout on the whole page, including the bleed (which is 5 mm and cannot be customized for now, but should be suitable for most of the commercial print services). Make sure nothing important is in the bleed area when you choose your photographs because this area will be cut by the print service after printing the page. If unchecked the layout is drawn within the margins of the page
 #### Building a diary page
+- please also read the explanation of the diary concept for version 1 below
 - click on the "Build diary page" icon to the right to open the diary menu: ![diary menu](/docs/img/diary-menu.png)
 - You can then use a set of ready-made layouts by clicking on the different icons:
   - "Draw standard" page will draw a page for 3 days of diary, using the line types defined on the right of the menu: normal (text to the left or right of 1 photograph depending on the page) is preselected, but you can choose for each line either normal or central (central text above 3 photographs)
-  - "Double (top)" will draw a double-sized layout (central text above 6 photographs) at the top of the page, plus a lower line corresponding to the line type selected on the right
+  - "Double (top)" will draw a double-sized layout (central text above 6 photographs) at the top of the page, plus a lower line corresponding to the line type selected for line 3 on the right
   - "Double (bottom) will draw a line at the top and the double-sized layout at the bottom
   - "Draw full page" will draw a triple-sized layout with central text and 9 photographs below
   - if you made a mistake, you can manually remove any layout and redo a customized layot by selecting the line type and selectively draw each line by clicking the buttons on the right
-  - don't forget that you can also use the version 1 scripts to further customize each layout
+  - don't forget that you can also use the version 1 scripts to further customize each layout or select a group of images/frames and replace them by a complex layout by running photobook-build-page on them (but don't forget to decrease the gutter size and also see very important note below)
 ### Very IMPORTANT note!
-The new layouts of version 2 can also be used on any area of the page you select before running the "photobook-build-page" script. If an area/frame is selected before running the script, it will work on this area instead of the page. This obviously can be very efficient to draw really complex layouts and was included for this reason!
-However, this can also be very problematic if you run the script with a frame or group of frames ou previously worked on still selected, because they will be deleted and replaced by the new layout. So ***BE VERY CAREFUL, and start the "photobook-build-page" script on a new page, unless you select a region/frame you really want to futher customize***!
+The new layouts of version 2 can also be used on any area or group of images selected before running the "photobook-build-page" script. If an area/group of frames is selected before running the script, it will work on this area/group of frames instead of the page. This obviously can be very efficient to draw really complex layouts and was included for this reason!
+However, this can also be very problematic if you run the script with a frame or group of frames ou previously worked on still selected, because they will be deleted and replaced by the new layout. So ***BE VERY CAREFUL, and start the "photobook-build-page" script on a new page, unless you select a region/frame you really want to delete and further customize***!
+Also, running the script on a group of frames and then trying selecting a layout will combine the frames into a single image even if you abort thereafter. This may surprise you, but *you can go back to the original frames by performing the undo command (Edit menu or better: ctrl-z) several times in sequence.*
 
 ### Version 1 use
 
@@ -136,7 +148,7 @@ You start with a page of same-size image frames that you can then adapt to your 
 ### use for photodiary creation
 
 - in this context, a photodiary is a photobook containg one or several photos per day, with an accompanying text
-- the top of the page states the month
+- the top of the page states the month ("mois"= month in French)
 - on the left or right of the photos for each day, the day in the month is indicated
 - these scripts are specifically written for 3 days per page, but the acta-1-group allows to adapt the page for showing 2 or three days
 - these scripts use a "base" definition of what a generic "day" group should look like. If you change anything (eg color,font) in this "base" file it will change in the resulting photobook from that change point onwards. This is a convenient way to change the look of the resulting photodiary. This file is located in the .photobook hidden directory within the script directory and is called "Annales_base.sla". It is a standard scribus file. You may have to change your operating system preferences to see the hidden directory (under gnome file manger: ctrl-h)
@@ -166,7 +178,7 @@ You start with a page of same-size image frames that you can then adapt to your 
     ![eg whole page](docs/img/diary-whole-page.png)
 
 - play with it and the use of each option will quickly become obvious
-- you can then create different types pages: eg a page with double space at the top (position 1), and simple central text at the bottom (position 3)
+- you can then create different types of pages: eg a page with double space at the top (position 1), and simple central text at the bottom (position 3)
   
   ![diary example page](docs/img/diary-example.png)
 

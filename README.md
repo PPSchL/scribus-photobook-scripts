@@ -10,7 +10,7 @@ In this version 2, the page build scripts are all available from a graphical mai
 These photobook scripts are very simple and tailored to my specific way of working, therefore I do not for now accept collaboration on improving the scripts. You are obviously wellcome to fork or clone the repository, although if you are fluent in python programming you definitely will not need my scripts!
 
 ### A warning to Mac users of Version 2.
-Version 2 uses a graphical user interface built using tkinter, which is often not installed correctly on Macs because the  natively installed python version is not complete. In order to make sure the tkinter works perfectly well, you will have to install python for Mac from the official python.org website [python website](https://www.python.org/). Just go to the "Downloads" tab and select "macOS". Full information on the installation process can be found here: [install on macOS](https://docs.python.org/3/using/mac.html). However, as I do not own a Mac, I only recently learned that scribus seems to use an internal python interpreter with tkinter included and even when the external python works perfectly well with tkinter, the scripts using tkinter (including the scripts installed by scribus) do not work on Macs. Let's hope that this will change with futher versions of scribus.
+Version 2 uses a graphical user interface built using tkinter, which is often not installed correctly on Macs because the  natively installed python version is not complete. Normally, to make sure tkinter works perfectly well on Macs, you have to install python for Mac from the official python.org website [python website](https://www.python.org/). Just go to the "Downloads" tab and select "macOS". Full information on the installation process can be found here: [install on macOS](https://docs.python.org/3/using/mac.html). However, as I do not own a Mac, I only recently learned that scribus seems to use an internal python interpreter with tkinter included and even when the external python works perfectly well, the scribus scripts using tkinter (including the scripts installed by scribus isself) do not work on Macs. Let's hope that this will change with futher versions of scribus/MacOS.
 
 ### Version 2 installation
 - download all files from github resulting in a zip file (click on the **<>Code** menu and select **Download Zip**):
@@ -115,10 +115,16 @@ You start with a page of same-size image frames that you can then adapt to your 
 - all selected photo frames will be deleted (make sure to select all the frames you want to be replaced)
 - if the frames already contain photos, the one selected first will be in the final, larger frame
 
-#### swap-frames
+#### swap-content (changed in version 2.1.0, previously called swap-frames)
 - select two frames or photos (select first, SHIFT-click second)
 - execute the script
 - the content of the frames will be swapped
+
+#### swap-frames
+- select two frames or photos (select first, SHIFT-click second)
+- execute the script
+- the  whole frames will be swapped, including the content
+- you can then use the scribus alignement commands to further position the two objects relative to each other
 
 #### photobook-page-with-bleed
 - creates a page without margins. Images/photo edges are aligned with the outer border of the bleed, ie the bleed area will be cut during printing to obtain a page without a margin at all. Make sure no important part of your photos is within the bleed.

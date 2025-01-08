@@ -172,6 +172,7 @@ def paste_and_resize_group(
                     y_topleft + g_pos["Acta_img"]["dy"],
                     g_pos["Acta_img"]["xs"],
                     g_pos["Acta_img"]["ys"],
+                    0,  # rotation=0
                     0,
                     0,
                     0,

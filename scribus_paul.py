@@ -227,12 +227,12 @@ def fr2xy(fr, area):
     # transform from fractional type type coordinates to xy coordinates
     # depends on the page or area to draw upon
     # can be passed on directly to create_image function after expansion of returned tuple
-    # rotation is not extracted from frame_fr named tuple because will extracted and specified by the function drawing the layout
     x = area.x + fr.x_fr * area.xs
     y = area.y + fr.y_fr * area.ys
     xs = fr.xs_fr * area.xs
     ys = fr.ys_fr * area.ys
-    return (x, y, xs, ys)
+    rot = fr.rot
+    return (x, y, xs, ys, rot)
 
 
 def get_n_images_gutter(my_msg, xnp, ynp, gutter):
@@ -304,7 +304,7 @@ def create_1_image(obj, x_n_picts, y_n_picts, gutter, nx, ny):
 
 
 def create_image(xpict, ypict, xs, ys, rot=0):
-    # create image in xy coordinates, rota  tion does not have to be specified, default 0 degrees
+    # create image in xy coordinates, rotation does not have to be specified, default 0 degrees
     image_name = scribus.createImage(xpict, ypict, xs, ys)
     if rot != 0:
         scribus.rotateObjectAbs(rot, image_name)

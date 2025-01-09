@@ -1,4 +1,5 @@
 import os
+import math
 import scribus
 from collections import namedtuple
 from script_path import script_path
@@ -939,7 +940,7 @@ def get_layouts(orientation):
                 ),
             ],
         }
-    else:
+    else:  # page is portrait or landscape
         layouts = {
             layout_rc(name="L0P1S0-1", L=0, P=1, S=0, n=1): [
                 frame_rc(c=1, r=1, x_rc=1, y_rc=1, xs_rc=1, ys_rc=1),
@@ -2137,6 +2138,52 @@ def get_layouts(orientation):
                     rot=0,
                 ),
             ],
+            layout_fr(name="L1P1S0-2-fr", L=1, P=1, S=0, n=2): [
+                frame_fr(
+                    x_fr=0.12294547015906868,
+                    y_fr=0.061937824403274354,
+                    xs_fr=0.4432432432,
+                    ys_fr=0.4508447653,
+                    rot=10,
+                ),
+                frame_fr(
+                    x_fr=0.02933874022541967,
+                    y_fr=0.5143421165916816,
+                    xs_fr=0.9567567568,
+                    ys_fr=0.4259927798,
+                    rot=-2.0,
+                ),
+            ],
+            layout_fr(name="L4P0S0-4-fr", L=4, P=0, S=0, n=4): [
+                frame_fr(
+                    x_fr=0.45192179978089436,
+                    y_fr=0.00815281843434682,
+                    xs_fr=0.456756633309018,
+                    ys_fr=0.22587337331161583,
+                    rot=-1.0,
+                ),
+                frame_fr(
+                    x_fr=0.005720118574142115,
+                    y_fr=0.2532490936933929,
+                    xs_fr=0.4945945960555146,
+                    ys_fr=0.2445848438443453,
+                    rot=-358.0,
+                ),
+                frame_fr(
+                    x_fr=0.5282130704529238,
+                    y_fr=0.48178903040987253,
+                    xs_fr=0.46539288573515275,
+                    ys_fr=0.23014413661532448,
+                    rot=-2.0,
+                ),
+                frame_fr(
+                    x_fr=0.05370869419284529,
+                    y_fr=0.7268853056689185,
+                    xs_fr=0.5432430964207847,
+                    ys_fr=0.26864229606884477,
+                    rot=-359.0,
+                ),
+            ],
         }
     return layouts
 
@@ -2161,11 +2208,18 @@ def draw_layout(lkey, layout, area, area_is_page, gutter, orientation, tkwindow=
     else:  # layout is of type fr
         for frame_i in layout:
             if orientation == "Landscape":
+                L_x = frame_i.y_fr
+                L_y = 1 - (frame_i.x_fr + frame_i.xs_fr)
+                ys = frame_i.xs_fr
+                rot_rad = math.radians(frame_i.rot)
+                xrot = L_x - ys * math.sin(rot_rad) * area.ys / area.xs
+                yrot = L_y + ys * (1 - math.cos(rot_rad))
                 frame_draw = frame_fr(
-                    x_fr=frame_i.y_fr,
-                    y_fr=1 - (frame_i.x_fr + frame_i.xs_fr),
+                    x_fr=xrot,
+                    y_fr=yrot,
                     xs_fr=frame_i.ys_fr,
-                    ys_fr=frame_i.xs_fr,
+                    ys_fr=ys,
+                    rot=frame_i.rot,
                 )
             elif orientation == "Portrait":
                 frame_draw = frame_i
@@ -2349,27 +2403,7 @@ def select_and_draw(
             no_exact_label.configure(anchor="center")
             no_exact_label.grid(row=0, column=0, columnspan=10, sticky="nsew")
             button_r += 1
-            # similar_label = Label(
-            #     choose_layout, text="Approximate correspondance:", style="Title.TLabel"
-            # )
-            # similar_label.configure(anchor="center")
-            # similar_label.grid(row=button_r, column=0, columnspan=3, sticky="nsew")
-            # finally, there never are close similars => show all with same number of pictures
-            # for or_i in ("L", "P"):
-            #     if orientation == "Portrait":
-            #         similar_layouts = filter_similar(L, P, S, layouts, or_i)
-            #     elif orientation == "Landscape":
-            #         similar_layouts = filter_similar(P, L, S, layouts, or_i)
-            #     else:  # orientation=square TODO
-            #         pass
-            #     button_r += 2
-            #     draw_outcome = draw_buttons(
-            #         similar_layouts, button_r, choose_layout, buttons_per_row
-            #     )
-            #     if draw_outcome[0] == "success":
-            #         button_r = draw_outcome[1]
 
-            # button_r += 1
             same_total_label = Label(
                 choose_layout,
                 text=my_msg["same_total_label"],
@@ -2871,6 +2905,7 @@ page = sp.get_page_info()
 """ *** utility to generate fractional coordinates for the layout dictionary from manually designed scribus page ***
 - uncomment the line after this explanation section
 - design a page in scribus
+- select all the frames on the page
 - run photobook-build-page
 - copy the dictionary entry shown in the message-box, paste into this here file, edit name, etc
 """
@@ -2893,8 +2928,7 @@ else:
 build_main(page, area, area_is_page, gutter, bleed, my_units)
 """ *** setup utility to generate icon files ***
 - to add layouts and test them, comment the preceding line and uncomment the line after this explanation section
-- to only test a single layout without writing the icon to disk, enter the layout name instead of "all" and set export to False
-e.g.  layout_name="L0P1S0-1"
+- to only test a single layout without writing the icon to disk, enter the test for a single layout name instead of "all" and set export to False
 - to write the icons to disk enter layout_name="all", and check/change the exportpath at your convenience. 
 *** Caution: if layout_name="all", the function will write to disk even if export==False
 - you can also add a single icon by providing its name, setting export to True and checking the export path
@@ -2906,7 +2940,7 @@ e.g.  layout_name="L0P1S0-1"
 #     my_defaults,
 #     area,
 #     gutter,
-#     layout_test="all",
+#     layout_test="""((l_key.name) == "L4P0S0-4-fr")""",
 #     # layout_test can be eg """"fr" in l_key.name """ or """((l_key.name) == "layout_name")""" or "all"
 #     export=True,
 #     exportpath="/home/paul/IMG-en-cours/scribus_prepare",

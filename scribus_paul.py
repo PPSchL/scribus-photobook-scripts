@@ -37,7 +37,7 @@ frame_rc = namedtuple(
 """ frame_fr specifies the parameters that define the different frames in fractional units (ie fractions of the available space)
 eg: a frame that takes up the whole area (page) would have a fractional size of 1 in both x and y coordinates and start at (0,0) tuple:(0,0,1,1)
 this system is also independent of page size
-this system also allows for rotated images, "rot" parameter
+this system also allows for rotated images, use "rot" parameter for rotation expressed as counterclockwise degrees
 """
 frame_fr = namedtuple(
     "frame_fr",
@@ -405,7 +405,8 @@ def combine_images():
     # however this operation does not work with the current version of the scripter API (previous size conserved)
     # and would anyway not be valid for groups of disparate rotations of individual images
     # kept nonetheless for potential future use
-    scribus.rotateObjectAbs(0, grouped_imgs)
+    # scribus.rotateObjectAbs(0, grouped_imgs)
+    scribus.setRotation(0, grouped_imgs)
 
     imgs_size = scribus.getSize(grouped_imgs)
     xs = imgs_size[0]

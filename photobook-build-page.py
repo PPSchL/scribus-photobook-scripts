@@ -2184,6 +2184,200 @@ def get_layouts(orientation):
                     rot=-359.0,
                 ),
             ],
+            layout_fr(name="L0P4S0-4-fr", L=0, P=4, S=0, n=4): [
+                frame_fr(
+                    x_fr=0.44395891469094517,
+                    y_fr=0.44693088804670117,
+                    xs_fr=0.5189187786706003,
+                    ys_fr=0.5198549909428506,
+                    rot=-0.0,
+                ),
+                frame_fr(
+                    x_fr=0.08824339957385607,
+                    y_fr=0.10697941827504495,
+                    xs_fr=0.32252252544436255,
+                    ys_fr=0.3261131251257938,
+                    rot=-0.0,
+                ),
+                frame_fr(
+                    x_fr=0.5363664015826543,
+                    y_fr=0.012184489102145292,
+                    xs_fr=0.32252252544436255,
+                    ys_fr=0.3261131251257938,
+                    rot=-0.0,
+                ),
+                frame_fr(
+                    x_fr=0.04247764617721285,
+                    y_fr=0.591105182161374,
+                    xs_fr=0.32252252544436255,
+                    ys_fr=0.3261131251257938,
+                    rot=-0.0,
+                ),
+            ],
+            layout_fr(name="L0P4S0-5-fr", L=0, P=4, S=0, n=5): [
+                frame_fr(
+                    x_fr=0.44395891469094517,
+                    y_fr=0.44693088804670117,
+                    xs_fr=0.5189187786706002,
+                    ys_fr=0.5198549909428506,
+                    rot=-359.0,
+                ),
+                frame_fr(
+                    x_fr=0.03485002061110564,
+                    y_fr=0.04966901562769944,
+                    xs_fr=0.327929641100097,
+                    ys_fr=0.3315804374692609,
+                    rot=-358.0,
+                ),
+                frame_fr(
+                    x_fr=0.5420871207572346,
+                    y_fr=0.02619369863816308,
+                    xs_fr=0.3657674687114949,
+                    ys_fr=0.36983950850103814,
+                    rot=-2.0,
+                ),
+                frame_fr(
+                    x_fr=0.03866383339415925,
+                    y_fr=0.5325212150107541,
+                    xs_fr=0.3549566608225241,
+                    ys_fr=0.3589083453491018,
+                    rot=-1.0,
+                ),
+            ],
+            layout_fr(name="L2P2S0-3-fr", L=2, P=2, S=0, n=3): [
+                frame_fr(
+                    x_fr=0.0038138127830535645,
+                    y_fr=0.04202762860805337,
+                    xs_fr=0.6396376649627931,
+                    ys_fr=0.31544905112159827,
+                    rot=-358.0,
+                ),
+                frame_fr(
+                    x_fr=0.005720719174580366,
+                    y_fr=0.4808548156923525,
+                    xs_fr=0.3117134292666407,
+                    ys_fr=0.3151836927413563,
+                    rot=-359.0,
+                ),
+                frame_fr(
+                    x_fr=0.3387387372778186,
+                    y_fr=0.6395006332857991,
+                    xs_fr=0.6612612627221813,
+                    ys_fr=0.3261131251257938,
+                    rot=-2.0,
+                ),
+                frame_fr(
+                    x_fr=0.6774774745556374,
+                    y_fr=0.21056973767124992,
+                    xs_fr=0.3117134292666407,
+                    ys_fr=0.3151836927413564,
+                    rot=-2.0,
+                ),
+            ],
+            layout_fr(name="L2P2S1-1-fr", L=2, P=2, S=1, n=1): [
+                frame_fr(
+                    x_fr=0.0038138127830535645,
+                    y_fr=0.04202762860805337,
+                    xs_fr=0.6396376649627931,
+                    ys_fr=0.31544905112159827,
+                    rot=-358.0,
+                ),
+                frame_fr(
+                    x_fr=0.005720719174580366,
+                    y_fr=0.4808548156923525,
+                    xs_fr=0.3117134292666407,
+                    ys_fr=0.3151836927413563,
+                    rot=-359.0,
+                ),
+                frame_fr(
+                    x_fr=0.3387387372778186,
+                    y_fr=0.6395006332857991,
+                    xs_fr=0.6612612627221813,
+                    ys_fr=0.3261131251257938,
+                    rot=-2.0,
+                ),
+                frame_fr(
+                    x_fr=0.6774774745556374,
+                    y_fr=0.21056973767124992,
+                    xs_fr=0.3117134292666407,
+                    ys_fr=0.3151836927413564,
+                    rot=-2.0,
+                ),
+                frame_fr(
+                    x_fr=0.3279878993426097,
+                    y_fr=0.3776960909271306,
+                    xs_fr=0.3243242366691252,
+                    ys_fr=0.21660624622618774,
+                    rot=0.0,
+                ),
+            ],
+            layout_fr(name="L2P1S0-3-fr", L=2, P=1, S=0, n=3): [
+                frame_fr(
+                    x_fr=0.6738130311015829,
+                    y_fr=0.27594744921036074,
+                    xs_fr=0.3243242366691593,
+                    ys_fr=0.3249093693392827,
+                    rot=-3.0,
+                ),
+                frame_fr(
+                    x_fr=0.07361873385680641,
+                    y_fr=0.5968857040355579,
+                    xs_fr=0.8108105916728984,
+                    ys_fr=0.3610104103770175,
+                    rot=-3.0,
+                ),
+                frame_fr(
+                    x_fr=0.0011562909787801803,
+                    y_fr=0.01996098405221745,
+                    xs_fr=0.6540538772826838,
+                    ys_fr=0.2912150643707638,
+                    rot=-358.0,
+                ),
+            ],
+            layout_fr(name="L1P5S0-3-fr", L=1, P=5, S=0, n=3): [
+                frame_fr(
+                    x_fr=0.09459470416359343,
+                    y_fr=0.31949479481151033,
+                    xs_fr=0.810810591672813,
+                    ys_fr=0.36101041037697956,
+                    rot=-358.0,
+                ),
+                frame_fr(
+                    x_fr=0.05216154746384608,
+                    y_fr=0.7038651223105404,
+                    xs_fr=0.25945938933530016,
+                    ys_fr=0.2599274954714253,
+                    rot=-4.0,
+                ),
+                frame_fr(
+                    x_fr=0.3629872892827146,
+                    y_fr=0.6936766062843456,
+                    xs_fr=0.2864864090577272,
+                    ys_fr=0.2870032762496981,
+                    rot=-0.0,
+                ),
+                frame_fr(
+                    x_fr=0.6966959077999046,
+                    y_fr=0.6771202677417791,
+                    xs_fr=0.2918918130022127,
+                    ys_fr=0.2924184324053528,
+                    rot=-359.0,
+                ),
+                frame_fr(
+                    x_fr=0.08839276890285529,
+                    y_fr=0.01614029054239438,
+                    xs_fr=0.2864864090577272,
+                    ys_fr=0.2870032762496981,
+                    rot=-359.0,
+                ),
+                frame_fr(
+                    x_fr=0.5593986476099749,
+                    y_fr=0.013593161535845694,
+                    xs_fr=0.2702701972242711,
+                    ys_fr=0.2707578077827341,
+                    rot=-4.0,
+                ),
+            ],
         }
     return layouts
 
@@ -2434,6 +2628,7 @@ def select_and_draw(
 
 def draw_acta(root_win, page, linevar, Acta_button_imgs, gutter_number_e):
     def draw1(root_win, page, linevar, line_n):
+        # draw one single line (parameter line_n) of the type given by linevar
         group_type = linevar[line_n - 1].get()
         path_to_base, n_groups, top_group, below_groups, g_pos = sa.set_acta_data(
             group_type, page, script_path, gutter
@@ -2455,6 +2650,7 @@ def draw_acta(root_win, page, linevar, Acta_button_imgs, gutter_number_e):
         return
 
     def draw3(root_win, page, linevar):
+        # draw all 3 lines with type given by linevar
         for group_n in range(1, 4):
             group_type = linevar[group_n - 1].get()
             path_to_base, n_groups, top_group, below_groups, g_pos = sa.set_acta_data(
@@ -2482,6 +2678,7 @@ def draw_acta(root_win, page, linevar, Acta_button_imgs, gutter_number_e):
     def draw2(root_win, page, linevar, pos):
         # pos= tuple with: first= double position, second= single position
         # draw double at position given by pos[0]
+        # draw single line as type selected through linevar at position given by pos[1]
         group_type = "double"
         path_to_base, n_groups, top_group, below_groups, g_pos = sa.set_acta_data(
             group_type,
@@ -2503,7 +2700,7 @@ def draw_acta(root_win, page, linevar, Acta_button_imgs, gutter_number_e):
         )
         group_type = linevar[
             pos[1] - 1
-        ].get()  # linevar from 0 to 2, position from 1 to 3
+        ].get()  # linevar index from 0 to 2, position from 1 to 3 => substract 1 to get correct index
         path_to_base, n_groups, top_group, below_groups, g_pos = sa.set_acta_data(
             group_type,
             page,
@@ -2550,6 +2747,7 @@ def draw_acta(root_win, page, linevar, Acta_button_imgs, gutter_number_e):
         root_win.destroy()
         return
 
+    # create window for different acta icons
     w_acta = Toplevel(
         root_win,
     )
@@ -2669,6 +2867,8 @@ def build_main(page, area, are_is_page, gutter, bleed, my_units):
     gutter_number = StringVar(value=gutter)
     bleed_onoff = BooleanVar(value=False)
     # have to define line variables for acta here to avoid them being garbage collected outside of draw_acta function
+    # linevar is a list of StringVar that will be changed by buttons and used to draw the different types of acta lines
+    # initial type here is "normal" for all lines
     linevar = []
     for line_n in range(3):
         linevar.append(StringVar(value="normal"))
@@ -2689,7 +2889,7 @@ def build_main(page, area, are_is_page, gutter, bleed, my_units):
     buttons_per_row = 6  # TODO think about adapting the number of buttons per row according to screen and button size
     # have to create dictionary of button images before calling the button drawing function because only way to keep the images after
     # the drawing functions ends (garbage collection of local variables)
-    # used prefix for orientation and screen_type from determinations above
+    # use prefix for orientation and screen_type from determinations above
     button_imgs = {}
     for lkey in layouts.keys():
         button_imgs[lkey] = PhotoImage(
@@ -2830,6 +3030,10 @@ def build_main(page, area, are_is_page, gutter, bleed, my_units):
 def generate_icons(
     my_units, my_defaults, page, gutter, layout_test, export, exportpath
 ):
+    # for developers only: generate icons for display from layouts
+    # should be used on portrait or square page to generate one, several or all images depending on the layout_test parameter
+    # the portrait page icons/ png images are then rotated to generate landscape gifs
+    # see below for explanations on how to call the procedure
     orientation = sp.get_orientation(page)
     layouts = get_layouts(orientation)
     if orientation == "Portrait":
@@ -2849,7 +3053,7 @@ def generate_icons(
     for l_key in layout_selection:
         draw_layout(l_key, layouts[l_key], page, area_is_page, gutter, orientation)
         # if all layouts are requested, all the layouts in layouts are generated and the page exported to a png file carrying the name of the layout
-        # these files can then be converted to a GIF of smaller size using imagemagick convert and rotated to also generate landscape icons
+        # these files must then be converted to a GIF of smaller size using imagemagick convert and rotated to also generate landscape icons
         if layout_test == "all" or export:
             image_page = scribus.ImageExport()
             image_page.type = "PNG"
@@ -2860,8 +3064,9 @@ def generate_icons(
 
 
 def generate_fr_coordinates():
-    # generates fractional coordinates from a page of frames prepared manually
-    # within scribus select all frames in your preferred order before calling this script
+    # for developers only:
+    # generates fractional coordinates from a page of frames prepared manually within scribus
+    # select all frames on the page in your preferred order before calling this function
     p = page  # gives acces to margins
     pa = sp.page_available(page)  # defines available page size (margins removed)
     dict_entry = ["""layout_fr(name="L0P0S0-1-fr", L=0, P=0, S=0, n=1): [\n"""]
@@ -2892,7 +3097,6 @@ def generate_fr_coordinates():
     sys.exit(1)
 
 
-# def main():
 # take care of Units and initialize default values
 sp.check_doc_present()
 my_lang, my_msg, my_units, my_defaults = sp.get_config_data(script_path)
@@ -2926,6 +3130,7 @@ else:
     area_is_page = True
 
 build_main(page, area, area_is_page, gutter, bleed, my_units)
+
 """ *** setup utility to generate icon files ***
 - to add layouts and test them, comment the preceding line and uncomment the line after this explanation section
 - to only test a single layout without writing the icon to disk, enter the test for a single layout name instead of "all" and set export to False
@@ -2940,14 +3145,10 @@ build_main(page, area, area_is_page, gutter, bleed, my_units)
 #     my_defaults,
 #     area,
 #     gutter,
-#     layout_test="""((l_key.name) == "L4P0S0-4-fr")""",
+#     layout_test="""((l_key.name) in ("L0P4S0-4-fr","L0P4S0-5-fr","L2P2S0-3-fr","L2P2S1-1-fr","L1P5S0-3-fr","L2P1S0-3-fr"))""",
 #     # layout_test can be eg """"fr" in l_key.name """ or """((l_key.name) == "layout_name")""" or "all"
 #     export=True,
 #     exportpath="/home/paul/IMG-en-cours/scribus_prepare",
 # )
 
 scribus.setUnit(initial_units)
-
-
-# if __name__ == "__main__":
-#     main()

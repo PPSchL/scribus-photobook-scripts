@@ -7,17 +7,22 @@ As I live in France, I had some problems finding a photobook print service that 
 
 In this version 2, the page build scripts are all available from a graphical main menu, where you can choose your layout depending on the number of landscape, portrait or square photographs that you want to use. All the previous scripts are still available too, and some (like swap-frames, combine-images or split-image are still only available in the previous version, because there is no advantage in integrating them in the main menu (actually, you would need a higher number of clicks if they were implemented in the main menu))
 
-These photobook scripts are very simple and tailored to my specific way of working, therefore I do not for now accept collaboration on improving the scripts. You are obviously wellcome to fork or clone the repository, although if you are fluent in python programming you definitely will not need my scripts!
+Versin 2.1 adds the possibility to have rotated images in the layouts included with the scripts. It is now also possible to split rotated images and combine a mixture of rotated and non-rotated images (version 1 scripts). Please be aware that the final rotation will be the rotation of the first selected frame and that the final size may be larger than expected because scribus evaluates the size taking into accounts the largest distance between corners in the height and width directions.
 
-### A warning to Mac users of Version 2.
-Version 2 uses a graphical user interface built using tkinter, which is often not installed correctly on Macs because the  natively installed python version is not complete. Normally, to make sure tkinter works perfectly well on Macs, you have to install python for Mac from the official python.org website [python website](https://www.python.org/). Just go to the "Downloads" tab and select "macOS". Full information on the installation process can be found here: [install on macOS](https://docs.python.org/3/using/mac.html). However, as I do not own a Mac, I only recently learned that scribus seems to use an internal python interpreter with tkinter included and even when the external python works perfectly well, the scribus scripts using tkinter (including the scripts installed by scribus isself) do not work on Macs. Let's hope that this will change with futher versions of scribus/MacOS.
+These photobook scripts are very simple and tailored to my specific way of working, therefore I hesitate to accept collaboration on improving the scripts. Another reason is that I am not an expert python programmer and I would not feel like reviewing code that I do not fully understand. In a way I feel responsible for the code, and I would therefore be very sorry to let slip through any nefarious changes that might harm those using this code. You are obviously wellcome to fork or clone the repository, although if you are fluent in python programming and the scribus scripter interface you definitely will not need my scripts! I will however carefully consider any suggested improvements, as long as I understand and can therefore vouch for the proposed changes.
 
-### Version 2 installation
+### A warning to Mac users of Version  2 and later.
+Version 2 uses a graphical user interface built using tkinter, which is often not installed correctly on Macs because the  natively installed python version is not complete. Normally, to make sure tkinter works perfectly well on Macs, you have to install python for Mac from the official python.org website [python website](https://www.python.org/). Just go to the "Downloads" tab and select "macOS". Full information on the installation process can be found here: [install on macOS](https://docs.python.org/3/using/mac.html). However, as I do not own a Mac, I only recently learned that scribus seems to use an internal python interpreter with tkinter included and even when the external python works perfectly well, the scribus scripts using tkinter (including the scripts installed by scribus isself) do not work on Macs (as of January 2025). Let's hope that this will change with futher versions of scribus/MacOS.
+
+### Version 2 and 2.1 installation
 - download all files from github resulting in a zip file (click on the **<>Code** menu and select **Download Zip**):
   
   ![down-load menu](docs/img/download-zip.png)
+
+  this will give you the most recent version with all the new layouts that I may have added without creating a new release
   
-- Alternatively, you can click on "Version 2, with GUI" below "Releases" on the menu to the right and then download the source code as a zip file
+- Alternatively, you can click on "Version 2, with GUI" or "Version 2.1" below "Releases" on the menu to the right and then download the source code as a zip file
+  
 #### first installation (version 1 not previously installed)
 - create a directory for scribus scripts at a convenient location
 - define this directory as scripts directory in scribus preferences
@@ -197,7 +202,6 @@ How-to:
 - all the distance values (bleed, gutters) are in mm, to put in your preferred values change them to mm first: eg if you want the gutter to be 0.1 inch instead of 3 mm, replace 3 by 2.54
 
 ### For those looking at the source code
-- Sorry, not everything is correctly commented yet. Well, actually most functions are not commented at all (yes, I know!)
-- scribus_acta,  being more recent, is better commented, but ok, I absolutely will comment the main module scribus_paul shortly ;-)
+- I'm not a professional programmer, so my apologies if my source code comments are not as pertinent, succinct and helpful as they should be...
 
 

@@ -2378,6 +2378,159 @@ def get_layouts(orientation):
                     rot=-4.0,
                 ),
             ],
+            layout_fr(name="L0P6S1-1-fr", L=0, P=6, S=1, n=1): [
+                frame_fr(
+                    x_fr=0.38648578143026935,
+                    y_fr=5.81627883387341e-07,
+                    xs_fr=0.22702696566838765,
+                    ys_fr=0.20216582981110853,
+                    rot=-0.0,
+                ),
+                frame_fr(
+                    x_fr=0.31891823212420134,
+                    y_fr=0.3989170850944458,
+                    xs_fr=0.3621620642805231,
+                    ys_fr=0.24187697495257637,
+                    rot=-0.0,
+                ),
+                frame_fr(
+                    x_fr=0.38648578143026957,
+                    y_fr=0.7978335885610083,
+                    xs_fr=0.22702696566838718,
+                    ys_fr=0.2021658298111086,
+                    rot=-0.0,
+                ),
+                frame_fr(
+                    x_fr=0.7729721634609775,
+                    y_fr=0.5956677587498996,
+                    xs_fr=0.22702696566838718,
+                    ys_fr=0.2021658298111086,
+                    rot=-0.0,
+                ),
+                frame_fr(
+                    x_fr=-6.006004382896944e-07,
+                    y_fr=0.5956677587498996,
+                    xs_fr=0.22702696566838718,
+                    ys_fr=0.2021658298111086,
+                    rot=-0.0,
+                ),
+                frame_fr(
+                    x_fr=0.7729721634609775,
+                    y_fr=0.20216641143899194,
+                    xs_fr=0.22702696566838718,
+                    ys_fr=0.2021658298111086,
+                    rot=-0.0,
+                ),
+                frame_fr(
+                    x_fr=-6.006004382896944e-07,
+                    y_fr=0.20216641143899194,
+                    xs_fr=0.22702696566838718,
+                    ys_fr=0.2021658298111086,
+                    rot=-0.0,
+                ),
+            ],
+            layout_fr(name="L0P1S6-1-fr", L=0, P=1, S=6, n=1): [
+                frame_fr(
+                    x_fr=0.3486479538188711,
+                    y_fr=5.81627883387341e-07,
+                    xs_fr=0.3027026208911835,
+                    ys_fr=0.20216582981110853,
+                    rot=-0.0,
+                ),
+                frame_fr(
+                    x_fr=0.3567560597355998,
+                    y_fr=0.3989170850944458,
+                    xs_fr=0.2864864090577272,
+                    ys_fr=0.24187697495257637,
+                    rot=-0.0,
+                ),
+                frame_fr(
+                    x_fr=0.3486479538188713,
+                    y_fr=0.7978335885610083,
+                    xs_fr=0.3027026208911835,
+                    ys_fr=0.2021658298111086,
+                    rot=-0.0,
+                ),
+                frame_fr(
+                    x_fr=0.6972965082381819,
+                    y_fr=0.5956677587498996,
+                    xs_fr=0.3027026208911835,
+                    ys_fr=0.2021658298111086,
+                    rot=-0.0,
+                ),
+                frame_fr(
+                    x_fr=-6.0060043806885e-07,
+                    y_fr=0.5956677587498996,
+                    xs_fr=0.3027026208911835,
+                    ys_fr=0.2021658298111086,
+                    rot=0.0,
+                ),
+                frame_fr(
+                    x_fr=0.6972965082381819,
+                    y_fr=0.2021664114389919,
+                    xs_fr=0.3027026208911835,
+                    ys_fr=0.2021658298111086,
+                    rot=-0.0,
+                ),
+                frame_fr(
+                    x_fr=-6.0060043806885e-07,
+                    y_fr=0.20216641143899194,
+                    xs_fr=0.3027026208911835,
+                    ys_fr=0.2021658298111086,
+                    rot=0.0,
+                ),
+            ],
+            layout_fr(name="L0P1S6-2-fr", L=0, P=1, S=6, n=2): [
+                frame_fr(
+                    x_fr=0.3486479538188709,
+                    y_fr=5.81627883387341e-07,
+                    xs_fr=0.3027026208911835,
+                    ys_fr=0.20216582981110853,
+                    rot=-0.0,
+                ),
+                frame_fr(
+                    x_fr=0.3567560597355996,
+                    y_fr=0.3628160440567478,
+                    xs_fr=0.2864864090577272,
+                    ys_fr=0.24187697495257637,
+                    rot=-0.0,
+                ),
+                frame_fr(
+                    x_fr=0.3486479538188711,
+                    y_fr=0.7256315064856124,
+                    xs_fr=0.3027026208911835,
+                    ys_fr=0.2021658298111086,
+                    rot=-0.0,
+                ),
+                frame_fr(
+                    x_fr=0.6972965082381812,
+                    y_fr=0.5234656766745036,
+                    xs_fr=0.3027026208911835,
+                    ys_fr=0.2021658298111086,
+                    rot=-0.0,
+                ),
+                frame_fr(
+                    x_fr=-6.006004382896944e-07,
+                    y_fr=0.5234656766745036,
+                    xs_fr=0.3027026208911835,
+                    ys_fr=0.2021658298111086,
+                    rot=0.0,
+                ),
+                frame_fr(
+                    x_fr=0.6972965082381812,
+                    y_fr=0.2021664114389918,
+                    xs_fr=0.3027026208911835,
+                    ys_fr=0.2021658298111086,
+                    rot=-0.0,
+                ),
+                frame_fr(
+                    x_fr=-6.006004382896944e-07,
+                    y_fr=0.20216641143899186,
+                    xs_fr=0.3027026208911835,
+                    ys_fr=0.2021658298111086,
+                    rot=0.0,
+                ),
+            ],
         }
     return layouts
 
@@ -2386,6 +2539,7 @@ def draw_layout(lkey, layout, area, area_is_page, gutter, orientation, tkwindow=
     if isinstance(lkey, layout_rc):
         for frame_i in layout:
             if orientation == "Landscape":
+                # calculate new row.column coordinates after rotation of the portrait layout by 90 ° counterclockwise
                 frame_draw = frame_rc(
                     c=frame_i.r,
                     r=frame_i.c,
@@ -2402,9 +2556,15 @@ def draw_layout(lkey, layout, area, area_is_page, gutter, orientation, tkwindow=
     else:  # layout is of type fr
         for frame_i in layout:
             if orientation == "Landscape":
+                # landscape layouts are drawn by rotating portrait layouts
+                # first determine the x and y coordinates after 90° counterclockwise rotation of the layout
+                # but without rotation of the image
                 L_x = frame_i.y_fr
                 L_y = 1 - (frame_i.x_fr + frame_i.xs_fr)
                 ys = frame_i.xs_fr
+                # then calculate the position of new topleft corner after rotation of the image around new bottomleft corner
+                # because rotation of the layout changed previous topright corner to new topleft corner
+                # then rotation can be applied (because by default rotates around topleft corner)
                 rot_rad = math.radians(frame_i.rot)
                 xrot = L_x - ys * math.sin(rot_rad) * area.ys / area.xs
                 yrot = L_y + ys * (1 - math.cos(rot_rad))
@@ -3145,7 +3305,7 @@ build_main(page, area, area_is_page, gutter, bleed, my_units)
 #     my_defaults,
 #     area,
 #     gutter,
-#     layout_test="""((l_key.name) in ("L0P4S0-4-fr","L0P4S0-5-fr","L2P2S0-3-fr","L2P2S1-1-fr","L1P5S0-3-fr","L2P1S0-3-fr"))""",
+#     layout_test="""((l_key.name) in ("L0P6S1-1-fr","L0P1S6-1-fr","L0P1S6-2-fr"))""",
 #     # layout_test can be eg """"fr" in l_key.name """ or """((l_key.name) == "layout_name")""" or "all"
 #     export=True,
 #     exportpath="/home/paul/IMG-en-cours/scribus_prepare",

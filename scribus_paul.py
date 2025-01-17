@@ -405,8 +405,8 @@ def combine_images():
     # however this operation does not work with the current version of the scripter API (previous size conserved)
     # and would anyway not be valid for groups of disparate rotations of individual images
     # kept nonetheless for potential future use
-    # scribus.rotateObjectAbs(0, grouped_imgs)
-    scribus.setRotation(0, grouped_imgs)
+    scribus.rotateObjectAbs(0, grouped_imgs)  # older version, kept for compatibility
+    # scribus.setRotation(0, grouped_imgs) # usable from version 1.5.9 of scribus onwards, https://bugs.scribus.net/view.php?id=17079
 
     imgs_size = scribus.getSize(grouped_imgs)
     xs = imgs_size[0]
@@ -451,3 +451,35 @@ def get_position4pict(my_msg, x_n_picts, y_n_picts):
         else:
             position = True
     return xypict
+
+
+def get_xy4_center_visual(obj, area, xpercent, ypercent):
+    # the visual center normally is considered to be off to the top and right by 5%
+    # I prefer only 2.5% because 5% looks much to extreme to me
+    # sometimes offsetting only in the y direction looks best
+    # use xpercent and ypercent to define the offset
+    visual_center_x = area.x + area.xs * (0.5 + xpercent / 100)
+    visual_center_y = area.y + area.ys * (0.5 - ypercent / 100)
+    # x and y specify topleft corner
+    new_x = visual_center_x - obj.xs / 2
+    new_y = visual_center_y - obj.ys / 2
+    return (new_x, new_y)
+
+
+def center_visual(obj, area, xpercent, ypercent):
+    final_x, final_y = get_xy4_center_visual(obj, area, xpercent, ypercent)
+    final_img = object_info(
+        name=obj.name,
+        x=final_x,
+        y=final_y,
+        xs=obj.xs,
+        ys=obj.ys,
+        rot=obj.rot,
+        mleft=0.0,
+        mright=0.0,
+        mtop=0.0,
+        mbottom=0.0,
+        page_type=0,
+    )
+    movesize(final_img)
+    return final_img

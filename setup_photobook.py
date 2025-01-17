@@ -36,6 +36,8 @@ def set_my_defaults(my_units):
         "asym_direction": "left2right",
         "asym_aspect": "constant",
         "acta_gutter": 3.0,  # gutter for the diary scripts
+        "visual_center_xoffset": 2.5,  # x offset in percent
+        "visual_center_yoffset": 2.5,  # y offset in percent
     }
     n_digits4unit = {
         # target a precision of 1/100 of a pt (300 dpi=>~ 4 dots/point)

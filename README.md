@@ -7,9 +7,9 @@ As I live in France, I had some problems finding a photobook print service that 
 
 In this version 2, the page build scripts are all available from a graphical main menu, where you can choose your layout depending on the number of landscape, portrait or square photographs that you want to use. All the previous scripts are still available too, and some (like swap-frames, combine-images or split-image are still only available in the previous version, because there is no advantage in integrating them in the main menu (actually, you would need a higher number of clicks if they were implemented in the main menu))
 
-Versin 2.1 adds the possibility to have rotated images in the layouts included with the scripts. It is now also possible to split rotated images and combine a mixture of rotated and non-rotated images (version 1 scripts). Please be aware that the final rotation will be the rotation of the first selected frame and that the final size may be larger than expected because scribus evaluates the size taking into accounts the largest distance between corners in the height and width directions.
+Version 2.1 adds the possibility to have rotated images in the layouts included with the scripts. It is now also possible to split rotated images and combine a mixture of rotated and non-rotated images (version 1 scripts). Please be aware that the final rotation will be the rotation of the first selected frame and that the final size may be larger than expected because scribus evaluates the size taking into accounts the largest distance between corners in the height and width directions. Furthermore, this release also adds another version 1 script: the possibility to visually center an image or group of images within the page margins.
 
-These photobook scripts are very simple and tailored to my specific way of working, therefore I hesitate to accept collaboration on improving the scripts. Another reason is that I am not an expert python programmer and I would not feel like reviewing code that I do not fully understand. In a way I feel responsible for the code, and I would therefore be very sorry to let slip through any nefarious changes that might harm those using this code. You are obviously wellcome to fork or clone the repository, although if you are fluent in python programming and the scribus scripter interface you definitely will not need my scripts! I will however carefully consider any suggested improvements, as long as I understand and can therefore vouch for the proposed changes.
+These photobook scripts are very simple and tailored to my specific way of working, therefore I hesitate to accept collaboration on improving the scripts. I will however carefully consider any suggested improvements, as long as I understand and can therefore vouch for the proposed changes. I am not an expert python programmer and I would not feel like reviewing code that I do not fully understand. In a way I feel responsible for the code, and I would therefore be very sorry to let slip through any nefarious changes that might harm those using this code. You are obviously wellcome to fork or clone the repository, although if you are fluent in python programming and the scribus scripter interface you definitely will not need my scripts! 
 
 ### A warning to Mac users of Version  2 and later.
 Version 2 uses a graphical user interface built using tkinter, which is often not installed correctly on Macs because the  natively installed python version is not complete. Normally, to make sure tkinter works perfectly well on Macs, you have to install python for Mac from the official python.org website [python website](https://www.python.org/). Just go to the "Downloads" tab and select "macOS". Full information on the installation process can be found here: [install on macOS](https://docs.python.org/3/using/mac.html). However, as I do not own a Mac, I only recently learned that scribus seems to use an internal python interpreter with tkinter included and even when the external python works perfectly well, the scribus scripts using tkinter (including the scripts installed by scribus isself) do not work on Macs (as of January 2025). Let's hope that this will change with futher versions of scribus/MacOS.
@@ -36,7 +36,7 @@ Version 2 uses a graphical user interface built using tkinter, which is often no
 
 - you can now run the new photobook-build-page script which will show you the main menu or else use the different scripts from version 1
 
-#### installation of version 2 if version 1 is already installed
+#### installation of version 2 or later if version 1 is already installed
 - download the source code zip as explained above
 - extract the files into  the scribus scripts directory where the version 1 files are located, overwriting the older files with the new version
 - run the setup_photobook_tkinter.py script from within scribus, your path to the scripts directory and previous choices should be conserved, so this should be very quick
@@ -156,6 +156,15 @@ You start with a page of same-size image frames that you can then adapt to your 
   
   ![alternate](docs/img/alternate.png)
 
+#### photobook-center-visually-on-page
+
+- this script visually centers the image or the selection of images within the margins of the page
+- the visual center of a page is considered to be offset slightly to the top and left of the page compared to the geometric center of the page 
+- the recommended offset in percent is usually 5% of the page size, I use 2.5% however because 5% does not feel right to me (also see for example [link visual center](https://epxx.co/artigos/centre.html)). The visual center is not an objective mathematical concept, but a subjective psychological feeling that depends on the individual user. If you prefer a lower or higher offset, you will have to edit the setup_photobook.py souce code file (see advanced customization below)
+- this script visually centers between the margins of the page. If the margins are very dissymmetric, this may not look right. Right now, I do not know whether it is best to visually center within the whole page or the margins. I may change this after more extensive use or add another default to allow the user to choose between different possibilities. Some experts recommend to only offset the y (height) direction, this again is a matter of personal taste.
+- to use this script, select one image, or a group of images and then run the script
+- you can also use this script to visually center the version 2 layouts: draw the layout, select the whole group of images (ctrl-a), decrease the size of the selected group to the extent that looks right to you (ctrl-l to unlock, F2 to show the frame properties, and make sure the width/height proportions are conserved, then decrease width or height to your taste), then run the script to center the group of images. The size of the group has to be reduced because visually centering only makes sense if the group of images does not already use up all the space available between the margins.
+
 ### use for photodiary creation
 
 - in this context, a photodiary is a photobook containg one or several photos per day, with an accompanying text
@@ -200,6 +209,7 @@ How-to:
 - find the "def set_my_defaults(my_units):" line 
 - below this line, you will have all the default values that you can change to your convenience
 - all the distance values (bleed, gutters) are in mm, to put in your preferred values change them to mm first: eg if you want the gutter to be 0.1 inch instead of 3 mm, replace 3 by 2.54
+- you can also change the offsets for the visual centering of images here, the values are in percent of the space available between the margins
 
 ### For those looking at the source code
 - I'm not a professional programmer, so my apologies if my source code comments are not as pertinent, succinct and helpful as they should be...

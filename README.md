@@ -159,7 +159,7 @@ You start with a page of same-size image frames that you can then adapt to your 
 #### photobook-center-visually-on-page
 
 - this script visually centers the image or the selection of images within the margins of the page
-- the visual center of a page is considered to be offset slightly to the top and left of the page compared to the geometric center of the page 
+- the visual center of a page is considered to be offset slightly to the top and right of the page compared to the geometric center of the page 
 - the recommended offset in percent is usually 5% of the page size, I use 2.5% however because 5% does not feel right to me (also see for example [link visual center](https://epxx.co/artigos/centre.html)). The visual center is not an objective mathematical concept, but a subjective psychological feeling that depends on the individual user. If you prefer a lower or higher offset, you will have to edit the setup_photobook.py souce code file (see advanced customization below)
 - this script visually centers between the margins of the page. If the margins are very dissymmetric, this may not look right. Right now, I do not know whether it is best to visually center within the whole page or the margins. I may change this after more extensive use or add another default to allow the user to choose between different possibilities. Some experts recommend to only offset the y (height) direction, this again is a matter of personal taste.
 - to use this script, select one image, or a group of images and then run the script

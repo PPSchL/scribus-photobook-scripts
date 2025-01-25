@@ -211,7 +211,33 @@ How-to:
 - all the distance values (bleed, gutters) are in mm, to put in your preferred values change them to mm first: eg if you want the gutter to be 0.1 inch instead of 3 mm, replace 3 by 2.54
 - you can also change the offsets for the visual centering of images here, the values are in percent of the space available between the margins
 
-### For those looking at the source code
+### For developers and those looking at the source code
 - I'm not a professional programmer, so my apologies if my source code comments are not as pertinent, succinct and helpful as they should be...
-
-
+- Below I add a few more explanations that were difficult to include in the source code
+#### further information regarding the layouts
+- the photobook-build-page script uses two types of layout, both independent of page/area size (but dependent the ratio between height and width):
+  1. row/column type layout specifying all the images as row/column x,y coordinates (starting at (1,1)) as well as sizes as number of rows/columns taking up the whole available space
+  2. fractional coordinates, expressing the x/y positions and sizes as fractions of the page size. The fractional coordinates allow rotation of the individual images, which is obviously not possible with row/column type coordinates. *Caveat*: the x and y coordinates are not orthonormal, because the x and y dimensions are different, therefore some corrections have to be made when calculations are relative to units from both axes.
+##### using portrait layouts for landscape pages or ares 
+- the layouts are only entered as coordinates for portrait mode! Landscape page layouts are calculated from the portrait layouts (portrait-ratio frames become landscape-ratio images and vice versa). The aspect ratio of the frames will reflect the aspect ratio of the page or page area they are drawn upon. Square images have their own layouts. Using portrait layouts for landscape pages makes for fewer layouts to have to be defined and managed.
+- here are some short indications on how the frames on landscape pages are calculated from the frames on portrait pages
+##### from portrait to landscape for row/column type layouts
+- for row/column type layouts see the ![illustration row/column](docs/img/P2L-rc.png):
+- the page is considered to be rotated by 90° counterclockwise
+- rows now become columns and columns become rows
+- in the following explanations portrait coordinates are x1,y1 and landscape coordinates are x2,y2
+- the x1 coordinates are now on the y axis and the y1 coordinates are on the x axis
+- the x2 coordinates of the landscape images are identical to the y1 coordinates of the initial portrait images, as is clearly apparent on the illustration
+- the situation is more complex for the y2 coordinates: the portrait x1 coordinates start from the left, and rotation puts them on the y axis from bottom to top, whereas the rows are counted from top to bottom. Furthermmore, when the size xs1 of the frame in the portrait x direction is greater than 1, the frame will start at the top of this frame in the landscape image. The y2 coordinates are therefore calculated by subtracting the (x-1) values and (xs1-1) values from the number of rows (with r2= c1): y2=c1-(x1-1)-(xs1-1)
+(the -1 comes from the fact that the counting starts at 1, not 0)
+- for the x2 and y2 sizes, the situation is obviously simpler: x2=y1 and y2=x1
+##### from portrait to landscape for fractional-type layouts
+- for this switch for fractional layouts see ![illustration fractional](/docs/img/P2L-fr.png)
+- x1,y1 and xs1, ys1 are again the initial coordinates and sizes, x2,y2,xs2,ys2 are for the landscape coordinates
+- here we have to take into account the potential rotation of the image around the topleft corner which complicates the calculation somewhat
+1. we will first calculate the x2,y2 on landscape pages without any rotation.
+2. the default rotation in scribus is around the topleft corner, we will therefore in an additional step calculate the position of the topleft corner after rotation of the bottom left corner (which is the topleft corner of the initial image on the portrait page)
+3. we can then draw the image/frame and apply the rotation in scribus.
+corresponding calculations:
+1. x2 will be identical to y1 with the same reasoning as for rc coordinates. Similarly also, for y2, the axis starts at the top where the coordinate = 0.0, and increases downward up to 1.0. We therefore have to substract x1 from 1 to obtain the new y2 coordinate for the now bottomleft corner. To draw the image, we need the topleft corner however, so we have to substract in addition ys2 (=xs1): y2=1-x1-xs1
+2. In order to draw the image using the scribus API, we determine the now topleft corner after rotation of alpha degrees. The image can then be drawn horizontally at these coordinates and rotated by scribus: as illustrated, after rotation, the topleft corner will be shifted as follows: in the x direction by - ys2.sin(alpha), in the y direction by +ys2.(1-(cos(alpha))). However, as in this calculation the x distance is calculated with y axis fractional units and the axes are not orthonormal (fractional x units represent a greater distance than fractional y units on landscape areas), the fractional y units will represent a greater distance on the x axis and will overestimate the distance, we therefore have to correct the x distance by the ratio between the y and x units, which is equal to the inverse of the page/area aspect ratio.
